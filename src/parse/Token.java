@@ -1,0 +1,42 @@
+package parse;
+
+public class Token {
+
+    TokenType type;
+
+
+    public Token(TokenType type) {
+        this.type = type;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "" + type;
+    }
+
+
+
+    static class NumToken extends Token {
+
+        int value;
+
+        public NumToken(int value) {
+            super(TokenType.NUM);
+            this.value = value;
+        }
+
+
+
+        @Override
+        public String toString() {
+            return "" + value;
+        }
+
+
+
+    }
+
+
+}
