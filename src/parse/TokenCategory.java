@@ -11,7 +11,8 @@ public enum TokenCategory {
     UNOP,
     BOOLOP,
     BOOL_LITERAL,
-    TYPE
+    TYPE,
+    RELOP
 
 
 

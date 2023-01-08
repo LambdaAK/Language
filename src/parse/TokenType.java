@@ -14,7 +14,7 @@ public enum TokenType {
     DIV(TokenCategory.MULOP, "/", TokenLexType.STANDARD),
     MOD(TokenCategory.MULOP, "%", TokenLexType.STANDARD),
     POWER(TokenCategory.POWOP, "^", TokenLexType.STANDARD),
-    FACTORIAL(TokenCategory.UNOP, "!", TokenLexType.STANDARD),
+
     FUNCTION(TokenCategory.OTHER, "<function>", TokenLexType.CUSTOM),
     COMMA(TokenCategory.OTHER, ",", TokenLexType.STANDARD),
     SEMI_COLON(TokenCategory.OTHER, ";", TokenLexType.STANDARD),
@@ -30,7 +30,20 @@ public enum TokenType {
     SEMICOLON(TokenCategory.OTHER, ":", TokenLexType.STANDARD),
     VARIABLE_NAME(TokenCategory.OTHER, "<variable name>", TokenLexType.CUSTOM),
     INT_TYPE(TokenCategory.TYPE, "int", TokenLexType.STANDARD),
-    BOOLEAN_TYPE(TokenCategory.TYPE, "boolean", TokenLexType.STANDARD);
+    BOOLEAN_TYPE(TokenCategory.TYPE, "boolean", TokenLexType.STANDARD),
+
+
+    LESS_THAN_OR_EQUAL_TO(TokenCategory.RELOP, "<=", TokenLexType.STANDARD),
+    GREATER_THAN_OR_EQUAL_TO(TokenCategory.RELOP, ">=", TokenLexType.STANDARD),
+
+    LESS_THAN(TokenCategory.RELOP, "<", TokenLexType.STANDARD),
+    GREATER_THAN(TokenCategory.RELOP, ">", TokenLexType.STANDARD),
+
+    EQUAL_TO(TokenCategory.RELOP, "==", TokenLexType.STANDARD),
+    NOT_EQUAL_TO(TokenCategory.RELOP, "!=", TokenLexType.STANDARD),
+
+    FACTORIAL(TokenCategory.UNOP, "!", TokenLexType.STANDARD);
+
 
 
 

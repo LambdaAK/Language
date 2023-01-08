@@ -28,9 +28,7 @@ public class Interpreter {
 
         Lexer lexer = new Lexer(input);
 
-        Parser parser = new Parser(lexer.tokens);
-
-        System.out.println(parser.parseProgram());
+        System.out.println(lexer.tokens);
 
 
     }

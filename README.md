@@ -1,3 +1,7 @@
+# language grammar
+
+
+## ints
 expression ::= term addop expression
     | term
 
@@ -27,10 +31,8 @@ power ::= ^
 unop ::= !
 
 ------------------
-------------------
-------------------
-------------------
 
+## booleans
 
 
 
@@ -58,10 +60,8 @@ booleanfactor ::= atomicboolean
 
 
 ------------------
-------------------
-------------------
-------------------
 
+## functions
 function ::= <alphanumeric string>
 
 
@@ -76,13 +76,10 @@ functionarg ::= expression
     | booleanexpression
 
 
-statement ::= functioncall ;
-    | vardecl ;
 
 ------------------
-------------------
-------------------
-------------------
+
+## variables
 
 vartype ::= 'boolean'
     | 'int'
@@ -98,12 +95,39 @@ vardecl ::= vartype varname '<--' assignable;
 
 
 ------------------
+## relations
+
+relop ::= '>'
+    | '<'
+    | '>='
+    | '<='
+    | '=='
+    | '!='
+
+
+relation ::= expression relop expression
+
+
+
 ------------------
 ------------------
 ------------------
+------------------
+## control structures
+
+
+statement ::= functioncall ';'
+| vardecl ';'
+
+
+
+
 
 
 program :== (statement)*
+
+
+
 
 
 
