@@ -8,14 +8,12 @@ public class Lexer {
     public Queue<Token> tokens = new LinkedList<Token>();
 
 
-
     private final String numbers = "1234567890";
 
 
     private String input;
 
     public Lexer(String input) {
-
 
         this.input = input;
 
@@ -32,73 +30,35 @@ public class Lexer {
     }
 
     private void lexOneToken() {
-        char c = input.charAt(0);
 
+        // get rid of whitespace and newlines
 
-        // get rid of whitespace
-
-        while (c == ' ') {
-            input = input.substring(1);
-            c = input.charAt(0);
-        }
-
-        if (c == '+') {
-            tokens.add(new Token(TokenType.PLUS));
+        while (input.charAt(0) == ' ' || input.charAt(0) == '\n') {
             input = input.substring(1);
         }
 
-        else if (c == '-') {
-            tokens.add(new Token(TokenType.MINUS));
-            input = input.substring(1);
-        }
+        // parsing standard tokens that span one character
 
-        else if (c == '(') {
-            tokens.add(new Token(TokenType.LEFT_PAREN));
-            input = input.substring(1);
-        }
+        for (TokenType tokenType: TokenType.values()) {
+            if (!tokenType.tokenLexType.equals(TokenLexType.STANDARD)) continue;
 
-        else if (c == ')') {
-            tokens.add(new Token(TokenType.RIGHT_PAREN));
-            input = input.substring(1);
-        }
-        else if (c == '*') {
-            tokens.add(new Token(TokenType.TIMES));
-            input = input.substring(1);
-        }
-        else if (c == '/') {
-            tokens.add(new Token(TokenType.DIV));
-            input = input.substring(1);
-        }
-        else if (c == '%') {
-            tokens.add(new Token(TokenType.MOD));
-            input = input.substring(1);
-        }
-        else if (c == '^') {
-            tokens.add(new Token(TokenType.POWER));
-            input = input.substring(1);
-        }
-        else if (c == '!') {
-            tokens.add(new Token(TokenType.FACTORIAL));
-            input = input.substring(1);
-        }
-        else if (c == ',') {
-            tokens.add(new Token(TokenType.COMMA));
-            input = input.substring(1);
-        }
-        else if (c == ';') {
-            tokens.add(new Token(TokenType.SEMI_COLON));
-            input = input.substring(1);
-        }
-        else if (c == 'p') {
-            if (input.indexOf("print") == 0) {
-                tokens.add(new Token.FunctionToken("print"));
-                input = input.substring(5);
+
+            String tokenRepresentation = tokenType.getRepresentation();
+
+            if (input.indexOf(tokenRepresentation) == 0) {
+                // match, so lex the token and add it to the token queue
+                tokens.add(new Token(tokenType));
+                input = input.substring(1);
+                return; // finish parsing the token
             }
         }
 
 
+        // parsing number literals
 
-        else if (numbers.indexOf(c) != -1) {
+        char c = input.charAt(0); // used for looking at the first character in the input string
+
+        if (numbers.indexOf(c) != -1) {
             int num = 0;
 
             while (numbers.indexOf(c) != -1) {
@@ -106,7 +66,6 @@ public class Lexer {
                 num += Integer.parseInt(String.valueOf(c));
 
                 input = input.substring(1);
-
 
                 if (input.length() != 0) {
                     c = input.charAt(0);
@@ -117,13 +76,42 @@ public class Lexer {
 
             }
 
-
             tokens.add(new Token.NumToken(num));
 
         }
 
+        // lex a function token
+
+        else lexFunctionToken();
 
 
     }
+
+    private void lexFunctionToken() {
+        /*
+
+        look for the first left paren
+        take the substring from the start to the left paren
+        trim the whitespace
+        that is the function name
+        push the function token to the token queue
+
+        */
+
+        int indexOfLeftParen = input.indexOf('(');
+        String functionName = input.substring(0, indexOfLeftParen);
+        // remove ending whitespace in the function name
+
+
+        while (functionName.charAt(functionName.length() - 1) == ' ') {
+            functionName = functionName.substring(0, functionName.length() - 1); // remove the last character
+        }
+
+        tokens.add(new Token.FunctionToken(functionName));
+
+        input = input.substring(indexOfLeftParen); // remove characters up to and not including the left paren
+    }
+
+
 
 }

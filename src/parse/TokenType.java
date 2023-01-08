@@ -6,31 +6,35 @@ import java.util.Map;
 
 public enum TokenType {
 
-    PLUS(TokenCategory.ADDOP, "+"),
-    MINUS(TokenCategory.ADDOP, "-"),
-    NUM(TokenCategory.OTHER, "<number>"),
-    LEFT_PAREN(TokenCategory.GROUPOP, "("),
-    RIGHT_PAREN(TokenCategory.GROUPOP, ")"),
-    TIMES(TokenCategory.MULOP, "*"),
-    DIV(TokenCategory.MULOP, "/"),
-    MOD(TokenCategory.MULOP, "%"),
-    POWER(TokenCategory.POWOP, "^"),
-    FACTORIAL(TokenCategory.UNOP, "!"),
-    FUNCTION(TokenCategory.OTHER, "<function>"),
-    COMMA(TokenCategory.OTHER, ","),
-    SEMI_COLON(TokenCategory.OTHER, ";");
+    PLUS(TokenCategory.ADDOP, "+", TokenLexType.STANDARD),
+    MINUS(TokenCategory.ADDOP, "-", TokenLexType.STANDARD),
+    NUM(TokenCategory.OTHER, "<number>", TokenLexType.CUSTOM),
+    LEFT_PAREN(TokenCategory.GROUPOP, "(", TokenLexType.STANDARD),
+    RIGHT_PAREN(TokenCategory.GROUPOP, ")", TokenLexType.STANDARD),
+    TIMES(TokenCategory.MULOP, "*", TokenLexType.STANDARD),
+    DIV(TokenCategory.MULOP, "/", TokenLexType.STANDARD),
+    MOD(TokenCategory.MULOP, "%", TokenLexType.STANDARD),
+    POWER(TokenCategory.POWOP, "^", TokenLexType.STANDARD),
+    FACTORIAL(TokenCategory.UNOP, "!", TokenLexType.STANDARD),
+    FUNCTION(TokenCategory.OTHER, "<function>", TokenLexType.CUSTOM),
+    COMMA(TokenCategory.OTHER, ",", TokenLexType.STANDARD),
+    SEMI_COLON(TokenCategory.OTHER, ";", TokenLexType.STANDARD),
+    ASSIGNMENT_OPERATOR(TokenCategory.OTHER, "<--", TokenLexType.STANDARD);
 
 
 
     private final TokenCategory tokenCategory;
     private final String representation;
+    public final TokenLexType tokenLexType;
 
 
-    private TokenType(TokenCategory tokenCategory, String representation) {
+    private TokenType(TokenCategory tokenCategory, String representation, TokenLexType tokenLexType) {
         assert tokenCategory != null;
         assert representation != null;
+        assert tokenLexType != null;
         this.tokenCategory = tokenCategory;
         this.representation = representation;
+        this.tokenLexType = tokenLexType;
     }
 
     public TokenCategory getCategory() {
@@ -53,10 +57,10 @@ public enum TokenType {
     }
 
 
-
     public static TokenType getTokenTypeFromString(String representation) {
         return stringToTokenTypeMap.get(representation);
     }
+
 
 
 
@@ -64,10 +68,6 @@ public enum TokenType {
     public String toString() {
         return representation;
     }
-
-
-
-
 
 
 }

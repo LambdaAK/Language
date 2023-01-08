@@ -13,7 +13,6 @@ factor ::= <number>
     | factor unop
 
 
-
 addop ::= +
     | -
 
@@ -32,18 +31,32 @@ unop ::= !
 ------------------
 ------------------
 
-function ::= <"print">
+function ::= <alphanumeric string>
+
 
 functioncall ::= function ( functionargs )
     | function ( )
 
+
 functionargs ::= functionarg [, functionarg]*
+
 
 functionarg ::= expression
 
 
-
 statement ::= functioncall ;
+    | vardecl ;
+
+------------------
+------------------
+------------------
+------------------
+
+vartype ::= <int>
+
+vardecl ::= vartype ' ' <-- functionarg
+
+
 
 
 

@@ -33,7 +33,6 @@ public class Interpreter {
 
         Parser parser = new Parser(lexer.tokens);
 
-
         System.out.println(parser.parseStatement());
 
 
