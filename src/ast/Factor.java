@@ -1,16 +1,22 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Factor extends Term {
 
     public static enum FactorType {
         NUM_FACTOR,
         OPPOSITE_FACTOR,
-        PAREN_FACTOR
+        PAREN_FACTOR,
+
+        POWER_FACTOR
     }
 
 
     FactorType factorType;
-    Object child; // either a Integer, Factor, or Expression
+    ArrayList<Object> children = new ArrayList<Object>(); // either a Integer, Factor, or Expression
+
 
     /*
 
@@ -20,10 +26,36 @@ public class Factor extends Term {
 
     */
 
-    public Factor(FactorType factorType, Object child) {
+
+
+
+    public Factor(FactorType factorType, Object ... children) {
         super();
         this.factorType = factorType;
-        this.child = child;
+        this.children.addAll(Arrays.asList(children));
+    }
+
+
+    @Override
+    public String toString() {
+
+        if (factorType.equals(FactorType.NUM_FACTOR)) {
+            return children.get(0).toString(); // Integer
+        }
+
+        if (factorType.equals(FactorType.OPPOSITE_FACTOR)) {
+            return "- " + children.get(0).toString(); // Factor
+        }
+
+        if (factorType.equals(FactorType.PAREN_FACTOR)) {
+            return "( " + children.get(0).toString() + " )"; // Term
+        }
+
+        if (factorType.equals(FactorType.POWER_FACTOR)) {
+            return "" + children.get(0).toString() + " ^ " + children.get(1).toString();
+        }
+
+        return "";
     }
 
 

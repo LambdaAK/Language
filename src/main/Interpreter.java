@@ -14,8 +14,6 @@ public class Interpreter {
 
     public static void main(String[] args) {
 
-
-
         String input = "";
 
         try {
@@ -33,10 +31,10 @@ public class Interpreter {
 
         Lexer lexer = new Lexer(input);
 
-        System.out.println(lexer.tokens);
+        Parser parser = new Parser(lexer.tokens);
 
 
-
+        System.out.println(parser.parseExpression());
 
 
 

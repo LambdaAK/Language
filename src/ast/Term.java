@@ -32,4 +32,27 @@ public class Term extends Expression {
     }
 
 
+    @Override
+    public String toString() {
+        if (termType.equals(TermType.SINGLE_TERM)) {
+            return terms.get(0).toString(); // is a factor
+        }
+
+        if (termType.equals(TermType.TIMES_TERM)) {
+            return terms.get(0).toString() +  " * " + terms.get(1).toString();
+        }
+
+        if (termType.equals(TermType.DIV_TERM)) {
+            return terms.get(0).toString() +  " / " + terms.get(1).toString();
+        }
+
+        if (termType.equals(TermType.MOD_TERM)) {
+            return terms.get(0).toString() +  " % " + terms.get(1).toString();
+        }
+
+        return "";
+    }
+
+
+
 }

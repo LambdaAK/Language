@@ -10,7 +10,6 @@ public enum TokenType {
     TIMES,
     DIV,
     MOD,
-
-
+    POWER
 
 }

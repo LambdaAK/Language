@@ -41,6 +41,24 @@ public class Expression extends Node {
     }
 
 
+    @Override
+    public String toString() {
+        if (expressionType.equals(ExpressionType.PLUS_EXPRESSION)) {
+            return expressions.get(0).toString() + " + " + expressions.get(1).toString();
+        }
+
+        if (expressionType.equals(ExpressionType.MINUS_EXPRESSION)) {
+            return expressions.get(0).toString() + " - " + expressions.get(1).toString();
+        }
+
+        if (expressionType.equals(ExpressionType.SINGLE_EXPRESSION)) {
+            return expressions.get(0).toString();
+        }
+
+        return "";
+    }
+
+
 
 
 }

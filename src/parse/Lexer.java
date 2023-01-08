@@ -46,7 +46,6 @@ public class Lexer {
         if (c == '+') {
             tokens.add(new Token(TokenType.PLUS));
             input = input.substring(1);
-            System.out.println("plus");
         }
 
         else if (c == '-') {
@@ -75,6 +74,11 @@ public class Lexer {
             tokens.add(new Token(TokenType.MOD));
             input = input.substring(1);
         }
+        else if (c == '^') {
+            tokens.add(new Token(TokenType.POWER));
+            input = input.substring(1);
+        }
+
 
         else if (numbers.indexOf(c) != -1) {
             int num = 0;

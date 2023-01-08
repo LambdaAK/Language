@@ -1,15 +1,15 @@
-expression ::= expression + expression
-    | expression - expression
+expression ::= term + expression
+    | term - expression
     | term
 
 
-
-term ::= term * term
-    | term / term
-    | term % term
+term ::= factor * term
+    | factor / term
+    | factor % term
     | factor
 
 
 factor ::= <int>
     | ( expression )
     | - factor
+    | factor ^ factor
