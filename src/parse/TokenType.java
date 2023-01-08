@@ -7,7 +7,6 @@ import java.util.Map;
 public enum TokenType {
 
     PLUS(TokenCategory.ADDOP, "+", TokenLexType.STANDARD),
-    MINUS(TokenCategory.ADDOP, "-", TokenLexType.STANDARD),
     NUM(TokenCategory.OTHER, "<number>", TokenLexType.CUSTOM),
     LEFT_PAREN(TokenCategory.GROUPOP, "(", TokenLexType.STANDARD),
     RIGHT_PAREN(TokenCategory.GROUPOP, ")", TokenLexType.STANDARD),
@@ -19,12 +18,20 @@ public enum TokenType {
     FUNCTION(TokenCategory.OTHER, "<function>", TokenLexType.CUSTOM),
     COMMA(TokenCategory.OTHER, ",", TokenLexType.STANDARD),
     SEMI_COLON(TokenCategory.OTHER, ";", TokenLexType.STANDARD),
-    ASSIGNMENT_OPERATOR(TokenCategory.OTHER, "<--", TokenLexType.STANDARD),
     AND(TokenCategory.BOOLOP, "and", TokenLexType.STANDARD),
     OR(TokenCategory.BOOLOP, "or", TokenLexType.STANDARD),
+    IMPLIES(TokenCategory.BOOLOP, "-->", TokenLexType.STANDARD),
+    BIIMPLICATION(TokenCategory.BOOLOP, "<-->", TokenLexType.STANDARD),
     NOT(TokenCategory.BOOLOP, "not", TokenLexType.STANDARD),
     TRUE(TokenCategory.BOOL_LITERAL, "true", TokenLexType.STANDARD),
-    FALSE(TokenCategory.BOOL_LITERAL, "false", TokenLexType.STANDARD);
+    FALSE(TokenCategory.BOOL_LITERAL, "false", TokenLexType.STANDARD),
+    ASSIGNMENT_OPERATOR(TokenCategory.OTHER, "<--", TokenLexType.STANDARD),
+    MINUS(TokenCategory.ADDOP, "-", TokenLexType.STANDARD),
+    SEMICOLON(TokenCategory.OTHER, ":", TokenLexType.STANDARD),
+    VARIABLE_NAME(TokenCategory.OTHER, "<variable name>", TokenLexType.CUSTOM),
+    INT_TYPE(TokenCategory.TYPE, "int", TokenLexType.STANDARD),
+    BOOLEAN_TYPE(TokenCategory.TYPE, "boolean", TokenLexType.STANDARD);
+
 
 
 

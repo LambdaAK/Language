@@ -44,5 +44,14 @@ public class Token {
         }
     }
 
+    static class VariableNameToken extends Token {
+        String name;
+
+        public VariableNameToken(String name) {
+            super(TokenType.VARIABLE_NAME);
+            this.name = name;
+        }
+    }
+
 
 }

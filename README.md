@@ -33,11 +33,14 @@ unop ::= !
 
 
 
-the order of precedence for boolean operations is
-    NOT
-    AND
-    OR
 
+impl ::= '-->'
+    | '<-->'
+
+
+atomicboolean ::= 'true'
+    | 'false'
+    | booleanexpression
 
 
 booleanexpression ::= booleanterm 'or' boolexpression
@@ -48,17 +51,9 @@ booleanterm ::= booleanfactor 'and' booleanterm
     | booleanfactor
 
 
-booleanfactor ::= 'true'
-    | 'false'
+booleanfactor ::= atomicboolean
     | 'not' booleanfactor
     | '(' booleanexpression ')'
-
-
-
-
-
-
-
 
 
 
@@ -78,6 +73,7 @@ functionargs ::= functionarg [, functionarg]*
 
 
 functionarg ::= expression
+    | booleanexpression
 
 
 statement ::= functioncall ;
@@ -88,9 +84,14 @@ statement ::= functioncall ;
 ------------------
 ------------------
 
-vartype ::= <int>
+vartype ::= 'boolean'
+    | 'int'
 
-vardecl ::= vartype ' ' <-- functionarg
+
+varname ::= <letters only>
+
+
+vardecl ::= vartype varname '<--' functionarg
 
 
 

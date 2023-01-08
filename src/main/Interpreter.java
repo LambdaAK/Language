@@ -24,22 +24,13 @@ public class Interpreter {
             System.exit(1);
         }
 
-
         // lex
-
 
         Lexer lexer = new Lexer(input);
 
-
-
-        Parser parser = new Parser(lexer.tokens);
-
-        System.out.println(parser.parseBooleanExpression());
-
-
+        System.out.println(lexer.tokens);
 
     }
-
 
     private static String read(String dir) throws IOException {
         BufferedReader reader = null;

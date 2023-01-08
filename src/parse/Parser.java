@@ -5,6 +5,7 @@ import ast.arithmetic.Factor;
 import ast.arithmetic.Term;
 import ast.booleanAlgebra.BooleanExpression;
 import ast.booleanAlgebra.BooleanFactor;
+import ast.booleanAlgebra.BooleanLiteral;
 import ast.booleanAlgebra.BooleanTerm;
 import ast.function.FunctionArg;
 import ast.function.FunctionArgs;
@@ -301,6 +302,31 @@ public class Parser {
     */
 
 
+
+    public BooleanLiteral parseBooleanLiteral() {
+        BooleanExpression first = parseBooleanExpression();
+
+        Token next = tokens.peek();
+
+        if (next != null && (next.type.equals(TokenType.IMPLIES) || next.type.equals(TokenType.BIIMPLICATION))) {
+
+            tokens.poll(); // remove the implication or biimplication operator
+
+            BooleanLiteral second = parseBooleanLiteral(); // parse the next literal
+
+            BooleanLiteral.BooleanLiteralType operator = BooleanLiteral.BooleanLiteralType.IMPLIES;
+
+            if (next.type.equals(TokenType.BIIMPLICATION)) operator = BooleanLiteral.BooleanLiteralType.BIIMPLICATION;
+
+            return new BooleanLiteral(operator, first, second);
+
+        }
+
+        return new BooleanLiteral(BooleanLiteral.BooleanLiteralType.SINGLE, first);
+
+    }
+
+
     public BooleanExpression parseBooleanExpression() {
         BooleanTerm first = parseBooleanTerm();
 
@@ -309,7 +335,7 @@ public class Parser {
         if (next != null && next.type.equals(TokenType.OR)) {
             // remove the or
             tokens.poll();
-            BooleanExpression second = parseBooleanExpression(); // parse the next term
+            BooleanExpression second = parseBooleanExpression(); // parse the next expression
             return new BooleanExpression(BooleanExpression.BooleanExpressionType.OR, first, second);
         }
 

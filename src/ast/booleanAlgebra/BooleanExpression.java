@@ -5,7 +5,7 @@ import ast.Node;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class BooleanExpression extends Node {
+public class BooleanExpression extends BooleanLiteral {
 
 
     public static enum BooleanExpressionType {
@@ -18,6 +18,7 @@ public class BooleanExpression extends Node {
     public BooleanExpressionType type;
 
     public BooleanExpression(BooleanExpressionType type, BooleanExpression ... expressions) {
+        super();
         this.expressions = new ArrayList<BooleanExpression>();
 
         if (expressions != null) this.expressions.addAll(Arrays.asList(expressions));

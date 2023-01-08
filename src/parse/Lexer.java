@@ -7,6 +7,8 @@ public class Lexer {
 
     public Queue<Token> tokens = new LinkedList<Token>();
 
+    private Token prevToken;
+
 
     private final String numbers = "1234567890";
 
@@ -20,6 +22,11 @@ public class Lexer {
         lexAll();
 
 
+    }
+
+    private void add(Token token) {
+        prevToken = token;
+        tokens.add(token);
     }
 
 
@@ -37,7 +44,12 @@ public class Lexer {
             input = input.substring(1);
         }
 
-        // parsing standard tokens that span one character
+        System.out.println(input);
+        System.out.println(tokens);
+        System.out.println();
+
+        // parsing standard tokens
+
 
         for (TokenType tokenType: TokenType.values()) {
             if (!tokenType.tokenLexType.equals(TokenLexType.STANDARD)) continue;
@@ -46,18 +58,46 @@ public class Lexer {
 
             if (input.indexOf(tokenRepresentation) == 0) {
                 // match, so lex the token and add it to the token queue
-                tokens.add(new Token(tokenType));
+                add(new Token(tokenType));
                 input = input.substring(tokenRepresentation.length());
                 return; // finish parsing the token
             }
         }
 
 
-        // parsing number literals
 
+
+
+
+        /*
+
+        at this point we either want to lex a variable name or a function
+        this depends on what the last token was
+        if the previous token is a variable type, we lex a variable name
+        otherwise, we will lex a function token
+
+
+        */
+
+
+        char c = input.charAt(0);
+        if (numbers.indexOf(c) != -1) lexInt();
+
+
+        else if (prevToken.type.getCategory().equals(TokenCategory.TYPE)) lexVariableNameToken();
+
+        else lexFunctionToken();
+
+
+    }
+
+    private void lexInt() {
         char c = input.charAt(0); // used for looking at the first character in the input string
 
-        if (numbers.indexOf(c) != -1) {
+        System.out.println("NEXT : " + c);
+
+
+
             int num = 0;
 
             while (numbers.indexOf(c) != -1) {
@@ -75,14 +115,24 @@ public class Lexer {
 
             }
 
-            tokens.add(new Token.NumToken(num));
+            add(new Token.NumToken(num));
 
+
+    }
+
+    private void lexVariableNameToken() {
+        // find the index of the next assignment operator
+        // take the substring
+
+        String name = input.substring(0, input.indexOf(TokenType.ASSIGNMENT_OPERATOR.toString()));
+
+        input = input.substring(input.indexOf(TokenType.ASSIGNMENT_OPERATOR.toString()));
+
+        while (name.charAt(name.length() - 1) == ' ') {
+            name = name.substring(0, name.length() - 1); // remove the last character
         }
 
-        // lex a function token
-
-        else lexFunctionToken();
-
+        add(new Token.VariableNameToken(name));
 
     }
 
@@ -106,7 +156,7 @@ public class Lexer {
             functionName = functionName.substring(0, functionName.length() - 1); // remove the last character
         }
 
-        tokens.add(new Token.FunctionToken(functionName));
+        add(new Token.FunctionToken(functionName));
 
         input = input.substring(indexOfLeftParen); // remove characters up to and not including the left paren
     }

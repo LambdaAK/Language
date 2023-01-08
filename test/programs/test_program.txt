@@ -1,1 +1,2 @@
-not not not not not not not not not not true and not ((not((false or not not false))))
+int num <-- 1 + 2 + 3 * 5;
+boolean bool <-- true;
