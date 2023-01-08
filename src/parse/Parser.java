@@ -1,6 +1,15 @@
 package parse;
 
-import ast.*;
+import ast.arithmetic.Expression;
+import ast.arithmetic.Factor;
+import ast.arithmetic.Term;
+import ast.booleanAlgebra.BooleanExpression;
+import ast.booleanAlgebra.BooleanFactor;
+import ast.booleanAlgebra.BooleanTerm;
+import ast.function.FunctionArg;
+import ast.function.FunctionArgs;
+import ast.function.FunctionCall;
+import ast.language.Statement;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -272,6 +281,88 @@ public class Parser {
         return new Statement(functionCall);
     }
 
+
+
+    /*
+
+    booleanexpression ::= booleanterm 'or' boolexpression
+        | booleanterm
+
+
+    booleanterm ::= booleanfactor 'and' booleanterm
+        | booleanfactor
+
+
+    booleanfactor ::= 'true'
+        | 'false'
+        | 'not' booleanfactor
+        | '(' booleanexpression ')'
+
+    */
+
+
+    public BooleanExpression parseBooleanExpression() {
+        BooleanTerm first = parseBooleanTerm();
+
+        Token next = tokens.peek();
+
+        if (next != null && next.type.equals(TokenType.OR)) {
+            // remove the or
+            tokens.poll();
+            BooleanExpression second = parseBooleanExpression(); // parse the next term
+            return new BooleanExpression(BooleanExpression.BooleanExpressionType.OR, first, second);
+        }
+
+        return new BooleanExpression(BooleanExpression.BooleanExpressionType.SINGLE, first);
+
+
+    }
+
+    public BooleanTerm parseBooleanTerm() {
+
+        BooleanFactor first = parseBooleanFactor();
+
+        Token next = tokens.peek();
+
+        if (next != null && next.type.equals(TokenType.AND)) {
+            // remove the and
+            tokens.poll();
+            BooleanTerm second = parseBooleanTerm(); // parse the next term
+            return new BooleanTerm(BooleanTerm.BooleanTermType.AND, first, second);
+        }
+
+        return new BooleanTerm(BooleanTerm.BooleanTermType.SINGLE, first);
+
+    }
+
+
+
+    public BooleanFactor parseBooleanFactor()  {
+        Token next = tokens.poll();
+
+        assert next != null;
+
+        // single
+        if (next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.SINGLE, Boolean.parseBoolean(next.type.getRepresentation()));
+        }
+
+        // not
+        if (next.type.equals(TokenType.NOT)) {
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
+        }
+
+        // paren
+        if (next.type.equals(TokenType.LEFT_PAREN)) {
+            BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanExpression());
+            tokens.poll(); // remove the right paren
+            return factor;
+        }
+
+
+        return null;
+
+    }
 
 
 

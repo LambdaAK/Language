@@ -1,6 +1,5 @@
 package main;
 
-import ast.Factor;
 import parse.Lexer;
 import parse.Parser;
 
@@ -12,7 +11,7 @@ import java.io.IOException;
 public class Interpreter {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         String input = "";
 
@@ -31,9 +30,11 @@ public class Interpreter {
 
         Lexer lexer = new Lexer(input);
 
+
+
         Parser parser = new Parser(lexer.tokens);
 
-        System.out.println(parser.parseStatement());
+        System.out.println(parser.parseBooleanExpression());
 
 
 

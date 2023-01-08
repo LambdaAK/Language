@@ -1,4 +1,6 @@
-package ast;
+package ast.function;
+
+import ast.arithmetic.Expression;
 
 public class FunctionArg {
 

@@ -1,4 +1,6 @@
-package ast;
+package ast.function;
+
+import ast.function.FunctionArgs;
 
 public class FunctionCall {
 

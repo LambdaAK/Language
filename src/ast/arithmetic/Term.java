@@ -1,4 +1,4 @@
-package ast;
+package ast.arithmetic;
 
 import java.util.ArrayList;
 import java.util.Arrays;

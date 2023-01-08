@@ -42,13 +42,12 @@ public class Lexer {
         for (TokenType tokenType: TokenType.values()) {
             if (!tokenType.tokenLexType.equals(TokenLexType.STANDARD)) continue;
 
-
             String tokenRepresentation = tokenType.getRepresentation();
 
             if (input.indexOf(tokenRepresentation) == 0) {
                 // match, so lex the token and add it to the token queue
                 tokens.add(new Token(tokenType));
-                input = input.substring(1);
+                input = input.substring(tokenRepresentation.length());
                 return; // finish parsing the token
             }
         }

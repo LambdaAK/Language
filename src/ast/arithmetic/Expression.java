@@ -1,6 +1,6 @@
-package ast;
+package ast.arithmetic;
 
-import parse.TokenType;
+import ast.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;

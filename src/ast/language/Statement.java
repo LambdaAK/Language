@@ -1,4 +1,7 @@
-package ast;
+package ast.language;
+
+import ast.Node;
+import ast.function.FunctionCall;
 
 public class Statement extends Node {
 

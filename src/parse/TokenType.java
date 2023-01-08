@@ -19,7 +19,12 @@ public enum TokenType {
     FUNCTION(TokenCategory.OTHER, "<function>", TokenLexType.CUSTOM),
     COMMA(TokenCategory.OTHER, ",", TokenLexType.STANDARD),
     SEMI_COLON(TokenCategory.OTHER, ";", TokenLexType.STANDARD),
-    ASSIGNMENT_OPERATOR(TokenCategory.OTHER, "<--", TokenLexType.STANDARD);
+    ASSIGNMENT_OPERATOR(TokenCategory.OTHER, "<--", TokenLexType.STANDARD),
+    AND(TokenCategory.BOOLOP, "and", TokenLexType.STANDARD),
+    OR(TokenCategory.BOOLOP, "or", TokenLexType.STANDARD),
+    NOT(TokenCategory.BOOLOP, "not", TokenLexType.STANDARD),
+    TRUE(TokenCategory.BOOL_LITERAL, "true", TokenLexType.STANDARD),
+    FALSE(TokenCategory.BOOL_LITERAL, "false", TokenLexType.STANDARD);
 
 
 

@@ -8,7 +8,9 @@ public enum TokenCategory {
     POWOP,
     OTHER,
     GROUPOP,
-    UNOP
+    UNOP,
+    BOOLOP,
+    BOOL_LITERAL
 
 
 
