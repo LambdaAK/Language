@@ -1,16 +1,28 @@
-expression ::= term + expression
-    | term - expression
+expression ::= term addop expression
     | term
 
 
-
-term ::= factor * term
-    | factor / term
-    | factor % term
+term ::= factor mulop term
     | factor
 
 
 factor ::= <int>
     | ( expression )
     | - factor
-    | factor ^ factor
+    | factor powop factor
+    | factor unop
+
+
+
+addop ::= +
+    | -
+
+
+mulop ::= *
+    | /
+    | %
+
+power ::= ^
+
+
+unop ::= !

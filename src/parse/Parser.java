@@ -49,14 +49,22 @@ public class Parser {
 
         if (next == null) return term;
 
-        if (next.type.equals(TokenType.PLUS)) {
+        if (next.type.getCategory().equals(TokenCategory.ADDOP)) {
             tokens.poll();
-            return new Expression(Expression.ExpressionType.PLUS_EXPRESSION, term, parseExpression());
-        }
 
-        else if (next.type.equals(TokenType.MINUS)) {
-            tokens.poll();
-            return new Expression(Expression.ExpressionType.MINUS_EXPRESSION, term, parseExpression());
+
+            Expression.ExpressionType type = null;
+
+
+            if (next.type.equals(TokenType.PLUS)) {
+                type = Expression.ExpressionType.PLUS_EXPRESSION;
+            }
+            else if (next.type.equals(TokenType.MINUS)) {
+                type = Expression.ExpressionType.MINUS_EXPRESSION;
+            }
+
+
+            return new Expression(type, term, parseExpression());
         }
 
         else {
@@ -117,10 +125,7 @@ public class Parser {
     public Factor parseFactor() {
         Token next = tokens.peek();
 
-
         Factor factor = null;
-
-
 
         if (next instanceof Token.NumToken) {
             // num factor
@@ -162,6 +167,18 @@ public class Parser {
             tokens.poll(); // remove the ^
 
             return new Factor(Factor.FactorType.POWER_FACTOR, factor, parseFactor());
+        }
+
+        if (next != null && next.type.getCategory().equals(TokenCategory.UNOP)) {
+            // unary operator
+
+            Factor f = new Factor(Factor.FactorType.UNOP_FACTOR, factor, next.type);
+
+            tokens.poll(); // remove the unary operator
+
+            return f;
+
+
         }
 
 

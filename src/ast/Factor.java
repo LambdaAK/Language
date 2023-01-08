@@ -10,7 +10,8 @@ public class Factor extends Term {
         OPPOSITE_FACTOR,
         PAREN_FACTOR,
 
-        POWER_FACTOR
+        POWER_FACTOR,
+        UNOP_FACTOR
     }
 
 
@@ -53,6 +54,9 @@ public class Factor extends Term {
 
         if (factorType.equals(FactorType.POWER_FACTOR)) {
             return "" + children.get(0).toString() + " ^ " + children.get(1).toString();
+        }
+        if (factorType.equals(FactorType.UNOP_FACTOR)) {
+            return "" + children.get(0).toString() + children.get(1).toString();
         }
 
         return "";

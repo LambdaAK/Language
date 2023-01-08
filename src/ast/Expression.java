@@ -18,19 +18,12 @@ public class Expression extends Node {
     public ArrayList<Expression> expressions;
     public ExpressionType expressionType;
 
-
-
     public Expression(ExpressionType expressionType, Expression ... expressions) {
         this.expressionType = expressionType;
 
         this.expressions = new ArrayList<Expression>();
 
         this.expressions.addAll(Arrays.asList(expressions));
-
-
-
-
-
 
     }
 

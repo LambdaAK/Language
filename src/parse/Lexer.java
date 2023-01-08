@@ -78,6 +78,11 @@ public class Lexer {
             tokens.add(new Token(TokenType.POWER));
             input = input.substring(1);
         }
+        else if (c == '!') {
+            tokens.add(new Token(TokenType.FACTORIAL));
+            input = input.substring(1);
+        }
+
 
 
         else if (numbers.indexOf(c) != -1) {

@@ -7,7 +7,8 @@ public enum TokenCategory {
     MULOP,
     POWOP,
     OTHER,
-    GROUPOP
+    GROUPOP,
+    UNOP
 
 
 
