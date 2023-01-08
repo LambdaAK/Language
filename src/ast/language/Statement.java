@@ -5,15 +5,16 @@ import ast.function.FunctionCall;
 
 public class Statement extends Node {
 
-    FunctionCall functionCall;
+    StatementCandidate instructions;
 
-    public Statement(FunctionCall functionCall) {
-        this.functionCall = functionCall;
+
+    public Statement(StatementCandidate instructions) {
+        this.instructions = instructions;
     }
 
     @Override
     public String toString() {
-        return functionCall.toString() + ';';
+        return instructions.toString() + ';';
     }
 
 

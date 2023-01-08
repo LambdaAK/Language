@@ -1,11 +1,12 @@
 package ast.arithmetic;
 
 import ast.Node;
+import ast.language.Assignable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Expression extends Node {
+public class Expression extends Node implements Assignable {
 
 
     public static enum ExpressionType {

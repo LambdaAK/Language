@@ -1,8 +1,10 @@
 package ast.function;
 
+import ast.Node;
 import ast.function.FunctionArgs;
+import ast.language.StatementCandidate;
 
-public class FunctionCall {
+public class FunctionCall extends Node implements StatementCandidate {
 
     String name;
 

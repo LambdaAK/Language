@@ -1,11 +1,12 @@
 package ast.booleanAlgebra;
 
 import ast.Node;
+import ast.language.Assignable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class BooleanLiteral extends Node {
+public class BooleanLiteral extends Node implements Assignable {
 
     public static enum BooleanLiteralType {
         SINGLE,

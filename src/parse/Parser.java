@@ -10,7 +10,9 @@ import ast.booleanAlgebra.BooleanTerm;
 import ast.function.FunctionArg;
 import ast.function.FunctionArgs;
 import ast.function.FunctionCall;
+import ast.language.Assignable;
 import ast.language.Statement;
+import ast.language.VariableDeclaration;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -274,12 +276,58 @@ public class Parser {
 
     }
 
+    public VariableDeclaration parseVariableDeclaration() {
+        Token varTypeToken = tokens.poll();
+        Token varNameToken = tokens.poll();
+        // assignment assignable
+        tokens.poll(); // remove the assignment operator
+        // then, parse the assignable
+
+        Assignable assignable = null;
+
+        assert varNameToken instanceof Token.VariableNameToken;
+
+        Token.VariableNameToken varName = (Token.VariableNameToken) varNameToken;
+
+
+        assert varTypeToken != null;
+
+        if (varTypeToken.type.equals(TokenType.INT_TYPE)) assignable = parseExpression();
+        else assignable = parseBooleanLiteral();
+
+
+        return new VariableDeclaration(varTypeToken.type, varName.name, assignable);
+
+
+    }
+
     public Statement parseStatement() {
-        FunctionCall functionCall = parseFunctionCall();
-        // ;
+        // implement function call + variable declaration
+
+        Token next = tokens.peek();
+
+        assert next != null;
+
+        // next is either a vartype or a function
+
+
+        if (next.type.equals(TokenType.FUNCTION)) {
+            FunctionCall functionCall = parseFunctionCall();
+            // ;
+            tokens.poll();
+            //
+            return new Statement(functionCall);
+        }
+
+        // vartype
+
+        VariableDeclaration variableDeclaration = parseVariableDeclaration();
+
         tokens.poll();
-        //
-        return new Statement(functionCall);
+
+        return new Statement(variableDeclaration);
+
+
     }
 
 
@@ -389,6 +437,12 @@ public class Parser {
         return null;
 
     }
+
+
+
+
+
+
 
 
 

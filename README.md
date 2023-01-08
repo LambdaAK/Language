@@ -90,8 +90,11 @@ vartype ::= 'boolean'
 
 varname ::= <letters only>
 
+assignable::= expression
+    | booleanexpression
 
-vardecl ::= vartype varname '<--' functionarg
+
+vardecl ::= vartype varname '<--' assignable;
 
 
 
