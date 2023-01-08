@@ -15,7 +15,10 @@ public enum TokenType {
     DIV(TokenCategory.MULOP, "/"),
     MOD(TokenCategory.MULOP, "%"),
     POWER(TokenCategory.POWOP, "^"),
-    FACTORIAL(TokenCategory.UNOP, "!");
+    FACTORIAL(TokenCategory.UNOP, "!"),
+    FUNCTION(TokenCategory.OTHER, "<function>"),
+    COMMA(TokenCategory.OTHER, ",");
+
 
 
     private final TokenCategory tokenCategory;

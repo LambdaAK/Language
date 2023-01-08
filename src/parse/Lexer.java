@@ -42,7 +42,6 @@ public class Lexer {
             c = input.charAt(0);
         }
 
-
         if (c == '+') {
             tokens.add(new Token(TokenType.PLUS));
             input = input.substring(1);
@@ -81,6 +80,16 @@ public class Lexer {
         else if (c == '!') {
             tokens.add(new Token(TokenType.FACTORIAL));
             input = input.substring(1);
+        }
+        else if (c == ',') {
+            tokens.add(new Token(TokenType.COMMA));
+            input = input.substring(1);
+        }
+        else if (c == 'p') {
+            if (input.indexOf("print") == 0) {
+                tokens.add(new Token.FunctionToken("print"));
+                input = input.substring(5);
+            }
         }
 
 

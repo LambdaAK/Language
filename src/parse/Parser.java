@@ -1,9 +1,8 @@
 package parse;
 
-import ast.Factor;
-import ast.Expression;
-import ast.Term;
+import ast.*;
 
+import java.util.ArrayList;
 import java.util.Queue;
 
 
@@ -186,6 +185,88 @@ public class Parser {
         return factor;
 
     }
+
+
+
+
+
+
+
+
+
+    public FunctionArgs parseFunctionArgs() {
+
+        // we parse until there isn't a comma
+
+        ArrayList<FunctionArg> args = new ArrayList<FunctionArg>();
+
+
+        Token next = null;
+
+        boolean first = false;
+
+        do {
+            if (!first) first = true; // we don't want to remove anything the first time
+            else tokens.poll(); // remove the comma
+
+
+            args.add(parseFunctionArg());
+            next = tokens.peek();
+
+        } while(next != null && next.type.equals(TokenType.COMMA));
+
+
+        return new FunctionArgs(args);
+
+    }
+
+    public FunctionArg parseFunctionArg() {
+        Expression expression = parseExpression();
+
+        return new FunctionArg(expression);
+    }
+
+
+    public FunctionCall parseFunctionCall() {
+        Token first = tokens.poll();
+
+        assert first instanceof Token.FunctionToken;
+
+        Token.FunctionToken functionToken = (Token.FunctionToken) first;
+
+         // ( functionArgs )
+
+        tokens.poll();
+
+        // functionArgs )
+
+
+        Token next = tokens.peek();
+
+        if (next.type.equals(TokenType.RIGHT_PAREN)) {
+            // if it's a right paren there are no function arguments, so we can just put null for that
+            tokens.poll(); // remove the right paren
+
+            return new FunctionCall(functionToken.name, null);
+        }
+
+        else {
+            // there are function args
+
+            FunctionArgs args = parseFunctionArgs();
+            tokens.poll(); // remove the right paren
+
+            return new FunctionCall(functionToken.name, args);
+
+        }
+
+
+
+    }
+
+
+
+
 
 
 

@@ -27,15 +27,21 @@ public class Token {
             this.value = value;
         }
 
-
-
         @Override
         public String toString() {
             return "" + value;
         }
 
 
+    }
 
+    static class FunctionToken extends Token {
+        String name;
+
+        public FunctionToken (String name) {
+            super(TokenType.FUNCTION);
+            this.name = name;
+        }
     }
 
 

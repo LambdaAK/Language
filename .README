@@ -6,7 +6,7 @@ term ::= factor mulop term
     | factor
 
 
-factor ::= <int>
+factor ::= <number>
     | ( expression )
     | - factor
     | factor powop factor
@@ -26,3 +26,21 @@ power ::= ^
 
 
 unop ::= !
+
+------------------
+------------------
+------------------
+------------------
+
+function ::= <"print">
+
+functioncall ::= function ( functionargs )
+    | function ( )
+
+functionargs ::= functionarg [, functionarg]*
+
+functionarg ::= expression
+
+
+
+
