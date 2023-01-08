@@ -85,6 +85,10 @@ public class Lexer {
             tokens.add(new Token(TokenType.COMMA));
             input = input.substring(1);
         }
+        else if (c == ';') {
+            tokens.add(new Token(TokenType.SEMI_COLON));
+            input = input.substring(1);
+        }
         else if (c == 'p') {
             if (input.indexOf("print") == 0) {
                 tokens.add(new Token.FunctionToken("print"));

@@ -264,6 +264,14 @@ public class Parser {
 
     }
 
+    public Statement parseStatement() {
+        FunctionCall functionCall = parseFunctionCall();
+        // ;
+        tokens.poll();
+        //
+        return new Statement(functionCall);
+    }
+
 
 
 

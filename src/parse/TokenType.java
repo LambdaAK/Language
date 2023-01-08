@@ -17,7 +17,8 @@ public enum TokenType {
     POWER(TokenCategory.POWOP, "^"),
     FACTORIAL(TokenCategory.UNOP, "!"),
     FUNCTION(TokenCategory.OTHER, "<function>"),
-    COMMA(TokenCategory.OTHER, ",");
+    COMMA(TokenCategory.OTHER, ","),
+    SEMI_COLON(TokenCategory.OTHER, ";");
 
 
 

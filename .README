@@ -43,4 +43,8 @@ functionarg ::= expression
 
 
 
+statement ::= functioncall ;
+
+
+
 
