@@ -22,12 +22,7 @@ public class Lexer {
         lexAll();
 
 
-
-
     }
-
-
-
 
 
     private void lexAll() {
@@ -35,8 +30,6 @@ public class Lexer {
             lexOneToken();
         }
     }
-
-
 
     private void lexOneToken() {
         char c = input.charAt(0);
@@ -50,8 +43,6 @@ public class Lexer {
         }
 
 
-
-
         if (c == '+') {
             tokens.add(new Token(TokenType.PLUS));
             input = input.substring(1);
@@ -63,6 +54,27 @@ public class Lexer {
             input = input.substring(1);
         }
 
+        else if (c == '(') {
+            tokens.add(new Token(TokenType.LEFT_PAREN));
+            input = input.substring(1);
+        }
+
+        else if (c == ')') {
+            tokens.add(new Token(TokenType.RIGHT_PAREN));
+            input = input.substring(1);
+        }
+        else if (c == '*') {
+            tokens.add(new Token(TokenType.TIMES));
+            input = input.substring(1);
+        }
+        else if (c == '/') {
+            tokens.add(new Token(TokenType.DIV));
+            input = input.substring(1);
+        }
+        else if (c == '%') {
+            tokens.add(new Token(TokenType.MOD));
+            input = input.substring(1);
+        }
 
         else if (numbers.indexOf(c) != -1) {
             int num = 0;
@@ -91,14 +103,5 @@ public class Lexer {
 
 
     }
-
-
-
-
-
-
-
-
-
 
 }

@@ -28,20 +28,14 @@ public class Interpreter {
         }
 
 
-
-
-
-
         // lex
 
 
         Lexer lexer = new Lexer(input);
 
-        Parser parser = new Parser(lexer.tokens);
+        System.out.println(lexer.tokens);
 
-        Factor root = parser.parseFactor();
 
-        System.out.println(root);
 
 
 

@@ -4,7 +4,13 @@ public enum TokenType {
 
     PLUS,
     MINUS,
-    NUM
+    NUM,
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    TIMES,
+    DIV,
+    MOD,
+
 
 
 }
