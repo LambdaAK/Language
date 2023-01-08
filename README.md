@@ -97,6 +97,18 @@ assignable::= expression
 vardecl ::= vartype varname '<--' assignable;
 
 
+------------------
+------------------
+------------------
+------------------
+
+
+program :== (statement)*
+
+
+
+
+
 
 
 

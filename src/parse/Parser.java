@@ -11,6 +11,7 @@ import ast.function.FunctionArg;
 import ast.function.FunctionArgs;
 import ast.function.FunctionCall;
 import ast.language.Assignable;
+import ast.language.Program;
 import ast.language.Statement;
 import ast.language.VariableDeclaration;
 
@@ -49,6 +50,17 @@ public class Parser {
         this.tokens = tokens;
     }
 
+
+    public Program parseProgram() {
+        ArrayList<Statement> statements = new ArrayList<Statement>();
+
+        while (tokens.peek() != null) {
+            statements.add(parseStatement());
+        }
+
+        return new Program(statements);
+
+    }
 
 
     public Expression parseExpression() {
@@ -437,16 +449,5 @@ public class Parser {
         return null;
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

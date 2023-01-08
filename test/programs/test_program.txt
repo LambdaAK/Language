@@ -1,2 +1,13 @@
-int num <-- 1 + 2 + 3 * 5;
-boolean akegjkaejgljaekjgkaejglajegljglejgajh <-- true or false;
+int num <-- 1;
+int num <-- 1;
+
+
+
+
+
+
+
+
+
+
+print (1, 2);

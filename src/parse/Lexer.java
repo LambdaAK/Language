@@ -40,16 +40,14 @@ public class Lexer {
 
         // get rid of whitespace and newlines
 
-        while (input.charAt(0) == ' ' || input.charAt(0) == '\n') {
+
+        while (input.length() != 0 && (input.charAt(0) == ' ' || input.charAt(0) == '\n')) {
             input = input.substring(1);
         }
 
-        System.out.println(input);
-        System.out.println(tokens);
-        System.out.println();
+        if (input.length() == 0) return;
 
         // parsing standard tokens
-
 
         for (TokenType tokenType: TokenType.values()) {
             if (!tokenType.tokenLexType.equals(TokenLexType.STANDARD)) continue;
@@ -63,10 +61,6 @@ public class Lexer {
                 return; // finish parsing the token
             }
         }
-
-
-
-
 
 
         /*
@@ -93,9 +87,6 @@ public class Lexer {
 
     private void lexInt() {
         char c = input.charAt(0); // used for looking at the first character in the input string
-
-        System.out.println("NEXT : " + c);
-
 
 
             int num = 0;
