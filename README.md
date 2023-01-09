@@ -5,6 +5,7 @@
 - STRING represents a sequence of UTF-8 encoded characters, ex: a, abc, abcdegfh
 <br>
 - INT represents an integer in java, ex: 1, 125, 12345
+<br>
 - Anything surrounded by single quotes is also a terminal
 
 
