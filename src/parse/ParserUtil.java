@@ -26,7 +26,7 @@ public class ParserUtil {
 
 
     */
-    public LiteralType getNextExpressionType() {
+    public LiteralType getNextExpressionType() { // change this later to be more consise
         // find the next function closing paren or comma or semicolon
 
 

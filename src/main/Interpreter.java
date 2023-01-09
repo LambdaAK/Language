@@ -30,7 +30,7 @@ public class Interpreter {
 
         Parser parser = new Parser(lexer.tokens);
 
-        System.out.println(lexer.tokens);
+        //System.out.println(lexer.tokens);
 
         System.out.println(parser.parseProgram());
 
@@ -38,43 +38,24 @@ public class Interpreter {
     }
 
     private static String read(String dir) throws IOException {
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader(new FileReader(dir));
-        }
-
-        catch (FileNotFoundException e) {
-            System.err.println("File " + dir + " not found");
-            System.exit(1);
-        }
-
-
-
-        // now we can read the file
-        char[] buffer = new char[10];
+        BufferedReader reader = new BufferedReader(new FileReader(dir));
         StringBuilder builder = new StringBuilder();
 
+        String line = null;
+        String lineSeperator = System.getProperty("line.separator");
 
-        while (reader.read(buffer) != -1) {
-            builder.append(new String(buffer));
-            buffer = new char[10];
+        while ((line = reader.readLine()) != null) {
+            builder.append(line);
+            builder.append(lineSeperator);
         }
+
+        // delete the last new line separator
+        builder.deleteCharAt(builder.length() - 1);
         reader.close();
 
-        String input = builder.toString();
-
-
-        // remove the trailing white space
-        while (input.charAt(input.length() - 1) == 0) {
-            input = input.substring(0, input.length() - 1); // remove the last character
-        }
-
-        return input;
-
-
-
+        return builder.toString();
     }
+
 
 
 

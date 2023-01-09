@@ -17,7 +17,10 @@ public class Lexer {
 
     public Lexer(String input) {
 
+
         this.input = input;
+
+
 
         lexAll();
 
@@ -39,7 +42,6 @@ public class Lexer {
     private void lexOneToken() {
 
         // get rid of whitespace and newlines
-
 
         while (input.length() != 0 && (input.charAt(0) == ' ' || input.charAt(0) == '\n')) {
             input = input.substring(1);

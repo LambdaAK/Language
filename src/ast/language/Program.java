@@ -21,6 +21,7 @@ public class Program extends Node {
             builder.append('\n');
         }
 
+        if (builder.length() == 0) return "";
 
         return builder.substring(0, builder.length() - 1);
     }

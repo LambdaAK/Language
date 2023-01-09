@@ -2,19 +2,19 @@
 
 
 ## ints
-expression ::= term addop expression
+arithmeticexpression ::= arithmeticterm addop arithmeticexpression
     | term
 
 
-term ::= factor mulop term
-    | factor
+arithmeticterm ::= arithmeticfactor mulop arithmeticterm
+    | arithmeticfactor
 
 
-factor ::= <number>
-    | ( expression )
-    | - factor
-    | factor powop factor
-    | factor unop
+arithmeticfactor ::= <number>
+    | ( arithmeticexpression )
+    | - arithmeticfactor
+    | arithmeticfactor powop arithmeticfactor
+    | arithmeticfactor unop
 
 
 addop ::= +
@@ -65,17 +65,17 @@ booleanfactor ::= atomicboolean
 ------------------
 
 ## functions
-function ::= <alphanumeric string>
+function ::= STRING
 
 
-functioncall ::= function ( functionargs )
+functioncall ::= function '(' functionargs ')'
     | function ( )
 
 
-functionargs ::= functionarg [, functionarg]*
+functionargs ::= functionarg (, functionarg)*
 
 
-functionarg ::= expression
+functionarg ::= arithmeticexpression
     | booleanexpression
 
 
@@ -88,13 +88,17 @@ vartype ::= 'boolean'
     | 'int'
 
 
-varname ::= <letters only>
+varname ::= STRING
 
-assignable::= expression
+
+vardecl ::= vartype varname '<--' expression;
+
+
+expression::= arithmeticexpression
     | booleanexpression
 
 
-vardecl ::= vartype varname '<--' assignable;
+
 
 
 ------------------
@@ -108,7 +112,7 @@ relop ::= '>'
     | '!='
 
 
-relation ::= expression relop expression
+relation ::= arithmeticexpression relop arithmeticexpression
 
 
 ------------------
