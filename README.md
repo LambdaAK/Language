@@ -1,7 +1,7 @@
 # language grammar
 
 
-## ints
+## arithmetic
 arithmeticexpression ::= arithmeticterm addop arithmeticexpression
     | term
 
@@ -10,7 +10,7 @@ arithmeticterm ::= arithmeticfactor mulop arithmeticterm
     | arithmeticfactor
 
 
-arithmeticfactor ::= <number>
+arithmeticfactor ::= INT
     | ( arithmeticexpression )
     | - arithmeticfactor
     | arithmeticfactor powop arithmeticfactor

@@ -20,10 +20,12 @@ public class FunctionCall extends Node implements StatementCandidate {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(name)
-                .append('(')
-                .append(args)
-                .append(')');
+
+
+        builder.append(name);
+        builder.append('(');
+        if (args != null) builder.append(args);
+        builder.append(')');;
 
 
         return builder.toString();
