@@ -2,11 +2,11 @@
 
 
 ## <center> <p style="color:#7fffd4">Terminal Definitions
-- STRING represents a sequence of UTF-8 encoded characters, ex: a, abc, abcdegfh
-<br>
-- INT represents an integer in java, ex: 1, 125, 12345
-<br>
-- Anything surrounded by single quotes is also a terminal
+STRING represents a sequence of UTF-8 encoded characters, ex: a, abc, abcdegfh
+<br><br>
+INT represents an integer in java, ex: 1, 125, 12345
+<br><br>
+Anything surrounded by single quotes is also a terminal
 
 
 ## <center> <p style="color:#7fffd4">Production Definitions
