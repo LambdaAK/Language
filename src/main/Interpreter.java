@@ -28,7 +28,9 @@ public class Interpreter {
 
         Lexer lexer = new Lexer(input);
 
-        System.out.println(lexer.tokens);
+        Parser parser = new Parser(lexer.tokens);
+
+        System.out.println(parser.parseRelation());
 
 
     }

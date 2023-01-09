@@ -2,6 +2,7 @@ package parse;
 
 import ast.arithmetic.Expression;
 import ast.arithmetic.Factor;
+import ast.arithmetic.Relation;
 import ast.arithmetic.Term;
 import ast.booleanAlgebra.BooleanExpression;
 import ast.booleanAlgebra.BooleanFactor;
@@ -60,6 +61,15 @@ public class Parser {
 
         return new Program(statements);
 
+    }
+
+    public Relation parseRelation() {
+        Expression first = parseExpression();
+        Token relopToken = tokens.poll();
+        assert relopToken != null;
+        Expression second = parseExpression();
+
+        return new Relation(relopToken.type, first, second);
     }
 
 
