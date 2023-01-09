@@ -27,7 +27,7 @@ public enum TokenType {
     FALSE(TokenCategory.BOOL_LITERAL, "false", TokenLexType.STANDARD),
     ASSIGNMENT_OPERATOR(TokenCategory.OTHER, "<--", TokenLexType.STANDARD),
     MINUS(TokenCategory.ADDOP, "-", TokenLexType.STANDARD),
-    SEMICOLON(TokenCategory.OTHER, ":", TokenLexType.STANDARD),
+    COLON(TokenCategory.OTHER, ":", TokenLexType.STANDARD),
     VARIABLE_NAME(TokenCategory.OTHER, "<variable name>", TokenLexType.CUSTOM),
     INT_TYPE(TokenCategory.TYPE, "int", TokenLexType.STANDARD),
     BOOLEAN_TYPE(TokenCategory.TYPE, "boolean", TokenLexType.STANDARD),

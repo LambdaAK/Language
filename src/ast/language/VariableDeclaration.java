@@ -9,9 +9,9 @@ public class VariableDeclaration extends Node implements StatementCandidate{
 
     public final String name;
 
-    Assignable assignable;
+    Expression assignable;
 
-    public VariableDeclaration(TokenType type, String name, Assignable assignable) {
+    public VariableDeclaration(TokenType type, String name, Expression assignable) {
         this.type = type;
         this.name = name;
         this.assignable = assignable;

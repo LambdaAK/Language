@@ -1,10 +1,11 @@
 package ast.function;
 
+import ast.Node;
 import ast.function.FunctionArg;
 
 import java.util.ArrayList;
 
-public class FunctionArgs {
+public class FunctionArgs extends Node {
 
     public ArrayList<FunctionArg> args;
 

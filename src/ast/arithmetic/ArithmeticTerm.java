@@ -3,7 +3,7 @@ package ast.arithmetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Term extends Expression {
+public class ArithmeticTerm extends ArithmeticExpression {
 
     public static enum TermType {
         TIMES_TERM,
@@ -12,21 +12,21 @@ public class Term extends Expression {
         SINGLE_TERM
     }
 
-    public ArrayList<Term> terms;
+    public ArrayList<ArithmeticTerm> terms;
     public TermType termType;
 
-    public Term(TermType termType, Term ... terms) {
+    public ArithmeticTerm(TermType termType, ArithmeticTerm... terms) {
         super();
 
         this.termType = termType;
 
-        this.terms = new ArrayList<Term>();
+        this.terms = new ArrayList<ArithmeticTerm>();
         this.terms.addAll(Arrays.asList(terms));
 
     }
 
     // for convention
-    public Term() {
+    public ArithmeticTerm() {
         terms = null;
         termType = null;
     }

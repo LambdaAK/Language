@@ -16,7 +16,7 @@ public class BooleanFactor extends BooleanTerm {
 
 
 
-    public BooleanExpression expression; // not -> factor, paren -> expression
+    public BooleanLiteral expression; // not -> factor, paren -> expression
 
 
     public boolean value; // single -> value
@@ -26,7 +26,7 @@ public class BooleanFactor extends BooleanTerm {
     public Relation relation;
 
 
-    public BooleanFactor(BooleanFactorType type, BooleanExpression expression) {
+    public BooleanFactor(BooleanFactorType type, BooleanLiteral expression) {
 
         if (expression instanceof BooleanFactor) assert type.equals(BooleanFactorType.NOT);
         else assert type.equals(BooleanFactorType.PAREN);

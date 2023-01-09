@@ -1,18 +1,19 @@
 package ast.function;
 
-import ast.arithmetic.Expression;
+import ast.Node;
+import ast.language.Expression;
 
-public class FunctionArg {
+public class FunctionArg extends Node {
 
-    Expression expression;
+    Expression literal;
 
-    public FunctionArg(Expression expression) {
-        this.expression = expression;
+    public FunctionArg(Expression literal) {
+        this.literal = literal;
     }
 
     @Override
     public String toString() {
-        return expression.toString();
+        return literal.toString();
     }
 
 }

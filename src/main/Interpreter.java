@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Interpreter {
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         String input = "";
 
@@ -32,7 +32,7 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        System.out.println(parser.parseBooleanLiteral());
+        System.out.println(parser.parseProgram());
 
 
     }

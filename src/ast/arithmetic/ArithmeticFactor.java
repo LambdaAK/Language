@@ -3,7 +3,7 @@ package ast.arithmetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Factor extends Term {
+public class ArithmeticFactor extends ArithmeticTerm {
 
     public static enum FactorType {
         NUM_FACTOR,
@@ -28,9 +28,7 @@ public class Factor extends Term {
     */
 
 
-
-
-    public Factor(FactorType factorType, Object ... children) {
+    public ArithmeticFactor(FactorType factorType, Object ... children) {
         super();
         this.factorType = factorType;
         this.children.addAll(Arrays.asList(children));

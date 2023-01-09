@@ -5,12 +5,12 @@ import parse.TokenType;
 
 public class Relation extends Node {
 
-    Expression first;
-    Expression second;
+    ArithmeticExpression first;
+    ArithmeticExpression second;
     TokenType relop;
 
 
-    public Relation(TokenType relop, Expression first, Expression second) {
+    public Relation(TokenType relop, ArithmeticExpression first, ArithmeticExpression second) {
         this.relop = relop;
         this.first = first;
         this.second = second;

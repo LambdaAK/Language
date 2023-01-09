@@ -1,1 +1,6 @@
-true and false
+boolean b <-- 2 != 1;
+boolean c <-- 4 > 3;
+
+print(true or 1 > 1);
+
+print (not(((true or false or 1 != 1 * 1))), 400 < 500);

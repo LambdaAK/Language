@@ -1,9 +1,9 @@
 package parse;
 
-import ast.arithmetic.Expression;
-import ast.arithmetic.Factor;
+import ast.arithmetic.ArithmeticExpression;
+import ast.arithmetic.ArithmeticFactor;
 import ast.arithmetic.Relation;
-import ast.arithmetic.Term;
+import ast.arithmetic.ArithmeticTerm;
 import ast.booleanAlgebra.BooleanExpression;
 import ast.booleanAlgebra.BooleanFactor;
 import ast.booleanAlgebra.BooleanLiteral;
@@ -11,14 +11,15 @@ import ast.booleanAlgebra.BooleanTerm;
 import ast.function.FunctionArg;
 import ast.function.FunctionArgs;
 import ast.function.FunctionCall;
-import ast.language.Assignable;
+import ast.language.Expression;
 import ast.language.Program;
 import ast.language.Statement;
 import ast.language.VariableDeclaration;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
+
+import static parse.TokenCategory.RELOP;
 
 
 
@@ -46,10 +47,12 @@ factor ::= <int>
 public class Parser {
 
     private final LinkedList<Token> tokens;
+    private final ParserUtil parserUtil;
 
 
     public Parser(LinkedList<Token> tokens) {
         this.tokens = tokens;
+        parserUtil = new ParserUtil(tokens);
     }
 
 
@@ -64,19 +67,39 @@ public class Parser {
 
     }
 
+
+    public Expression parseExpression() {
+        // find out whether a num or boolean is closer
+
+        ParserUtil.LiteralType nextType = parserUtil.getNextExpressionType();
+
+
+        System.out.println(nextType);
+
+
+        if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
+            return parseBooleanLiteral();
+        }
+
+        return parseArithmeticExpression();
+
+
+    }
+
+
     public Relation parseRelation() {
-        Expression first = parseExpression();
+        ArithmeticExpression first = parseArithmeticExpression();
         Token relopToken = tokens.poll();
         assert relopToken != null;
-        Expression second = parseExpression();
+        ArithmeticExpression second = parseArithmeticExpression();
 
         return new Relation(relopToken.type, first, second);
     }
 
 
-    public Expression parseExpression() {
+    public ArithmeticExpression parseArithmeticExpression() {
 
-        Term term = parseTerm();
+        ArithmeticTerm term = parseTerm();
 
 
         Token next = tokens.peek();
@@ -87,18 +110,18 @@ public class Parser {
             tokens.poll();
 
 
-            Expression.ExpressionType type = null;
+            ArithmeticExpression.ExpressionType type = null;
 
 
             if (next.type.equals(TokenType.PLUS)) {
-                type = Expression.ExpressionType.PLUS_EXPRESSION;
+                type = ArithmeticExpression.ExpressionType.PLUS_EXPRESSION;
             }
             else if (next.type.equals(TokenType.MINUS)) {
-                type = Expression.ExpressionType.MINUS_EXPRESSION;
+                type = ArithmeticExpression.ExpressionType.MINUS_EXPRESSION;
             }
 
 
-            return new Expression(type, term, parseExpression());
+            return new ArithmeticExpression(type, term, parseArithmeticExpression());
         }
 
         else {
@@ -110,7 +133,7 @@ public class Parser {
 
     }
 
-    public Term parseTerm() {
+    public ArithmeticTerm parseTerm() {
         /*
 
         term ::= factor * term
@@ -121,7 +144,7 @@ public class Parser {
          */
 
 
-        Factor factor = parseFactor();
+        ArithmeticFactor factor = parseFactor();
 
         // now we check what the next token is
 
@@ -134,16 +157,16 @@ public class Parser {
 
         if (next.type.equals(TokenType.TIMES)) {
             tokens.poll();
-            return new Term(Term.TermType.TIMES_TERM, factor, parseTerm());
+            return new ArithmeticTerm(ArithmeticTerm.TermType.TIMES_TERM, factor, parseTerm());
         }
 
         else if (next.type.equals(TokenType.DIV)) {
             tokens.poll();
-            return new Term(Term.TermType.DIV_TERM, factor, parseTerm());
+            return new ArithmeticTerm(ArithmeticTerm.TermType.DIV_TERM, factor, parseTerm());
         }
         else if (next.type.equals(TokenType.MOD)) {
             tokens.poll();
-            return new Term(Term.TermType.MOD_TERM, factor, parseTerm());
+            return new ArithmeticTerm(ArithmeticTerm.TermType.MOD_TERM, factor, parseTerm());
         }
         else {
             // this is the end of the Term
@@ -156,15 +179,15 @@ public class Parser {
 
     }
 
-    public Factor parseFactor() {
+    public ArithmeticFactor parseFactor() {
         Token next = tokens.peek();
 
-        Factor factor = null;
+        ArithmeticFactor factor = null;
 
         if (next instanceof Token.NumToken) {
             // num factor
             tokens.poll(); // remove the number
-            factor = new Factor(Factor.FactorType.NUM_FACTOR, ((Token.NumToken) next).value);
+            factor = new ArithmeticFactor(ArithmeticFactor.FactorType.NUM_FACTOR, ((Token.NumToken) next).value);
         }
 
         else if (next.type.equals(TokenType.MINUS)) {
@@ -172,7 +195,7 @@ public class Parser {
             tokens.poll(); // remove the minus
             // then, parse another factor and return that as a minus factor
 
-            factor = new Factor(Factor.FactorType.OPPOSITE_FACTOR, parseFactor());
+            factor = new ArithmeticFactor(ArithmeticFactor.FactorType.OPPOSITE_FACTOR, parseFactor());
 
 
 
@@ -183,7 +206,7 @@ public class Parser {
 
             tokens.poll(); // remove the left paren
 
-            factor = new Factor(Factor.FactorType.PAREN_FACTOR, parseExpression());
+            factor = new ArithmeticFactor(ArithmeticFactor.FactorType.PAREN_FACTOR, parseArithmeticExpression());
 
 
             tokens.poll(); // remove the right paren
@@ -200,13 +223,13 @@ public class Parser {
         if (next != null && next.type.equals(TokenType.POWER)) {
             tokens.poll(); // remove the ^
 
-            return new Factor(Factor.FactorType.POWER_FACTOR, factor, parseFactor());
+            return new ArithmeticFactor(ArithmeticFactor.FactorType.POWER_FACTOR, factor, parseFactor());
         }
 
         if (next != null && next.type.getCategory().equals(TokenCategory.UNOP)) {
             // unary operator
 
-            Factor f = new Factor(Factor.FactorType.UNOP_FACTOR, factor, next.type);
+            ArithmeticFactor f = new ArithmeticFactor(ArithmeticFactor.FactorType.UNOP_FACTOR, factor, next.type);
 
             tokens.poll(); // remove the unary operator
 
@@ -250,9 +273,11 @@ public class Parser {
     }
 
     public FunctionArg parseFunctionArg() {
-        Expression expression = parseExpression();
+        // we need to figure out whether we are parsing an expression or boolean expression
 
-        return new FunctionArg(expression);
+        return new FunctionArg(parseExpression());
+
+
     }
 
 
@@ -265,7 +290,7 @@ public class Parser {
 
          // ( functionArgs )
 
-        tokens.poll();
+        tokens.poll(); // remove the left paren
 
         // functionArgs )
 
@@ -300,7 +325,7 @@ public class Parser {
         tokens.poll(); // remove the assignment operator
         // then, parse the assignable
 
-        Assignable assignable = null;
+        Expression assignable = null;
 
         assert varNameToken instanceof Token.VariableNameToken;
 
@@ -309,7 +334,7 @@ public class Parser {
 
         assert varTypeToken != null;
 
-        if (varTypeToken.type.equals(TokenType.INT_TYPE)) assignable = parseExpression();
+        if (varTypeToken.type.equals(TokenType.INT_TYPE)) assignable = parseArithmeticExpression();
         else assignable = parseBooleanLiteral();
 
 
@@ -330,7 +355,7 @@ public class Parser {
         if (next.type.equals(TokenType.FUNCTION)) {
             FunctionCall functionCall = parseFunctionCall();
             // ;
-            tokens.poll();
+            tokens.poll(); // remove the ;
             //
             return new Statement(functionCall);
         }
@@ -409,68 +434,46 @@ public class Parser {
 
 
     public BooleanFactor parseBooleanFactor()  {
+        System.out.println(tokens);
+        System.out.println();
+
+
         Token next = tokens.peek();
 
         assert next != null;
 
         // single
         if (next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
-            tokens.poll();
+            tokens.poll(); // remove the boolean value
             return new BooleanFactor(BooleanFactor.BooleanFactorType.SINGLE, Boolean.parseBoolean(next.type.getRepresentation()));
         }
 
         // not
         if (next.type.equals(TokenType.NOT)) {
-            tokens.poll();
+            tokens.poll(); // remove the not
             return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
         }
 
         // paren
 
-
-        /*
-
-        we now have to decide whether to parse a paren factor or a relation factor
-
-        to do this, we have to look ahead in the tokens until we find a token that can help us decide
-
-        we check each token until we find one of the following first
-
-        relation factor: num relop
-        paren factor: boolop, boolean literal
-
-        */
-
         if (next.type.equals(TokenType.LEFT_PAREN)) {
-            // we have to start checking tokens from the front of the linked list
-            for (Token token: tokens) {
-                if (token.type.equals(TokenType.NUM) || token.type.getCategory().equals(TokenCategory.RELOP)) {
-                    // relation factor
-                    return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
-                }
-                else if (token.type.getCategory().equals(TokenCategory.BOOLOP) || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
-                    // paren factor
-                    BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanExpression());
-                    tokens.poll(); // remove the right paren
-                    return factor;
-                }
+            if (parserUtil.getNextBooleanFactorType().equals(BooleanFactor.BooleanFactorType.PAREN)) {
+                System.out.println("PAREN");
+                tokens.poll(); // remove the left paren
+                BooleanFactor booleanFactor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
+                tokens.poll(); // remove the right paren
+
+                return booleanFactor;
             }
 
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+
         }
 
-        // if there isn't a left paren we know it's a relation factor
+        // otherwise, we are parsing a relation boolean factor
+
         return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
 
-
-        /*
-        if (next.type.equals(TokenType.LEFT_PAREN)) {
-            BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanExpression());
-            tokens.poll(); // remove the right paren
-            return factor;
-        }
-        */
-
-        //return null;
 
     }
 

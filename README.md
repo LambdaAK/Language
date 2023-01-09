@@ -35,13 +35,15 @@ unop ::= !
 ## booleans
 
 
-
 impl ::= '-->'
     | '<-->'
 
 
 atomicboolean ::= 'true'
     | 'false'
+
+
+booleanliteral ::= booleanexpression impl booleanliteral
     | booleanexpression
 
 
@@ -55,7 +57,7 @@ booleanterm ::= booleanfactor 'and' booleanterm
 
 booleanfactor ::= atomicboolean
     | 'not' booleanfactor
-    | '(' booleanexpression ')'
+    | '(' booleanliteral ')'
     | relation
 
 
@@ -109,7 +111,6 @@ relop ::= '>'
 relation ::= expression relop expression
 
 
-
 ------------------
 ------------------
 ------------------
@@ -119,7 +120,6 @@ relation ::= expression relop expression
 
 statement ::= functioncall ';'
 | vardecl ';'
-
 
 
 program :== (statement)*
