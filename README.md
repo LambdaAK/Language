@@ -1,10 +1,23 @@
-# language grammar
+# <center> <p style="color:#FF6F61">EBNF Language Grammar
 
 
-## arithmetic
+## <center> <p style="color:#7fffd4">Terminal Definitions
+- STRING represents a sequence of UTF-8 encoded characters, ex: a, abc, abcdegfh
+<br>
+- INT represents an integer in java, ex: 1, 125, 12345
+- Anything surrounded by single quotes is also a terminal
+
+
+## <center> <p style="color:#7fffd4">Production Definitions
+
+
+
+### <center> <p style="color:#CCCCFF"> Arithmetic
+#### <center> <p style="color:#CCCCFF">Working with numbers using mathematical operations
+
+
 arithmeticexpression ::= arithmeticterm addop arithmeticexpression
-    | term
-
+    | arithmeticterm
 
 arithmeticterm ::= arithmeticfactor mulop arithmeticterm
     | arithmeticfactor
@@ -30,9 +43,10 @@ power ::= ^
 
 unop ::= !
 
-------------------
+---
 
-## booleans
+### <center> <p style="color:#CCCCFF">Booleans
+#### <center> <p style="color:#CCCCFF">Working with truth-valued expressions, including boolean literals an numeric comparisons
 
 
 impl ::= '-->'
@@ -62,9 +76,10 @@ booleanfactor ::= atomicboolean
 
 
 
-------------------
+---
 
-## functions
+### <center> <p style="color:#CCCCFF">Functions
+#### <center> <p style="color:#CCCCFF">The syntax for calling and declaring functions
 function ::= STRING
 
 
@@ -80,9 +95,10 @@ functionarg ::= arithmeticexpression
 
 
 
-------------------
+---
 
-## variables
+### <center> <p style="color:#CCCCFF">Variables
+#### <center> <p style="color:#CCCCFF">Declaring and assigning to variables
 
 vartype ::= 'boolean'
     | 'int'
@@ -101,8 +117,9 @@ expression::= arithmeticexpression
 
 
 
-------------------
-## relations
+---
+### <center> <p style="color:#CCCCFF">Relations
+#### <center> <p style="color:#CCCCFF">Comparing numbers
 
 relop ::= '>'
     | '<'
@@ -115,11 +132,9 @@ relop ::= '>'
 relation ::= arithmeticexpression relop arithmeticexpression
 
 
-------------------
-------------------
-------------------
-------------------
-## control structures
+---
+### <center> <p style="color:#CCCCFF">Control Structures
+#### <center> <p style="color:#CCCCFF">The general structure of a program
 
 
 statement ::= functioncall ';'
