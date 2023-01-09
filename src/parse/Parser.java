@@ -17,6 +17,7 @@ import ast.language.Statement;
 import ast.language.VariableDeclaration;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 
@@ -44,10 +45,10 @@ factor ::= <int>
 
 public class Parser {
 
-    private Queue<Token> tokens;
+    private final LinkedList<Token> tokens;
 
 
-    public Parser(Queue<Token> tokens) {
+    public Parser(LinkedList<Token> tokens) {
         this.tokens = tokens;
     }
 
@@ -219,12 +220,6 @@ public class Parser {
         return factor;
 
     }
-
-
-
-
-
-
 
 
 
@@ -432,9 +427,8 @@ public class Parser {
     }
 
 
-
     public BooleanFactor parseBooleanFactor()  {
-        Token next = tokens.poll();
+        Token next = tokens.peek();
 
         assert next != null;
 
@@ -445,18 +439,56 @@ public class Parser {
 
         // not
         if (next.type.equals(TokenType.NOT)) {
+            tokens.poll();
             return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
         }
 
         // paren
+
+
+        /*
+
+        we now have to decide whether to parse a paren factor or a relation factor
+
+        to do this, we have to look ahead in the tokens until we find a token that can help us decide
+
+        we check each token until we find one of the following first
+
+        relation factor: num relop
+        paren factor: boolop, boolean literal
+
+        */
+
+        if (next.type.equals(TokenType.LEFT_PAREN)) {
+            // we have to start checking tokens from the front of the linked list
+            for (Token token: tokens) {
+                if (token.type.equals(TokenType.NUM) || token.type.getCategory().equals(TokenCategory.RELOP)) {
+                    // relation factor
+                    return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+                }
+                else if (token.type.getCategory().equals(TokenCategory.BOOLOP) || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
+                    // paren factor
+                    BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanExpression());
+                    tokens.poll(); // remove the right paren
+                    return factor;
+                }
+            }
+
+        }
+
+        // if there isn't a left paren we know it's a relation factor
+        return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+
+
+        /*
         if (next.type.equals(TokenType.LEFT_PAREN)) {
             BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanExpression());
             tokens.poll(); // remove the right paren
             return factor;
         }
+        */
 
-
-        return null;
+        //return null;
 
     }
 

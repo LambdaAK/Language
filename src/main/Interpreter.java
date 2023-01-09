@@ -30,7 +30,7 @@ public class Interpreter {
 
         Parser parser = new Parser(lexer.tokens);
 
-        System.out.println(parser.parseRelation());
+        System.out.println(parser.parseBooleanLiteral());
 
 
     }

@@ -56,6 +56,7 @@ booleanterm ::= booleanfactor 'and' booleanterm
 booleanfactor ::= atomicboolean
     | 'not' booleanfactor
     | '(' booleanexpression ')'
+    | relation
 
 
 
@@ -118,9 +119,6 @@ relation ::= expression relop expression
 
 statement ::= functioncall ';'
 | vardecl ';'
-
-
-
 
 
 

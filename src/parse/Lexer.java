@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class Lexer {
 
-    public Queue<Token> tokens = new LinkedList<Token>();
+    public LinkedList<Token> tokens = new LinkedList<Token>();
 
     private Token prevToken;
 

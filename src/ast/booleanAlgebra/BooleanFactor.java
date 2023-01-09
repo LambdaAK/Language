@@ -1,5 +1,7 @@
 package ast.booleanAlgebra;
 
+import ast.arithmetic.Relation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +10,8 @@ public class BooleanFactor extends BooleanTerm {
     public static enum BooleanFactorType {
         SINGLE,
         NOT,
-        PAREN
+        PAREN,
+        RELATION
     }
 
 
@@ -20,6 +23,7 @@ public class BooleanFactor extends BooleanTerm {
 
     public BooleanFactorType type;
 
+    public Relation relation;
 
 
     public BooleanFactor(BooleanFactorType type, BooleanExpression expression) {
@@ -44,6 +48,14 @@ public class BooleanFactor extends BooleanTerm {
         this.value = value;
     }
 
+    public BooleanFactor(BooleanFactorType type, Relation relation) {
+        assert type.equals(BooleanFactorType.RELATION);
+
+        this.type = type;
+
+        this.relation = relation;
+    }
+
 
     @Override
     public String toString() {
@@ -55,6 +67,9 @@ public class BooleanFactor extends BooleanTerm {
         else if (type.equals(BooleanFactorType.NOT)) {
             builder.append("not ");
             builder.append(expression.toString());
+        }
+        else if (type.equals(BooleanFactorType.RELATION)) {
+            builder.append(relation);
         }
         else {
             builder.append("( ");
