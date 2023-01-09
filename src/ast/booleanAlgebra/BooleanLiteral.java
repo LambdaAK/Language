@@ -38,6 +38,7 @@ public class BooleanLiteral extends Node implements Assignable {
     @Override
     public String toString() {
 
+
         StringBuilder builder = new StringBuilder();
 
         if (type.equals(BooleanLiteralType.SINGLE)) {

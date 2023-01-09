@@ -327,7 +327,6 @@ public class Parser {
 
         // next is either a vartype or a function
 
-
         if (next.type.equals(TokenType.FUNCTION)) {
             FunctionCall functionCall = parseFunctionCall();
             // ;
@@ -340,32 +339,12 @@ public class Parser {
 
         VariableDeclaration variableDeclaration = parseVariableDeclaration();
 
-        tokens.poll();
+        tokens.poll(); // remove the ;
 
         return new Statement(variableDeclaration);
 
 
     }
-
-
-
-    /*
-
-    booleanexpression ::= booleanterm 'or' boolexpression
-        | booleanterm
-
-
-    booleanterm ::= booleanfactor 'and' booleanterm
-        | booleanfactor
-
-
-    booleanfactor ::= 'true'
-        | 'false'
-        | 'not' booleanfactor
-        | '(' booleanexpression ')'
-
-    */
-
 
 
     public BooleanLiteral parseBooleanLiteral() {
@@ -397,7 +376,9 @@ public class Parser {
 
         Token next = tokens.peek();
 
-        if (next != null && next.type.equals(TokenType.OR)) {
+
+
+        if (next != null && (next.type.equals(TokenType.OR))) {
             // remove the or
             tokens.poll();
             BooleanExpression second = parseBooleanExpression(); // parse the next expression
@@ -434,6 +415,7 @@ public class Parser {
 
         // single
         if (next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
+            tokens.poll();
             return new BooleanFactor(BooleanFactor.BooleanFactorType.SINGLE, Boolean.parseBoolean(next.type.getRepresentation()));
         }
 

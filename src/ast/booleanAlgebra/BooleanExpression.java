@@ -38,6 +38,8 @@ public class BooleanExpression extends BooleanLiteral {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
+        System.out.println(type);
+
         if (type.equals(BooleanExpressionType.SINGLE)) {
             builder.append(expressions.get(0).toString());
         }

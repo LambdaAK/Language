@@ -78,7 +78,7 @@ public class Lexer {
         if (numbers.indexOf(c) != -1) lexInt();
 
 
-        else if (prevToken.type.getCategory().equals(TokenCategory.TYPE)) lexVariableNameToken();
+        else if (prevToken != null && prevToken.type.getCategory().equals(TokenCategory.TYPE)) lexVariableNameToken();
 
         else lexFunctionToken();
 
