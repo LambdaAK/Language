@@ -79,6 +79,10 @@ public class Parser {
 
 
     public WhileBlock parseWhileBlock() {
+
+        System.out.println("parseWhileBlock");
+        System.out.println(tokens);
+
         tokens.poll(); // remove the while
 
         tokens.poll(); // remove the (
@@ -501,6 +505,7 @@ public class Parser {
     }
 
     public Assignment parseAssignment() {
+        System.out.println("parseAssignment");
         System.out.println(tokens);
         Token _next = tokens.poll(); // the variable name
 
@@ -607,6 +612,9 @@ public class Parser {
 
 
     public BooleanLiteral parseBooleanLiteral() {
+        System.out.println("parseBooleanLiteral");
+        System.out.println(tokens);
+
         BooleanExpression first = parseBooleanExpression();
 
         Token next = tokens.peek();
@@ -621,10 +629,12 @@ public class Parser {
 
             if (next.type.equals(TokenType.BIIMPLICATION)) operator = BooleanLiteral.BooleanLiteralType.BIIMPLICATION;
 
+
             return new BooleanLiteral(operator, first, second);
 
         }
-
+        System.out.println("AFTER");
+        System.out.println(tokens);
         return new BooleanLiteral(BooleanLiteral.BooleanLiteralType.SINGLE, first);
 
     }
@@ -687,6 +697,7 @@ public class Parser {
 
         // variable name
 
+        /*
         if (next.type.equals(TokenType.VARIABLE_NAME)) {
             tokens.poll(); // remove the variable name
 
@@ -696,6 +707,8 @@ public class Parser {
 
             return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, varNameToken.name);
         }
+
+        */
 
 
         if (next.type.equals(TokenType.LEFT_PAREN)) {

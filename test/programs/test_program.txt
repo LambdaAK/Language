@@ -1,1 +1,9 @@
-print ("hello world" & "hello there!", x, 1 > 1);
+string test_string <-- "";
+int i <-- 0;
+
+while (i < 100) {
+    test_string <-- test_string & "a";
+    i += 1;
+}
+
+print(test_string);
