@@ -1,1 +1,6 @@
-1 < 1 and 1 < 2 or (true)
+boolean asd
+
+<--
+
+notnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnotnot 1 != 1^1;
+

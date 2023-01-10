@@ -3,7 +3,7 @@ package ast.language;
 import ast.Node;
 import parse.TokenType;
 
-public class VariableDeclaration extends Node implements StatementCandidate{
+public class VariableDeclaration extends Node implements StatementCandidate {
 
     public final TokenType type;
 

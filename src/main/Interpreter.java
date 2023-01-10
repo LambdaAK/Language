@@ -36,7 +36,7 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        System.out.println(parser.parseBooleanLiteral());
+        System.out.println(parser.parseProgram());
 
 
     }

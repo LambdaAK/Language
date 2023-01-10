@@ -28,7 +28,6 @@ arithmeticfactor ::= INT
     | ( arithmeticexpression )
     | - arithmeticfactor
     | arithmeticfactor powop arithmeticfactor
-    | arithmeticfactor unop
 
 
 addop ::= +
@@ -42,7 +41,6 @@ mulop ::= *
 power ::= ^
 
 
-unop ::= !
 
 ---
 
@@ -117,17 +115,13 @@ augmentedassignmentoperator ::= '+='
     | '/='
     | '%\'
 
-
-assignment ::= simpleassignment
-    | augmentedassignment
-
-
-simpleassignment ::= varname '<--' expression
+assignmentoperator ::= augmentedassignmentoperator
+    | '<--'
 
 
-augmentedassignment ::= varname augmentedassignmentoperator expression
 
 
+assignment ::= varname assignmentoperator expression ';'
 
 
 

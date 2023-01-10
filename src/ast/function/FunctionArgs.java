@@ -22,7 +22,6 @@ public class FunctionArgs extends Node {
         for (FunctionArg arg: args) {
             builder.append(arg.toString());
             builder.append(',');
-
         }
         return builder.substring(0, builder.length() - 1);
 

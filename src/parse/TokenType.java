@@ -48,7 +48,6 @@ public enum TokenType {
     EQUAL_TO(TokenCategory.RELOP, "==", TokenLexType.STANDARD),
     NOT_EQUAL_TO(TokenCategory.RELOP, "!=", TokenLexType.STANDARD),
 
-    FACTORIAL(TokenCategory.UNOP, "!", TokenLexType.STANDARD),
     NAME(TokenCategory.OTHER, "<name>", TokenLexType.CUSTOM);
 
 

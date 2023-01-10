@@ -41,6 +41,7 @@ public class Lexer {
     }
 
     private void lexOneToken() {
+        System.out.println(input);
 
         // get rid of whitespace and newlines
 

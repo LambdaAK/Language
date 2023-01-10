@@ -11,10 +11,7 @@ import ast.booleanAlgebra.BooleanTerm;
 import ast.function.FunctionArg;
 import ast.function.FunctionArgs;
 import ast.function.FunctionCall;
-import ast.language.Expression;
-import ast.language.Program;
-import ast.language.Statement;
-import ast.language.VariableDeclaration;
+import ast.language.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -139,6 +136,7 @@ public class Parser {
     }
 
     public ArithmeticTerm parseTerm() {
+
         /*
 
         term ::= factor * term
@@ -230,19 +228,6 @@ public class Parser {
 
             return new ArithmeticFactor(ArithmeticFactor.FactorType.POWER_FACTOR, factor, parseFactor());
         }
-
-        if (next != null && next.type.getCategory().equals(TokenCategory.UNOP)) {
-            // unary operator
-
-            ArithmeticFactor f = new ArithmeticFactor(ArithmeticFactor.FactorType.UNOP_FACTOR, factor, next.type);
-
-            tokens.poll(); // remove the unary operator
-
-            return f;
-
-
-        }
-
 
 
         return factor;
@@ -350,6 +335,26 @@ public class Parser {
 
     }
 
+    public Assignment parseAssignment() {
+        System.out.println(tokens);
+        Token _next = tokens.poll(); // the variable name
+
+        assert _next instanceof Token.VariableNameToken;
+
+        Token.VariableNameToken next = (Token.VariableNameToken) _next;
+
+
+        Token operator = tokens.poll();
+
+        assert operator != null;
+
+        Expression expression = parseExpression();
+
+
+        return new Assignment(next.name, expression, operator.type);
+
+    }
+
     public Statement parseStatement() {
         // implement function call + variable declaration
 
@@ -367,13 +372,24 @@ public class Parser {
             return new Statement(functionCall);
         }
 
-        // vartype
+        // we are dealing with a variable. check whether it is a declaration or assignment
 
-        VariableDeclaration variableDeclaration = parseVariableDeclaration();
+        else if (next.type.getCategory().equals(TokenCategory.TYPE)) {
+            VariableDeclaration variableDeclaration = parseVariableDeclaration();
 
-        tokens.poll(); // remove the ;
+            tokens.poll(); // remove the ;
 
-        return new Statement(variableDeclaration);
+            return new Statement(variableDeclaration);
+        }
+
+        else {
+            Assignment assignment = parseAssignment();
+
+            tokens.poll(); // remove the ;
+
+            return new Statement(assignment);
+        }
+
 
 
     }

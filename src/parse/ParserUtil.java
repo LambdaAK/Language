@@ -112,13 +112,11 @@ public class ParserUtil {
                     || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL))
 
             {
-                System.out.println("PAREN");
                 return BooleanFactor.BooleanFactorType.PAREN;
             }
 
         }
 
-        System.out.println("RELATION");
         return BooleanFactor.BooleanFactorType.RELATION;
 
 
