@@ -111,8 +111,22 @@ varname ::= STRING
 vardecl ::= vartype varname '<--' expression;
 
 
-expression::= arithmeticexpression
-    | booleanexpression
+augmentedassignmentoperator ::= '+='
+    | '-='
+    | '*='
+    | '/='
+    | '%\'
+
+
+assignment ::= simpleassignment
+    | augmentedassignment
+
+
+simpleassignment ::= varname '<--' expression
+
+
+augmentedassignment ::= varname augmentedassignmentoperator expression
+
 
 
 
@@ -137,9 +151,13 @@ relation ::= arithmeticexpression relop arithmeticexpression
 ### <center> <p style="color:#CCCCFF">Control Structures
 #### <center> <p style="color:#CCCCFF">The general structure of a program
 
+expression::= arithmeticexpression
+| booleanexpression
+
 
 statement ::= functioncall ';'
-| vardecl ';'
+    | vardecl ';'
+    | assignment ';'
 
 
 program :== (statement)*

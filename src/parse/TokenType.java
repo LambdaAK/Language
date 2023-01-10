@@ -6,10 +6,16 @@ import java.util.Map;
 
 public enum TokenType {
 
+    PLUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "+=", TokenLexType.STANDARD),
+    MINUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "-=", TokenLexType.STANDARD),
+    TIMES_EQUALS(TokenCategory.AUG_ASSIGN_OP, "*=", TokenLexType.STANDARD),
+    DIV_EQUALS(TokenCategory.AUG_ASSIGN_OP, "/=", TokenLexType.STANDARD),
+    MOD_EQUALS(TokenCategory.AUG_ASSIGN_OP, "%=", TokenLexType.STANDARD),
+
     PLUS(TokenCategory.ADDOP, "+", TokenLexType.STANDARD),
     NUM(TokenCategory.OTHER, "<number>", TokenLexType.CUSTOM),
-    LEFT_PAREN(TokenCategory.GROUPOP, "(", TokenLexType.STANDARD),
-    RIGHT_PAREN(TokenCategory.GROUPOP, ")", TokenLexType.STANDARD),
+    LEFT_PAREN(TokenCategory.GROUPOP, ")", TokenLexType.STANDARD),
+    RIGHT_PAREN(TokenCategory.GROUPOP, "(", TokenLexType.STANDARD),
     TIMES(TokenCategory.MULOP, "*", TokenLexType.STANDARD),
     DIV(TokenCategory.MULOP, "/", TokenLexType.STANDARD),
     MOD(TokenCategory.MULOP, "%", TokenLexType.STANDARD),
@@ -42,7 +48,8 @@ public enum TokenType {
     EQUAL_TO(TokenCategory.RELOP, "==", TokenLexType.STANDARD),
     NOT_EQUAL_TO(TokenCategory.RELOP, "!=", TokenLexType.STANDARD),
 
-    FACTORIAL(TokenCategory.UNOP, "!", TokenLexType.STANDARD);
+    FACTORIAL(TokenCategory.UNOP, "!", TokenLexType.STANDARD),
+    NAME(TokenCategory.OTHER, "<name>", TokenLexType.CUSTOM);
 
 
 

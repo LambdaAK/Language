@@ -2,6 +2,7 @@ package main;
 
 import parse.Lexer;
 import parse.Parser;
+import parse.PostLexer;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -28,11 +29,13 @@ public class Interpreter {
 
         Lexer lexer = new Lexer(input);
 
-        Parser parser = new Parser(lexer.tokens);
+        PostLexer postLexer = new PostLexer(lexer);
 
-        //System.out.println(lexer.tokens);
+        System.out.println(lexer.tokens);
 
-        System.out.println(parser.parseProgram());
+        postLexer.mutate();
+
+        System.out.println(lexer.tokens);
 
 
     }

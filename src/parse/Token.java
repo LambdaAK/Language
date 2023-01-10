@@ -35,7 +35,33 @@ public class Token {
 
     }
 
-    static class FunctionToken extends Token {
+    static class NameToken extends Token {
+        String name;
+
+        public NameToken(String name) {
+            super(TokenType.NAME);
+            this.name = name;
+        }
+
+
+        public NameToken(TokenType type) {
+            super(type);
+        }
+
+        public FunctionToken asFunctionToken() {
+            return new FunctionToken(name);
+        }
+
+        public VariableNameToken asVariableNameToken() {
+            return new VariableNameToken(name);
+        }
+
+
+
+    }
+
+
+    static class FunctionToken extends NameToken {
         String name;
 
         public FunctionToken (String name) {
@@ -44,7 +70,8 @@ public class Token {
         }
     }
 
-    static class VariableNameToken extends Token {
+
+    static class VariableNameToken extends NameToken {
         String name;
 
         public VariableNameToken(String name) {

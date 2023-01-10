@@ -11,6 +11,7 @@ public class Lexer {
 
 
     private final String numbers = "1234567890";
+    private final String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"; // valid names
 
 
     private String input;
@@ -79,10 +80,30 @@ public class Lexer {
         char c = input.charAt(0);
         if (numbers.indexOf(c) != -1) lexInt();
 
+        else lexName();
 
-        else if (prevToken != null && prevToken.type.getCategory().equals(TokenCategory.TYPE)) lexVariableNameToken();
 
-        else lexFunctionToken();
+        //else if (prevToken != null && prevToken.type.getCategory().equals(TokenCategory.TYPE)) lexVariableNameToken();
+
+        //else lexFunctionToken();
+    }
+
+
+    private void lexName() {
+        StringBuilder builder = new StringBuilder();
+
+        char c = input.charAt(0);
+
+
+        while (alphabet.indexOf(c) != -1) {
+            builder.append(c);
+            input = input.substring(1);
+            c = input.charAt(0);
+        }
+
+        String name = builder.toString();
+
+        tokens.add(new Token.NameToken(name));
 
 
     }
