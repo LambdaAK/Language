@@ -31,11 +31,13 @@ public class Interpreter {
 
         PostLexer postLexer = new PostLexer(lexer);
 
-        System.out.println(lexer.tokens);
-
         postLexer.mutate();
 
+        Parser parser = new Parser(lexer.tokens);
+
         System.out.println(lexer.tokens);
+
+        System.out.println(parser.parseProgram());
 
 
     }

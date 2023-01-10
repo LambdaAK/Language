@@ -26,7 +26,7 @@ public class ParserUtil {
 
 
     */
-    public LiteralType getNextExpressionType() { // change this later to be more consise
+    public LiteralType getNextExpressionTypeStartingWithLeftParen() { // change this later to be more consise
         // find the next function closing paren or comma or semicolon
 
 
@@ -66,7 +66,7 @@ public class ParserUtil {
             Token token = tokens.get(i);
 
 
-            if (token.type.getCategory().equals(TokenCategory.RELOP) || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
+            if (token.type.getCategory().equals(TokenCategory.RELOP) || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL) || token.type.getCategory().equals(TokenCategory.BOOLOP)) {
                 return LiteralType.BOOLEAN;
             }
 

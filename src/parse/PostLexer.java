@@ -17,7 +17,6 @@ public class PostLexer {
     }
 
 
-
     public void mutate() {
         fixNames();
     }
@@ -27,6 +26,7 @@ public class PostLexer {
     This method changes each instance of NameToken to be an instance of a subclass of NameToken
 
     */
+
     public void fixNames() {
         for (int i = 0; i < tokens.size(); i++) {
             Token _current = tokens.get(i);

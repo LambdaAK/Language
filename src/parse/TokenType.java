@@ -14,8 +14,8 @@ public enum TokenType {
 
     PLUS(TokenCategory.ADDOP, "+", TokenLexType.STANDARD),
     NUM(TokenCategory.OTHER, "<number>", TokenLexType.CUSTOM),
-    LEFT_PAREN(TokenCategory.GROUPOP, ")", TokenLexType.STANDARD),
-    RIGHT_PAREN(TokenCategory.GROUPOP, "(", TokenLexType.STANDARD),
+    LEFT_PAREN(TokenCategory.GROUPOP, "(", TokenLexType.STANDARD),
+    RIGHT_PAREN(TokenCategory.GROUPOP, ")", TokenLexType.STANDARD),
     TIMES(TokenCategory.MULOP, "*", TokenLexType.STANDARD),
     DIV(TokenCategory.MULOP, "/", TokenLexType.STANDARD),
     MOD(TokenCategory.MULOP, "%", TokenLexType.STANDARD),

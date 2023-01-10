@@ -19,8 +19,6 @@ import ast.language.VariableDeclaration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static parse.TokenCategory.RELOP;
-
 
 
 /*
@@ -69,12 +67,19 @@ public class Parser {
 
 
     public Expression parseExpression() {
-        // find out whether a num or boolean is closer
-
-        ParserUtil.LiteralType nextType = parserUtil.getNextExpressionType();
 
 
-        System.out.println(nextType);
+        Token next = tokens.peek();
+
+        assert next != null;
+
+        if (next.type.getCategory().equals(TokenCategory.BOOLOP) || next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
+            return parseBooleanLiteral();
+        }
+
+
+
+        ParserUtil.LiteralType nextType = parserUtil.getNextExpressionTypeStartingWithLeftParen();
 
 
         if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
@@ -319,6 +324,7 @@ public class Parser {
     }
 
     public VariableDeclaration parseVariableDeclaration() {
+
         Token varTypeToken = tokens.poll();
         Token varNameToken = tokens.poll();
         // assignment assignable
@@ -329,13 +335,14 @@ public class Parser {
 
         assert varNameToken instanceof Token.VariableNameToken;
 
+
+
         Token.VariableNameToken varName = (Token.VariableNameToken) varNameToken;
 
 
         assert varTypeToken != null;
 
-        if (varTypeToken.type.equals(TokenType.INT_TYPE)) assignable = parseArithmeticExpression();
-        else assignable = parseBooleanLiteral();
+        assignable = parseExpression();
 
 
         return new VariableDeclaration(varTypeToken.type, varName.name, assignable);
@@ -434,9 +441,6 @@ public class Parser {
 
 
     public BooleanFactor parseBooleanFactor()  {
-        System.out.println(tokens);
-        System.out.println();
-
 
         Token next = tokens.peek();
 
@@ -454,11 +458,10 @@ public class Parser {
             return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
         }
 
-        // paren
 
         if (next.type.equals(TokenType.LEFT_PAREN)) {
             if (parserUtil.getNextBooleanFactorType().equals(BooleanFactor.BooleanFactorType.PAREN)) {
-                System.out.println("PAREN");
+
                 tokens.poll(); // remove the left paren
                 BooleanFactor booleanFactor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
                 tokens.poll(); // remove the right paren
