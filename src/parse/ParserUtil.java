@@ -8,7 +8,8 @@ public class ParserUtil {
 
     public static enum LiteralType {
         ARITHMETIC_EXPRESSION,
-        BOOLEAN
+        BOOLEAN,
+        STRING
     }
 
     private LinkedList<Token> tokens;
@@ -26,6 +27,11 @@ public class ParserUtil {
 
 
     */
+
+
+
+
+
     public LiteralType getNextExpressionTypeStartingWithLeftParen() { // change this later to be more consise
         // find the next function closing paren or comma or semicolon
 
@@ -75,6 +81,32 @@ public class ParserUtil {
         return LiteralType.ARITHMETIC_EXPRESSION;
 
     }
+
+    public boolean isStringAhead() {
+        for (Token token: tokens) {
+            if (token.type.getCategory().equals(TokenCategory.STRING_OP)) return true;
+            if (token.type.equals(TokenType.NUM) ||
+                token.type.getCategory().equals(TokenCategory.ADDOP) ||
+                    token.type.getCategory().equals(TokenCategory.MULOP) ||
+                    token.type.equals(TokenType.POWER)
+
+            ) return false;
+
+            if (token.type.getCategory().equals(TokenCategory.BOOLOP) ||
+                    token.type.getCategory().equals(TokenCategory.BOOL_LITERAL) ||
+                            token.type.getCategory().equals(TokenCategory.RELOP)
+                            ) return false;
+
+
+            if (token.type.equals(TokenType.RIGHT_PAREN)) break;
+            if (token.type.equals(TokenType.SEMI_COLON)) break;
+
+        }
+
+        return false;
+    }
+
+
 
     public BooleanFactor.BooleanFactorType getNextBooleanFactorType() {
         // we are at a left paren, we need to find the corresponding right paren

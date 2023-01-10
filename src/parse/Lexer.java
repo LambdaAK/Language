@@ -120,7 +120,13 @@ public class Lexer {
         while (alphabet.indexOf(c) != -1) {
             builder.append(c);
             input = input.substring(1);
-            c = input.charAt(0);
+            if (input.length() > 0) {
+                c = input.charAt(0);
+            }
+            else {
+                break;
+            }
+
         }
 
         String name = builder.toString();

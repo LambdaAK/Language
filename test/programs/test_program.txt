@@ -1,7 +1,1 @@
-print("hi");
-print("hello world!");
-
-
-int s <-- "heghjeghej" + "h";
-
-string test_string <-- "hello this is a test";
+print ("hello world" & "hello there!", x, 1 > 1);

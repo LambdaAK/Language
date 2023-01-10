@@ -13,7 +13,8 @@ public enum TokenCategory {
     TYPE,
     RELOP,
     AUG_ASSIGN_OP,
-    BLOCK_KEYWORD
+    BLOCK_KEYWORD,
+    STRING_OP
 
 
 

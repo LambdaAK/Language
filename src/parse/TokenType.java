@@ -58,7 +58,8 @@ public enum TokenType {
     LEFT_BRACE(TokenCategory.OTHER, "{", TokenLexType.STANDARD),
     RIGHT_BRACE(TokenCategory.OTHER, "}", TokenLexType.STANDARD),
     STRING(TokenCategory.OTHER, "<string>", TokenLexType.CUSTOM),
-    QUOTE(TokenCategory.OTHER, "\"", TokenLexType.CUSTOM);
+    QUOTE(TokenCategory.OTHER, "\"", TokenLexType.CUSTOM),
+    STRING_CONCAT(TokenCategory.STRING_OP, "&", TokenLexType.STANDARD);
 
 
 

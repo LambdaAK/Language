@@ -1,5 +1,6 @@
 package parse;
 
+import ast.String.StringFactor;
 import ast.String.StringNode;
 import ast.arithmetic.ArithmeticExpression;
 import ast.arithmetic.ArithmeticFactor;
@@ -223,6 +224,11 @@ public class Parser {
             return parseBooleanLiteral();
         }
 
+        // check for stringop
+
+        if (parserUtil.isStringAhead()) {
+            return parseStringNode();
+        }
 
 
         ParserUtil.LiteralType nextType = parserUtil.getNextExpressionTypeStartingWithLeftParen();
@@ -555,26 +561,47 @@ public class Parser {
 
 
     public StringNode parseStringNode() {
+        StringFactor first = parseStringFactor();
+
+        // check if there's a plus
+
+
+        Token next = tokens.peek();
+
+        if (next != null &&next.type.equals(TokenType.STRING_CONCAT)) {
+            tokens.poll(); // remove the plus
+            StringNode second = parseStringNode();
+            return new StringNode(StringNode.StringType.CONCAT, first, second);
+        }
+
+        return new StringNode(StringNode.StringType.SINGLE, first);
+
+
+    }
+
+    public StringFactor parseStringFactor() {
+        // check if it's a string token
+
         Token next = tokens.poll();
 
-        assert next instanceof Token.StringToken;
+        assert next != null;
 
-        Token.StringToken firstStringToken = (Token.StringToken) next;
+        if (next instanceof Token.StringToken) {
 
-        // check if there is a plus
+            Token.StringToken stringToken = (Token.StringToken) next;
 
-        next = tokens.peek();
+            return new StringFactor(StringFactor.StringFactorType.SINGLE, stringToken.string);
+        }
 
-        if (next != null && next.type.equals(TokenType.PLUS)) {
-            // concat
-            tokens.poll(); // remove the plus
+        else {
+            assert next instanceof Token.VariableNameToken;
 
-            return new StringNode(StringNode.StringType.CONCAT, firstStringToken.string, parseStringNode());
+            Token.VariableNameToken varNameToken = (Token.VariableNameToken) next;
 
+            return new StringFactor(StringFactor.StringFactorType.VARNAME, varNameToken.name);
 
         }
 
-        return new StringNode(StringNode.StringType.SINGLE, firstStringToken.string);
 
     }
 

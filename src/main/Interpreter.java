@@ -1,5 +1,7 @@
 package main;
 
+import ast.arithmetic.ArithmeticExpression;
+import ast.language.Expression;
 import parse.Lexer;
 import parse.Parser;
 import parse.PostLexer;
