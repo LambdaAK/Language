@@ -18,26 +18,6 @@ import java.util.LinkedList;
 
 
 
-/*
-
-expression ::= term + expression
-    | term - expression
-    | term
-
-
-term ::= factor * term
-    | factor / term
-    | factor % term
-    | factor
-
-
-factor ::= <int>
-    | ( expression )
-    | - factor
-
-*/
-
-
 
 public class Parser {
 
@@ -52,15 +32,136 @@ public class Parser {
 
 
     public Program parseProgram() {
-        ArrayList<Statement> statements = new ArrayList<Statement>();
+        ArrayList<BlockOrStatement> blocks = new ArrayList<>();
 
         while (tokens.peek() != null) {
-            statements.add(parseStatement());
+
+            blocks.add(parseBlockOrStatement());
+
         }
 
-        return new Program(statements);
+        return new Program(blocks);
 
     }
+
+    public BlockOrStatement parseBlockOrStatement() {
+
+        Token next = tokens.peek();
+        assert next != null;
+
+        if (next.type.getCategory().equals(TokenCategory.BLOCK_KEYWORD)) {
+            return parseBlock();
+        }
+        else {
+            return parseStatement();
+        }
+    }
+
+    public Block parseBlock() {
+        Token next = tokens.peek();
+
+        assert next != null;
+
+        // conditional block
+        if (next.type.equals(TokenType.IF)) {
+            // parse a conditional block
+            return new Block(Block.BlockType.CONDITIONAL_BLOCK, parseConditionalBlock());
+        }
+
+        return null;
+    }
+
+
+    public ConditionalBlock parseConditionalBlock() {
+        // start by parsing an if block
+        IfBlock ifBlock = parseIfBlock();
+
+        // check if there is an else block
+
+        Token next = tokens.peek();
+
+        if (next != null && next.type.equals(TokenType.ELSE)) {
+            ElseBlock elseBlock = parseElseBlock();
+
+            return new ConditionalBlock(ConditionalBlock.ConditionalBlockType.IF_ELSE, ifBlock, elseBlock);
+        }
+
+        return new ConditionalBlock(ConditionalBlock.ConditionalBlockType.IF, ifBlock);
+
+    }
+
+
+    public IfBlock parseIfBlock() {
+        tokens.poll(); // remove the if
+
+        tokens.poll(); // remove the (
+
+        BooleanLiteral condition = parseBooleanLiteral();
+
+        tokens.poll(); // remove the )
+
+        ArrayList<BlockOrStatement> blocks = new ArrayList<BlockOrStatement>();
+
+        Token next = tokens.peek();
+
+        assert next != null;
+
+        // multiple blocks or statements
+        if (next.type.equals(TokenType.LEFT_BRACE)) {
+
+            tokens.poll(); // remove the {
+
+            while (!next.type.equals(TokenType.RIGHT_BRACE)) {
+                blocks.add(parseBlockOrStatement());
+                next = tokens.peek();
+            }
+            tokens.poll(); // remove the }
+
+            return new IfBlock(condition, blocks);
+
+        }
+
+        // single block or statement
+
+        blocks.add(parseBlockOrStatement());
+
+        return new IfBlock(condition, blocks);
+
+
+
+    }
+
+
+    public ElseBlock parseElseBlock() {
+        tokens.poll(); // remove the else
+
+        ArrayList<BlockOrStatement> blocks = new ArrayList<BlockOrStatement>();
+
+        Token next = tokens.peek();
+
+        // multiple blocks or statements
+        if (next.type.equals(TokenType.LEFT_BRACE)) {
+
+            tokens.poll(); // remove the {
+
+            while (!next.type.equals(TokenType.RIGHT_BRACE)) {
+                blocks.add(parseBlockOrStatement());
+                next = tokens.peek();
+            }
+            tokens.poll(); // remove the }
+
+            return new ElseBlock(blocks);
+
+        }
+
+        // single block or statement
+
+        blocks.add(parseBlockOrStatement());
+
+        return new ElseBlock(blocks);
+
+    }
+
 
 
     public Expression parseExpression() {

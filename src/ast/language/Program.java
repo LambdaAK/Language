@@ -6,17 +6,17 @@ import java.util.ArrayList;
 
 public class Program extends Node {
 
-    ArrayList<Statement> statements;
+    ArrayList<BlockOrStatement> blocks;
 
-    public Program(ArrayList<Statement> statements) {
-        this.statements = statements;
+    public Program(ArrayList<BlockOrStatement> statements) {
+        this.blocks = statements;
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        for (Statement statement: statements) {
+        for (BlockOrStatement statement: blocks) {
             builder.append(statement);
             builder.append('\n');
         }

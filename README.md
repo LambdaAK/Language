@@ -146,15 +146,30 @@ relation ::= arithmeticexpression relop arithmeticexpression
 #### <center> <p style="color:#CCCCFF">The general structure of a program
 
 expression::= arithmeticexpression
-| booleanexpression
+    | booleanliteral
 
 
 statement ::= functioncall ';'
-    | vardecl ';'
-    | assignment ';'
+| vardecl ';'
+| assignment ';'
 
 
-program :== (statement)*
+ifblock :== if '(' booleanliteral ')' (statement | block)
+    | if '(' booleanliteral ')' '{' (statement | block)* '}'
+
+
+elseblock :== else (statement | block)
+    | else '{' (statement | block)* '}'
+
+
+conditionalblock :== ifblock
+    | ifblock elseblock
+
+
+block :== conditionalblock
+
+
+program :== (statement | block)*
 
 
 

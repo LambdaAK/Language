@@ -12,7 +12,8 @@ public enum TokenCategory {
     BOOL_LITERAL,
     TYPE,
     RELOP,
-    AUG_ASSIGN_OP
+    AUG_ASSIGN_OP,
+    BLOCK_KEYWORD
 
 
 

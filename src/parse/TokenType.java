@@ -48,7 +48,15 @@ public enum TokenType {
     EQUAL_TO(TokenCategory.RELOP, "==", TokenLexType.STANDARD),
     NOT_EQUAL_TO(TokenCategory.RELOP, "!=", TokenLexType.STANDARD),
 
-    NAME(TokenCategory.OTHER, "<name>", TokenLexType.CUSTOM);
+    NAME(TokenCategory.OTHER, "<name>", TokenLexType.CUSTOM),
+
+    IF(TokenCategory.BLOCK_KEYWORD, "if", TokenLexType.STANDARD),
+    ELSE(TokenCategory.BLOCK_KEYWORD, "else", TokenLexType.STANDARD),
+
+    LEFT_BRACE(TokenCategory.OTHER, "{", TokenLexType.STANDARD),
+    RIGHT_BRACE(TokenCategory.OTHER, "}", TokenLexType.STANDARD);
+
+
 
 
 

@@ -3,7 +3,7 @@ package ast.language;
 import ast.Node;
 import ast.function.FunctionCall;
 
-public class Statement extends Node {
+public class Statement extends Node implements BlockOrStatement {
 
     StatementCandidate instructions;
 
