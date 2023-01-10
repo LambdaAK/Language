@@ -17,19 +17,19 @@ Anything surrounded by single quotes is also a terminal
 #### <center> <p style="color:#CCCCFF">Working with numbers using mathematical operations
 
 
-arithmeticexpression ::= arithmeticterm addop arithmeticexpression
-    | arithmeticterm
+arithmetic_expression ::= arithmetic_term addop arithmetic_expression
+    | arithmetic_term
 
 
-arithmeticterm ::= arithmeticfactor mulop arithmeticterm
-    | arithmeticfactor
+arithmetic_term ::= arithmetic_factor mulop arithmetic_term
+    | arithmetic_factor
 
 
-arithmeticfactor ::= INT
-    | ( arithmeticexpression )
-    | - arithmeticfactor
-    | arithmeticfactor powop arithmeticfactor
-    | varname
+arithmetic_factor ::= INT
+    | ( arithmetic_expression )
+    | - arithmetic_factor
+    | arithmetic_factor powop arithmetic_factor
+    | var_name
 
 
 addop ::= +
@@ -54,27 +54,27 @@ impl ::= '-->'
     | '<-->'
 
 
-atomicboolean ::= 'true'
+atomic_boolean ::= 'true'
     | 'false'
 
 
-booleanliteral ::= booleanexpression impl booleanliteral
-    | booleanexpression
+boolean_literal ::= boolean_expression impl boolean_literal
+    | boolean_expression
 
 
-booleanexpression ::= booleanterm 'or' boolexpression
-    | booleanterm
+boolean_expression ::= boolean_term 'or' boolean_expression
+    | boolean_term
 
 
-booleanterm ::= booleanfactor 'and' booleanterm
-    | booleanfactor
+boolean_term ::= boolean_factor 'and' boolean_term
+    | boolean_factor
 
 
-booleanfactor ::= atomicboolean
-    | 'not' booleanfactor
-    | '(' booleanliteral ')'
+boolean_factor ::= atomic_boolean
+    | 'not' boolean_factor
+    | '(' boolean_literal ')'
     | relation
-    | varname
+    | var_name
 
 
 
@@ -83,12 +83,12 @@ booleanfactor ::= atomicboolean
 #### <center> <p style="color:#CCCCFF">The syntax for declaring and manipulating strings
 
 
-string ::= stringfactor
-    | stringfactor '&' string
+string_exression ::= string_factor
+    | string_factor '&' string_expression
 
 
-stringfactor ::= STRING
-    | varname
+string_factor ::= '"' STRING '"'
+    | var_name
 
 
 ---
@@ -98,15 +98,15 @@ stringfactor ::= STRING
 function ::= STRING
 
 
-functioncall ::= function '(' functionargs ')'
+function_call ::= function '(' function_args ')'
     | function ( )
 
 
-functionargs ::= functionarg (, functionarg)*
+functionargs ::= function_arg (, function_arg)*
 
 
-functionarg ::= arithmeticexpression
-    | booleanexpression
+function_arg ::= arithmetic_expression
+    | boolean_expression
 
 
 
@@ -115,29 +115,29 @@ functionarg ::= arithmeticexpression
 ### <center> <p style="color:#CCCCFF">Variables
 #### <center> <p style="color:#CCCCFF">Declaring and assigning to variables
 
-vartype ::= 'boolean'
+var_type ::= 'boolean'
     | 'int'
 
 
-varname ::= STRING
+var_name ::= STRING
 
 
-vardecl ::= vartype varname '<--' expression;
+var_decl ::= var_type var_name '<--' expression;
 
 
-augmentedassignmentoperator ::= '+='
+augmented_assignment_operator ::= '+='
     | '-='
     | '*='
     | '/='
     | '%\'
 
-assignmentoperator ::= augmentedassignmentoperator
+assignment_operator ::= augmented_assignment_operator
     | '<--'
 
 
 
 
-assignment ::= varname assignmentoperator expression ';'
+assignment ::= var_name assignment_operator expression ';'
 
 
 
@@ -154,41 +154,41 @@ relop ::= '>'
     | '!='
 
 
-relation ::= arithmeticexpression relop arithmeticexpression
+relation ::= arithmetic_expression relop arithmetic_expression
 
 
 ---
 ### <center> <p style="color:#CCCCFF">Control Structures
 #### <center> <p style="color:#CCCCFF">The general structure of a program
 
-expression::= arithmeticexpression
-    | booleanliteral
-    | string
+expression::= arithmetic_expression
+    | boolean_literal
+    | string_expression
 
 
-statement ::= functioncall ';'
-| vardecl ';'
+statement ::= function_call ';'
+| var_decl ';'
 | assignment ';'
 
+_
+if_block :== if '(' boolean_literal ')' (statement | block)
+    | if '(' boolean_literal ')' '{' (statement | block)* '}'
 
-ifblock :== if '(' booleanliteral ')' (statement | block)
-    | if '(' booleanliteral ')' '{' (statement | block)* '}'
 
-
-elseblock :== else (statement | block)
+else_block :== else (statement | block)
     | else '{' (statement | block)* '}'
 
 
-conditionalblock :== ifblock
-    | ifblock elseblock
+conditiona_lblock :== if_block
+    | if_block else_block
 
 
-whileblock :== 'while' '(' booleanliteral ')' (statement | block)
-    | 'while' '(' booleanliteral ')' '{' (statement | block)* '}'
+while_block :== 'while' '(' boolean_literal ')' (statement | block)
+    | 'while' '(' boolean_literal ')' '{' (statement | block)* '}'
 
 
-block :== conditionalblock
-    | whileblock
+block :== conditional_block
+    | while_block
 
 
 program :== (statement | block)*
