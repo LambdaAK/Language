@@ -79,7 +79,7 @@ booleanfactor ::= atomicboolean
 
 
 ---
-### <center> <p style="color:#CCCCFF">String
+### <center> <p style="color:#CCCCFF">Strings
 #### <center> <p style="color:#CCCCFF">The syntax for declaring and manipulating strings
 
 string ::= '"' STRING '"'
