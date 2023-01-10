@@ -11,7 +11,8 @@ public class BooleanFactor extends BooleanTerm {
         SINGLE,
         NOT,
         PAREN,
-        RELATION
+        RELATION,
+        VAR_NAME
     }
 
 
@@ -25,6 +26,8 @@ public class BooleanFactor extends BooleanTerm {
 
     public Relation relation;
 
+    public String name;
+
 
     public BooleanFactor(BooleanFactorType type, BooleanLiteral expression) {
 
@@ -35,6 +38,12 @@ public class BooleanFactor extends BooleanTerm {
 
         this.type = type;
 
+    }
+
+    public BooleanFactor(BooleanFactorType type, String name) {
+        assert type.equals(BooleanFactorType.VAR_NAME);
+        this.type = type;
+        this.name = name;
     }
 
 
@@ -70,6 +79,9 @@ public class BooleanFactor extends BooleanTerm {
         }
         else if (type.equals(BooleanFactorType.RELATION)) {
             builder.append(relation);
+        }
+        else if (type.equals(BooleanFactorType.VAR_NAME)) {
+            return name;
         }
         else {
             builder.append("( ");

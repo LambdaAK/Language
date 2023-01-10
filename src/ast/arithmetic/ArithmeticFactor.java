@@ -11,7 +11,8 @@ public class ArithmeticFactor extends ArithmeticTerm {
         PAREN_FACTOR,
 
         POWER_FACTOR,
-        UNOP_FACTOR
+        UNOP_FACTOR,
+        VAR_NAME_FACTOR
     }
 
 
@@ -55,6 +56,9 @@ public class ArithmeticFactor extends ArithmeticTerm {
         }
         if (factorType.equals(FactorType.UNOP_FACTOR)) {
             return "" + children.get(0).toString() + children.get(1).toString();
+        }
+        if (factorType.equals(FactorType.VAR_NAME_FACTOR)) {
+            return children.get(0).toString(); // string
         }
 
         return "";

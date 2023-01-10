@@ -30,9 +30,9 @@ public class Interpreter {
 
         PostLexer postLexer = new PostLexer(lexer);
 
-        postLexer.postLex();
-
         Parser parser = new Parser(lexer.tokens);
+
+        postLexer.postLex();
 
         System.out.println(lexer.tokens);
 

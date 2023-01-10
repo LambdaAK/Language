@@ -20,6 +20,7 @@ Anything surrounded by single quotes is also a terminal
 arithmeticexpression ::= arithmeticterm addop arithmeticexpression
     | arithmeticterm
 
+
 arithmeticterm ::= arithmeticfactor mulop arithmeticterm
     | arithmeticfactor
 
@@ -28,6 +29,7 @@ arithmeticfactor ::= INT
     | ( arithmeticexpression )
     | - arithmeticfactor
     | arithmeticfactor powop arithmeticfactor
+    | varname
 
 
 addop ::= +
@@ -72,6 +74,7 @@ booleanfactor ::= atomicboolean
     | 'not' booleanfactor
     | '(' booleanliteral ')'
     | relation
+    | varname
 
 
 
@@ -168,7 +171,6 @@ conditionalblock :== ifblock
 
 whileblock :== 'while' '(' booleanliteral ')' (statement | block)
     | 'while' '(' booleanliteral ')' '{' (statement | block)* '}'
-
 
 
 block :== conditionalblock

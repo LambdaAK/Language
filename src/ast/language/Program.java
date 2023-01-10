@@ -8,16 +8,16 @@ public class Program extends Node {
 
     ArrayList<BlockOrStatement> blocks;
 
-    public Program(ArrayList<BlockOrStatement> statements) {
-        this.blocks = statements;
+    public Program(ArrayList<BlockOrStatement> blocks) {
+        this.blocks = blocks;
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        for (BlockOrStatement statement: blocks) {
-            builder.append(statement);
+        for (BlockOrStatement block: blocks) {
+            builder.append(block);
             builder.append('\n');
         }
 

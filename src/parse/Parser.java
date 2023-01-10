@@ -336,6 +336,16 @@ public class Parser {
             factor = new ArithmeticFactor(ArithmeticFactor.FactorType.NUM_FACTOR, ((Token.NumToken) next).value);
         }
 
+        else if (next.type.equals(TokenType.VARIABLE_NAME)) {
+            tokens.poll(); // remove the variable name
+
+            assert next instanceof Token.VariableNameToken;
+
+            Token.VariableNameToken varNameToken = (Token.VariableNameToken) next;
+
+            factor = new ArithmeticFactor(ArithmeticFactor.FactorType.VAR_NAME_FACTOR, varNameToken.name);
+        }
+
         else if (next.type.equals(TokenType.MINUS)) {
             // minus factor
             tokens.poll(); // remove the minus
@@ -615,6 +625,18 @@ public class Parser {
         if (next.type.equals(TokenType.NOT)) {
             tokens.poll(); // remove the not
             return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
+        }
+
+        // variable name
+
+        if (next.type.equals(TokenType.VARIABLE_NAME)) {
+            tokens.poll(); // remove the variable name
+
+            assert next instanceof Token.VariableNameToken;
+
+            Token.VariableNameToken varNameToken = (Token.VariableNameToken) next;
+
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, varNameToken.name);
         }
 
 
