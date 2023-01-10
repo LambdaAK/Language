@@ -37,6 +37,7 @@ public enum TokenType {
     VARIABLE_NAME(TokenCategory.OTHER, "<variable name>", TokenLexType.CUSTOM),
     INT_TYPE(TokenCategory.TYPE, "int", TokenLexType.STANDARD),
     BOOLEAN_TYPE(TokenCategory.TYPE, "boolean", TokenLexType.STANDARD),
+    STRING_TYPE(TokenCategory.TYPE, "string", TokenLexType.STANDARD),
 
 
     LESS_THAN_OR_EQUAL_TO(TokenCategory.RELOP, "<=", TokenLexType.STANDARD),

@@ -3,3 +3,5 @@ print("hello world!");
 
 
 int s <-- "heghjeghej" + "h";
+
+string test_string <-- "hello this is a test";
