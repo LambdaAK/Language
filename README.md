@@ -129,7 +129,8 @@ augmented_assignment_operator ::= '+='
     | '-='
     | '*='
     | '/='
-    | '%\'
+    | '%='
+    | '&='
 
 assignment_operator ::= augmented_assignment_operator
     | '<--'

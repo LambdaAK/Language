@@ -2,7 +2,7 @@ string test_string <-- "";
 int i <-- 0;
 
 while (i < 100) {
-    test_string <-- test_string & "a";
+    test_string &= "a";
     i += 1;
 }
 

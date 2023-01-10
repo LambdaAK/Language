@@ -11,6 +11,7 @@ public enum TokenType {
     TIMES_EQUALS(TokenCategory.AUG_ASSIGN_OP, "*=", TokenLexType.STANDARD),
     DIV_EQUALS(TokenCategory.AUG_ASSIGN_OP, "/=", TokenLexType.STANDARD),
     MOD_EQUALS(TokenCategory.AUG_ASSIGN_OP, "%=", TokenLexType.STANDARD),
+    CONCAT_EQUALS(TokenCategory.AUG_ASSIGN_OP, "&=", TokenLexType.STANDARD),
 
     PLUS(TokenCategory.ADDOP, "+", TokenLexType.STANDARD),
     NUM(TokenCategory.OTHER, "<number>", TokenLexType.CUSTOM),
