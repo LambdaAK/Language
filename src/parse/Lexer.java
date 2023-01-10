@@ -78,13 +78,36 @@ public class Lexer {
 
         char c = input.charAt(0);
         if (numbers.indexOf(c) != -1) lexInt();
-
+        else if (c == '\"') lexString();
         else lexName();
 
 
         //else if (prevToken != null && prevToken.type.getCategory().equals(TokenCategory.TYPE)) lexVariableNameToken();
 
         //else lexFunctionToken();
+    }
+
+
+    private void lexString() {
+        StringBuilder builder = new StringBuilder();
+
+        input = input.substring(1); // remove the "
+
+        char c = input.charAt(0);
+
+
+        while (c != '\"') {
+            builder.append(c);
+            input = input.substring(1);
+            c = input.charAt(0);
+        }
+
+        input = input.substring(1); // remove the "
+
+        String name = builder.toString();
+
+        tokens.add(new Token.StringToken(name));
+
     }
 
 

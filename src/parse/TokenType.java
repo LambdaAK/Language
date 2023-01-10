@@ -55,7 +55,9 @@ public enum TokenType {
     WHILE(TokenCategory.BLOCK_KEYWORD, "while", TokenLexType.STANDARD),
 
     LEFT_BRACE(TokenCategory.OTHER, "{", TokenLexType.STANDARD),
-    RIGHT_BRACE(TokenCategory.OTHER, "}", TokenLexType.STANDARD);
+    RIGHT_BRACE(TokenCategory.OTHER, "}", TokenLexType.STANDARD),
+    STRING(TokenCategory.OTHER, "<string>", TokenLexType.CUSTOM),
+    QUOTE(TokenCategory.OTHER, "\"", TokenLexType.CUSTOM);
 
 
 

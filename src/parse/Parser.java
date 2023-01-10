@@ -1,5 +1,6 @@
 package parse;
 
+import ast.String.StringNode;
 import ast.arithmetic.ArithmeticExpression;
 import ast.arithmetic.ArithmeticFactor;
 import ast.arithmetic.Relation;
@@ -212,6 +213,11 @@ public class Parser {
         Token next = tokens.peek();
 
         assert next != null;
+
+        if (next.type.equals(TokenType.STRING)) {
+            return parseStringNode();
+        }
+
 
         if (next.type.getCategory().equals(TokenCategory.BOOLOP) || next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
             return parseBooleanLiteral();
@@ -544,6 +550,31 @@ public class Parser {
         }
 
 
+
+    }
+
+
+    public StringNode parseStringNode() {
+        Token next = tokens.poll();
+
+        assert next instanceof Token.StringToken;
+
+        Token.StringToken firstStringToken = (Token.StringToken) next;
+
+        // check if there is a plus
+
+        next = tokens.peek();
+
+        if (next != null && next.type.equals(TokenType.PLUS)) {
+            // concat
+            tokens.poll(); // remove the plus
+
+            return new StringNode(StringNode.StringType.CONCAT, firstStringToken.string, parseStringNode());
+
+
+        }
+
+        return new StringNode(StringNode.StringType.SINGLE, firstStringToken.string);
 
     }
 

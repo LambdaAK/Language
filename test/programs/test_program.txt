@@ -1,7 +1,5 @@
-boolean b <-- false;
+print("hi");
+print("hello world!");
 
-print(b or not b);
 
-if (not b) {
-    print(b);
-}
+int s <-- "heghjeghej" + "h";

@@ -79,6 +79,14 @@ booleanfactor ::= atomicboolean
 
 
 ---
+### <center> <p style="color:#CCCCFF">String
+#### <center> <p style="color:#CCCCFF">The syntax for declaring and manipulating strings
+
+string ::= '"' STRING '"'
+    | string + string
+
+
+---
 
 ### <center> <p style="color:#CCCCFF">Functions
 #### <center> <p style="color:#CCCCFF">The syntax for calling and declaring functions
@@ -150,6 +158,7 @@ relation ::= arithmeticexpression relop arithmeticexpression
 
 expression::= arithmeticexpression
     | booleanliteral
+    | string
 
 
 statement ::= functioncall ';'

@@ -61,6 +61,21 @@ public class Token {
     }
 
 
+    static class StringToken extends Token {
+        String string;
+
+        public StringToken(String string) {
+            super(TokenType.STRING);
+            this.string = string;
+        }
+
+        @Override
+        public String toString() {
+            return "<string : \"" + string + "\">";
+        }
+    }
+
+
     static class FunctionToken extends NameToken {
         String name;
 
