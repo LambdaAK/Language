@@ -6,11 +6,13 @@ public class Block extends Node implements BlockOrStatement {
 
     public static enum BlockType {
         STATEMENT,
-        CONDITIONAL_BLOCK
+        CONDITIONAL_BLOCK,
+        WHILE_BLOCK
     }
 
     Statement statement;
     ConditionalBlock conditionalBlock;
+    WhileBlock whileBlock;
 
 
     BlockType type;
@@ -19,6 +21,10 @@ public class Block extends Node implements BlockOrStatement {
         if (type.equals(BlockType.STATEMENT)) {
             assert node instanceof Statement;
             statement = (Statement) node;
+        }
+        else if (type.equals(BlockType.WHILE_BLOCK)) {
+            assert node instanceof WhileBlock;
+            whileBlock = (WhileBlock) node;
         }
         else {
             assert node instanceof ConditionalBlock;
@@ -32,6 +38,9 @@ public class Block extends Node implements BlockOrStatement {
     public String toString() {
         if (type.equals(BlockType.STATEMENT)) {
             return statement.toString();
+        }
+        else if (type.equals(BlockType.WHILE_BLOCK)) {
+            return whileBlock.toString();
         }
         else {
             return conditionalBlock.toString();

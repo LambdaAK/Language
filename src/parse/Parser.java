@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-
-
 public class Parser {
 
     private final LinkedList<Token> tokens;
@@ -68,7 +66,51 @@ public class Parser {
             return new Block(Block.BlockType.CONDITIONAL_BLOCK, parseConditionalBlock());
         }
 
+        // while block
+        if (next.type.equals(TokenType.WHILE)) {
+            // parse a while block
+            return new Block(Block.BlockType.WHILE_BLOCK, parseWhileBlock());
+        }
+
         return null;
+    }
+
+
+    public WhileBlock parseWhileBlock() {
+        tokens.poll(); // remove the while
+
+        tokens.poll(); // remove the (
+
+        BooleanLiteral condition = parseBooleanLiteral();
+
+        tokens.poll(); // remove the )
+
+        ArrayList<BlockOrStatement> blocks = new ArrayList<BlockOrStatement>();
+
+        Token next = tokens.peek();
+
+        assert next != null;
+
+        // multiple blocks or statements
+        if (next.type.equals(TokenType.LEFT_BRACE)) {
+
+            tokens.poll(); // remove the {
+
+            while (!next.type.equals(TokenType.RIGHT_BRACE)) {
+                blocks.add(parseBlockOrStatement());
+                next = tokens.peek();
+            }
+            tokens.poll(); // remove the }
+
+            return new WhileBlock(condition, blocks);
+
+        }
+
+        // single block or statement
+
+        blocks.add(parseBlockOrStatement());
+
+        return new WhileBlock(condition, blocks);
     }
 
 

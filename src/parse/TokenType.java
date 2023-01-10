@@ -52,6 +52,7 @@ public enum TokenType {
 
     IF(TokenCategory.BLOCK_KEYWORD, "if", TokenLexType.STANDARD),
     ELSE(TokenCategory.BLOCK_KEYWORD, "else", TokenLexType.STANDARD),
+    WHILE(TokenCategory.BLOCK_KEYWORD, "while", TokenLexType.STANDARD),
 
     LEFT_BRACE(TokenCategory.OTHER, "{", TokenLexType.STANDARD),
     RIGHT_BRACE(TokenCategory.OTHER, "}", TokenLexType.STANDARD);

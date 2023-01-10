@@ -166,7 +166,13 @@ conditionalblock :== ifblock
     | ifblock elseblock
 
 
+whileblock :== 'while' '(' booleanliteral ')' (statement | block)
+    | 'while' '(' booleanliteral ')' '{' (statement | block)* '}'
+
+
+
 block :== conditionalblock
+    | whileblock
 
 
 program :== (statement | block)*
