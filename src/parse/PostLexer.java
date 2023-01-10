@@ -17,7 +17,7 @@ public class PostLexer {
     }
 
 
-    public void mutate() {
+    public void postLex() {
         fixNames();
     }
 
@@ -52,9 +52,7 @@ public class PostLexer {
             // if paren, it's a function
             // else, variable
 
-            System.out.println(next.type);
-
-            if (next.type.equals(TokenType.RIGHT_PAREN)) {
+            if (next.type.equals(TokenType.LEFT_PAREN)) {
                 tokens.set(i, current.asFunctionToken());
             }
 

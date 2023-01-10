@@ -5,7 +5,6 @@ import parse.Parser;
 import parse.PostLexer;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -31,7 +30,7 @@ public class Interpreter {
 
         PostLexer postLexer = new PostLexer(lexer);
 
-        postLexer.mutate();
+        postLexer.postLex();
 
         Parser parser = new Parser(lexer.tokens);
 

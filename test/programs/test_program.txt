@@ -1,1 +1,1 @@
-boolean b <-- not (1 > 2 or not false);
+print (1 > 4 and not not not not true);
