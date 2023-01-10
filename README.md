@@ -165,11 +165,12 @@ relation ::= arithmetic_expression relop arithmetic_expression
 expression::= arithmetic_expression
     | boolean_literal
     | string_expression
+    | function_call
 
 
 statement ::= function_call ';'
-| var_decl ';'
-| assignment ';'
+    | var_decl ';'
+    | assignment ';'
 
 _
 if_block :== if '(' boolean_literal ')' (statement | block)

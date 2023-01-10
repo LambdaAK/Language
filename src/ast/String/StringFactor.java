@@ -1,6 +1,6 @@
 package ast.String;
 
-public class StringFactor extends StringNode {
+public class StringFactor extends StringExpression {
 
     public static enum StringFactorType {
         SINGLE,

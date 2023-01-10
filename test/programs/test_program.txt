@@ -1,9 +1,4 @@
-string test_string <-- "";
-int i <-- 0;
+string s <-- "heghejghejgh";
+int i <-- len(s);
 
-while (i < 100) {
-    test_string &= "a";
-    i += 1;
-}
-
-print(test_string);
+print(i);

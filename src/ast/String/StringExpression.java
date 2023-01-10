@@ -6,7 +6,7 @@ import ast.language.Expression;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StringNode extends Node implements Expression {
+public class StringExpression extends Node implements Expression {
 
     public static enum StringType {
         SINGLE,
@@ -15,14 +15,14 @@ public class StringNode extends Node implements Expression {
 
 
     StringType type;
-    ArrayList<StringNode> nodes;
+    ArrayList<StringExpression> nodes;
 
 
-    public StringNode() {
+    public StringExpression() {
 
     }
 
-    public StringNode(StringType type, StringNode ... nodes) {
+    public StringExpression(StringType type, StringExpression... nodes) {
         this.type = type;
 
         this.nodes = new ArrayList<>();

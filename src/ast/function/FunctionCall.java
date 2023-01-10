@@ -2,9 +2,10 @@ package ast.function;
 
 import ast.Node;
 import ast.function.FunctionArgs;
+import ast.language.Expression;
 import ast.language.StatementCandidate;
 
-public class FunctionCall extends Node implements StatementCandidate {
+public class FunctionCall extends Node implements StatementCandidate, Expression {
 
     String name;
 

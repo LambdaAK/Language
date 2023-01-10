@@ -1,7 +1,7 @@
 package parse;
 
 import ast.String.StringFactor;
-import ast.String.StringNode;
+import ast.String.StringExpression;
 import ast.arithmetic.ArithmeticExpression;
 import ast.arithmetic.ArithmeticFactor;
 import ast.arithmetic.Relation;
@@ -219,8 +219,12 @@ public class Parser {
 
         assert next != null;
 
+        if (next.type.equals(TokenType.FUNCTION)) {
+            return parseFunctionCall();
+        }
+
         if (next.type.equals(TokenType.STRING)) {
-            return parseStringNode();
+            return parseStringExpression();
         }
 
 
@@ -231,7 +235,7 @@ public class Parser {
         // check for stringop
 
         if (parserUtil.isStringAhead()) {
-            return parseStringNode();
+            return parseStringExpression();
         }
 
 
@@ -565,7 +569,7 @@ public class Parser {
     }
 
 
-    public StringNode parseStringNode() {
+    public StringExpression parseStringExpression() {
         StringFactor first = parseStringFactor();
 
         // check if there's a plus
@@ -575,11 +579,11 @@ public class Parser {
 
         if (next != null &&next.type.equals(TokenType.STRING_CONCAT)) {
             tokens.poll(); // remove the plus
-            StringNode second = parseStringNode();
-            return new StringNode(StringNode.StringType.CONCAT, first, second);
+            StringExpression second = parseStringExpression();
+            return new StringExpression(StringExpression.StringType.CONCAT, first, second);
         }
 
-        return new StringNode(StringNode.StringType.SINGLE, first);
+        return new StringExpression(StringExpression.StringType.SINGLE, first);
 
 
     }
