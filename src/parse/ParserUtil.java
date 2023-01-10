@@ -107,12 +107,18 @@ public class ParserUtil {
         for (int i = 0; i < rightParenIndex; i++) {
             Token token = tokens.get(i);
 
-            if (token.type.getCategory().equals(TokenCategory.RELOP)) {
+            if (token.type.getCategory().equals(TokenCategory.RELOP)
+                    || token.type.getCategory().equals(TokenCategory.BOOLOP)
+                    || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL))
+
+            {
+                System.out.println("PAREN");
                 return BooleanFactor.BooleanFactorType.PAREN;
             }
 
         }
 
+        System.out.println("RELATION");
         return BooleanFactor.BooleanFactorType.RELATION;
 
 

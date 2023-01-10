@@ -1,1 +1,1 @@
-print (1 > 4 and not not not not true);
+1 < 1 and 1 < 2 or (true)
