@@ -1,0 +1,54 @@
+if (true) {
+    one();
+}
+
+else if (true) {
+    two();
+}
+
+else if (true) {
+    three();
+}
+
+else {
+    four();
+}
+
+
+
+while (true) while (true) while (true) while (true) while (not false) print();
+
+int x <-- 12345;
+int y <-- x ^ 2;
+boolean b <-- y > x;
+
+
+println(b);
+
+
+
+if (true) if (true) if (true) if (true or not false) while (true) {
+    print();
+}
+
+
+string s <-- "this is a string.";
+string ss <-- "this is another string.";
+print(s);
+print (s & ss);
+
+print( x or not a);
+
+
+
+
+print(test_function() or true);
+
+
+
+print(print(print()));
+
+print(s_function("a") & "aa");
+
+
+

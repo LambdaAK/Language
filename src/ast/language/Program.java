@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Program extends Node {
 
-    ArrayList<BlockOrStatement> blocks;
+    public ArrayList<BlockOrStatement> blocks;
 
     public Program(ArrayList<BlockOrStatement> blocks) {
         this.blocks = blocks;

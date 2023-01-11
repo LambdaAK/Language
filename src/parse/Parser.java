@@ -213,7 +213,7 @@ public class Parser {
 
 
     public Expression parseExpression() {
-
+        System.out.println("parseExpression");
 
         Token next = tokens.peek();
 
@@ -245,6 +245,8 @@ public class Parser {
         // check if there are relop, boolop, true/false ahead
 
         ParserUtil.LiteralType type = parserUtil.getNextExpressionType();
+
+        System.out.println("TYPE: " + type);
 
         if (type.equals(ParserUtil.LiteralType.BOOLEAN)) {
             return parseBooleanExpression();

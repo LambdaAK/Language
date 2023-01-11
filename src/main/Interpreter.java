@@ -43,9 +43,6 @@ public class Interpreter {
         Expression e = parser.parseExpression();
 
         System.out.println(e);
-        System.out.println(e instanceof ArithmeticExpression);
-        System.out.println(e instanceof BooleanLiteral);
-        System.out.println(e instanceof StringExpression);
 
     }
 
