@@ -9,7 +9,9 @@ public class ParserUtil {
     public static enum LiteralType {
         ARITHMETIC_EXPRESSION,
         BOOLEAN,
-        STRING
+        STRING,
+        VAR_NAME,
+        FUNCTION_CALL
     }
 
     private LinkedList<Token> tokens;
@@ -29,6 +31,58 @@ public class ParserUtil {
     */
 
 
+    public LiteralType getNextExpressionType() {
+        int parenBalance = 0;
+        int expressionTerminatorIndex = -1;
+
+        for (int i = 0; i < tokens.size(); i++) {
+            Token token = tokens.get(i);
+
+
+            if (token.type.equals(TokenType.LEFT_PAREN)) {
+                parenBalance++;
+            }
+
+            else if (token.type.equals(TokenType.RIGHT_PAREN)) {
+                parenBalance--;
+                if (parenBalance == -1) {
+                    expressionTerminatorIndex = i;
+                    break;
+                }
+            }
+
+            else if (token.type.equals(TokenType.COMMA) || token.type.equals(TokenType.SEMI_COLON)) {
+                expressionTerminatorIndex = i;
+                break;
+            }
+
+        }
+
+        if (expressionTerminatorIndex == -1) {
+            expressionTerminatorIndex = tokens.size() - 1; // last index
+        }
+
+        for (int i = 0; i < expressionTerminatorIndex; i++) {
+            Token token = tokens.get(i);
+
+            System.out.println("a");
+            System.out.println(token);
+
+
+            if (token.type.getCategory().equals(TokenCategory.RELOP)
+                    || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL)
+                    || token.type.getCategory().equals(TokenCategory.BOOLOP)) {
+                return LiteralType.BOOLEAN;
+            }
+
+
+        }
+
+        return LiteralType.ARITHMETIC_EXPRESSION;
+
+
+
+    }
 
 
 
@@ -49,7 +103,7 @@ public class ParserUtil {
                 continue;
             }
 
-            if (token.type.equals(TokenType.RIGHT_PAREN)) {
+            else if (token.type.equals(TokenType.RIGHT_PAREN)) {
                 parenBalance--;
                 if (parenBalance == -1) {
                     expressionTerminatorIndex = i;
@@ -57,7 +111,7 @@ public class ParserUtil {
                 }
             }
 
-            if (token.type.equals(TokenType.COMMA) || token.type.equals(TokenType.SEMI_COLON)) {
+            else if (token.type.equals(TokenType.COMMA) || token.type.equals(TokenType.SEMI_COLON)) {
                 expressionTerminatorIndex = i;
                 break;
             }
@@ -72,13 +126,24 @@ public class ParserUtil {
             Token token = tokens.get(i);
 
 
-            if (token.type.getCategory().equals(TokenCategory.RELOP) || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL) || token.type.getCategory().equals(TokenCategory.BOOLOP)) {
+            if (token.type.getCategory().equals(TokenCategory.RELOP)
+                    || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL)
+                    || token.type.getCategory().equals(TokenCategory.BOOLOP)) {
                 return LiteralType.BOOLEAN;
+            }
+            if (token.type.getCategory().equals(TokenCategory.ADDOP)
+                    || token.type.getCategory().equals(TokenCategory.MULOP)
+                    || token.type.getCategory().equals(TokenCategory.POWOP)
+            ) {
+                return LiteralType.ARITHMETIC_EXPRESSION;
             }
 
         }
 
-        return LiteralType.ARITHMETIC_EXPRESSION;
+        if (tokens.get(0).type.equals(TokenType.VARIABLE_NAME)) return LiteralType.VAR_NAME;
+        else return LiteralType.FUNCTION_CALL;
+
+        // if we've gotten to this point, it's either a variable name or function call
 
     }
 

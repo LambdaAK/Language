@@ -219,9 +219,11 @@ public class Parser {
 
         assert next != null;
 
+        /*
         if (next.type.equals(TokenType.FUNCTION)) {
             return parseFunctionCall();
         }
+        */
 
         if (next.type.equals(TokenType.STRING)) {
             return parseStringExpression();
@@ -234,17 +236,74 @@ public class Parser {
 
         // check for stringop
 
+        // i'm not sure if this is necessary
         if (parserUtil.isStringAhead()) {
             return parseStringExpression();
         }
 
 
-        ParserUtil.LiteralType nextType = parserUtil.getNextExpressionTypeStartingWithLeftParen();
+        // check if there are relop, boolop, true/false ahead
 
+        ParserUtil.LiteralType type = parserUtil.getNextExpressionType();
 
-        if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
-            return parseBooleanLiteral();
+        if (type.equals(ParserUtil.LiteralType.BOOLEAN)) {
+            return parseBooleanExpression();
         }
+
+
+        /*
+
+        if the next one is variable
+            if the token after is a math operator parse arithmetic_expression
+            else parse var_name (typeless)
+
+        if the next one is function
+            if the token after the closing paren is a math operator parse arithmetic_expression
+            else parse function_call (typeless)
+
+
+        */
+
+
+        if (next.type.equals(TokenType.VARIABLE_NAME)) {
+            if (tokens.size() >= 2) {
+                Token token = tokens.get(1);
+
+                if (token.type.equals(TokenType.RIGHT_PAREN) || token.type.equals(TokenType.COMMA) || token.type.equals(TokenType.SEMI_COLON)) {
+                    // variable name
+                    tokens.poll(); // remove the variable name
+
+                    Token.VariableNameToken varName = (Token.VariableNameToken) next;
+
+                    return new TypelessExpression(TypelessExpression.TypeLessExpressionType.VARIABLE_NAME, varName.name);
+                }
+
+            }
+        }
+
+        if (next.type.equals(TokenType.FUNCTION)) {
+            // we need to find the closing paren for the function call
+            int balance = 0;
+            int closingParenIndex = -1;
+            for (int i = 0; i < tokens.size(); i++) {
+                Token token = tokens.get(i);
+                if (token.type.equals(TokenType.LEFT_PAREN)) balance++;
+                else if (token.type.equals(TokenType.RIGHT_PAREN)) {
+                    balance--;
+                    if (balance == 0) {
+                        closingParenIndex = i;
+                    }
+                }
+            }
+
+            // check the token after the closing paren
+            Token afterClosingParen = tokens.get(closingParenIndex + 1);
+            if (afterClosingParen.type.equals(TokenType.RIGHT_PAREN) || afterClosingParen.type.equals(TokenType.COMMA) || afterClosingParen.type.equals(TokenType.SEMI_COLON)) {
+                // function call
+                return new TypelessExpression(TypelessExpression.TypeLessExpressionType.FUNCTION_CALL, parseFunctionCall());
+            }
+        }
+
 
         return parseArithmeticExpression();
 
@@ -364,6 +423,15 @@ public class Parser {
             Token.VariableNameToken varNameToken = (Token.VariableNameToken) next;
 
             factor = new ArithmeticFactor(ArithmeticFactor.FactorType.VAR_NAME_FACTOR, varNameToken.name);
+        }
+
+        else if (next.type.equals(TokenType.FUNCTION)) {
+
+            assert next instanceof Token.FunctionToken;
+
+            Token.FunctionToken functionToken = (Token.FunctionToken) next;
+
+            factor = new ArithmeticFactor(ArithmeticFactor.FactorType.FUNCTION_CALL_FACTOR, parseFunctionCall()); // new
         }
 
         else if (next.type.equals(TokenType.MINUS)) {
@@ -591,18 +659,25 @@ public class Parser {
     public StringFactor parseStringFactor() {
         // check if it's a string token
 
-        Token next = tokens.poll();
+        Token next = tokens.peek();
 
         assert next != null;
 
         if (next instanceof Token.StringToken) {
+            tokens.poll(); // remove the string token
 
             Token.StringToken stringToken = (Token.StringToken) next;
 
             return new StringFactor(StringFactor.StringFactorType.SINGLE, stringToken.string);
         }
 
+        else if (next instanceof Token.FunctionToken) {
+            return new StringFactor(StringFactor.StringFactorType.FUNCTION_CALL, parseFunctionCall());
+        }
+
         else {
+            tokens.poll(); // remove the variable name token
+
             assert next instanceof Token.VariableNameToken;
 
             Token.VariableNameToken varNameToken = (Token.VariableNameToken) next;
@@ -637,8 +712,7 @@ public class Parser {
             return new BooleanLiteral(operator, first, second);
 
         }
-        System.out.println("AFTER");
-        System.out.println(tokens);
+
         return new BooleanLiteral(BooleanLiteral.BooleanLiteralType.SINGLE, first);
 
     }
@@ -682,56 +756,193 @@ public class Parser {
 
 
     public BooleanFactor parseBooleanFactor()  {
+        /*
+
+        boolean_factor ::= atomic_boolean
+            | 'not' boolean_factor
+            | '(' boolean_literal ')'
+            | relation
+            | var_name
+            | function_call
+
+        */
+        System.out.println("parse boolean factor");
+        System.out.println(tokens);
 
         Token next = tokens.peek();
 
         assert next != null;
 
-        // single
+        // atomic_boolean
         if (next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
             tokens.poll(); // remove the boolean value
             return new BooleanFactor(BooleanFactor.BooleanFactorType.SINGLE, Boolean.parseBoolean(next.type.getRepresentation()));
         }
 
-        // not
+        // 'not' boolean_factor
         if (next.type.equals(TokenType.NOT)) {
             tokens.poll(); // remove the not
             return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
         }
 
-        // variable name
-
         /*
-        if (next.type.equals(TokenType.VARIABLE_NAME)) {
-            tokens.poll(); // remove the variable name
 
-            assert next instanceof Token.VariableNameToken;
+        we now have to choose between the following
 
-            Token.VariableNameToken varNameToken = (Token.VariableNameToken) next;
-
-            return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, varNameToken.name);
-        }
+            | '(' boolean_literal ')'
+            | relation
+            | var_name
+            | function_call
 
         */
 
 
         if (next.type.equals(TokenType.LEFT_PAREN)) {
-            if (parserUtil.getNextBooleanFactorType().equals(BooleanFactor.BooleanFactorType.PAREN)) {
 
-                tokens.poll(); // remove the left paren
-                BooleanFactor booleanFactor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
-                tokens.poll(); // remove the right paren
+            /*
+                There are two cases here
 
-                return booleanFactor;
+                The left paren is surrounding a boolean_literal
+                The left paren is surrounding and arithmetic_expression
+
+            */
+
+            BooleanFactor.BooleanFactorType type = parserUtil.getNextBooleanFactorType();
+
+            System.out.println("TYPE");
+            System.out.println(type);
+
+            if (type.equals(BooleanFactor.BooleanFactorType.RELATION)) {
+                // enclosing an arithmetic_expression
+                // so we have arithmetic_expression relop arithmetic_expression
+
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+
             }
+
+            else if (type.equals(BooleanFactor.BooleanFactorType.PAREN)) {
+                // enclosing a boolean_literal
+                // so we have ( boolean_literal )
+
+                tokens.poll(); // remove (
+
+                BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
+
+                tokens.poll(); // remove )
+
+                return factor;
+
+            }
+
+            else {
+                System.out.println("paren boolean factor parsing error");
+                System.exit(1);
+            }
+
+
+
+        }
+
+        /*
+            We now have to choose between the following
+
+            | relation
+            | var_name
+            | function_call
+
+
+
+        */
+
+
+        BooleanFactor.BooleanFactorType factorType = parserUtil.getNextBooleanFactorType();
+        System.out.println("factor type");
+        System.out.println(factorType);
+
+        /*
+        if (factorType.equals(BooleanFactor.BooleanFactorType.RELATION)) {
+            // arithmetic_expression relop arithmetic_expression
 
             return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
 
         }
+        */
 
-        // otherwise, we are parsing a relation boolean factor
 
-        return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+        /*
+
+        ignore the following
+
+        addop
+        mulop
+        number
+        functioncall
+        varname
+
+        if the first token that isn't these is a relop parse a relation boolean factor
+
+
+
+        */
+
+
+        for (int i = 0; i < tokens.size(); i++) {
+            Token token = tokens.get(i);
+
+            // tokens that make up an algebraic_expression
+            if (token.type.getCategory().equals(TokenCategory.ADDOP)
+                    || token.type.getCategory().equals(TokenCategory.MULOP)
+                    || token.type.equals(TokenType.NUM)
+                    || token.type.equals(TokenType.FUNCTION)
+                    || token.type.equals(TokenType.VARIABLE_NAME)
+                    || token.type.equals(TokenType.POWER)
+                    || token.type.equals(TokenType.LEFT_PAREN)
+                    || token.type.equals(TokenType.RIGHT_PAREN)
+            ) continue;
+
+            if (token.type.getCategory().equals(TokenCategory.RELOP)) {
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+            }
+        }
+
+
+
+
+
+        /*
+            We now have to choose between the following
+
+            | var_name
+            | function_call
+
+
+            just check the type of the next token
+
+        */
+
+
+        if (next.type.equals(TokenType.VARIABLE_NAME)) {
+
+            assert next instanceof Token.VariableNameToken;
+
+            Token.VariableNameToken varName = (Token.VariableNameToken) next;
+
+            tokens.poll(); // remove the variable name token
+
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, varName.name);
+        }
+
+        else if (next.type.equals(TokenType.FUNCTION)) {
+
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.FUNCTION_CALL, parseFunctionCall());
+        }
+
+
+        System.out.println("unsuccessfull boolean_factor parse");
+        System.out.println(tokens);
+        System.exit(1);
+        return null;
+
 
 
     }

@@ -1,9 +1,11 @@
 package ast.booleanAlgebra;
 
 import ast.arithmetic.Relation;
+import ast.function.FunctionCall;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Function;
 
 public class BooleanFactor extends BooleanTerm {
 
@@ -12,7 +14,8 @@ public class BooleanFactor extends BooleanTerm {
         NOT,
         PAREN,
         RELATION,
-        VAR_NAME
+        VAR_NAME,
+        FUNCTION_CALL
     }
 
 
@@ -27,6 +30,8 @@ public class BooleanFactor extends BooleanTerm {
     public Relation relation;
 
     public String name;
+
+    public FunctionCall functionCall;
 
 
     public BooleanFactor(BooleanFactorType type, BooleanLiteral expression) {
@@ -57,6 +62,14 @@ public class BooleanFactor extends BooleanTerm {
         this.value = value;
     }
 
+    public BooleanFactor(BooleanFactorType type ,FunctionCall functionCall) {
+        assert type.equals(BooleanFactorType.FUNCTION_CALL);
+
+        this.type = type;
+
+        this.functionCall = functionCall;
+    }
+
     public BooleanFactor(BooleanFactorType type, Relation relation) {
         assert type.equals(BooleanFactorType.RELATION);
 
@@ -71,7 +84,8 @@ public class BooleanFactor extends BooleanTerm {
         StringBuilder builder = new StringBuilder();
 
         if (type.equals(BooleanFactorType.SINGLE)) {
-            builder.append(String.valueOf(value));
+            builder.append("<boolean: ").append(String.valueOf(value)).append(">");
+
         }
         else if (type.equals(BooleanFactorType.NOT)) {
             builder.append("not ");
@@ -82,6 +96,9 @@ public class BooleanFactor extends BooleanTerm {
         }
         else if (type.equals(BooleanFactorType.VAR_NAME)) {
             return name;
+        }
+        else if (type.equals(BooleanFactorType.FUNCTION_CALL)) {
+            return functionCall.toString();
         }
         else {
             builder.append("( ");

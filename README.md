@@ -30,6 +30,7 @@ arithmetic_factor ::= INT
     | - arithmetic_factor
     | arithmetic_factor powop arithmetic_factor
     | var_name
+    | function_call
 
 
 addop ::= +
@@ -39,6 +40,7 @@ addop ::= +
 mulop ::= *
     | /
     | %
+
 
 power ::= ^
 
@@ -75,6 +77,7 @@ boolean_factor ::= atomic_boolean
     | '(' boolean_literal ')'
     | relation
     | var_name
+    | function_call
 
 
 
@@ -83,12 +86,13 @@ boolean_factor ::= atomic_boolean
 #### <center> <p style="color:#CCCCFF">The syntax for declaring and manipulating strings
 
 
-string_exression ::= string_factor
+string_expression ::= string_factor
     | string_factor '&' string_expression
 
 
 string_factor ::= '"' STRING '"'
     | var_name
+    | function_call
 
 
 ---
@@ -105,8 +109,7 @@ function_call ::= function '(' function_args ')'
 functionargs ::= function_arg (, function_arg)*
 
 
-function_arg ::= arithmetic_expression
-    | boolean_expression
+function_arg ::= expression
 
 
 
@@ -162,10 +165,18 @@ relation ::= arithmetic_expression relop arithmetic_expression
 ### <center> <p style="color:#CCCCFF">Control Structures
 #### <center> <p style="color:#CCCCFF">The general structure of a program
 
-expression::= arithmetic_expression
+
+typeless_expression ::= var_name
+    | function_call
+
+
+typed_expression::= arithmetic_expression
     | boolean_literal
     | string_expression
-    | function_call
+    | typeless_expression
+
+expression ::= typeless_expression
+    | typed_expression
 
 
 statement ::= function_call ';'
@@ -194,17 +205,3 @@ block :== conditional_block
 
 
 program :== (statement | block)*
-
-
-
-
-
-
-
-
-
-
-
-
-
-

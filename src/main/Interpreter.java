@@ -1,7 +1,10 @@
 package main;
 
+import ast.String.StringExpression;
 import ast.arithmetic.ArithmeticExpression;
+import ast.booleanAlgebra.BooleanLiteral;
 import ast.language.Expression;
+import ast.language.Program;
 import parse.Lexer;
 import parse.Parser;
 import parse.PostLexer;
@@ -11,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Interpreter {
-
 
     public static void main(String[] args) {
 
@@ -38,8 +40,12 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        System.out.println(parser.parseProgram());
+        Expression e = parser.parseExpression();
 
+        System.out.println(e);
+        System.out.println(e instanceof ArithmeticExpression);
+        System.out.println(e instanceof BooleanLiteral);
+        System.out.println(e instanceof StringExpression);
 
     }
 

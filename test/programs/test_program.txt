@@ -1,4 +1,1 @@
-string s <-- "heghejghejgh";
-int i <-- len(s);
-
-print(i);
+print(i + 1) + 1;
