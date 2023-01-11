@@ -11,7 +11,8 @@ public class ParserUtil {
         BOOLEAN,
         STRING,
         VAR_NAME,
-        FUNCTION_CALL
+        FUNCTION_CALL,
+        TYPELESS
     }
 
     private LinkedList<Token> tokens;
@@ -31,7 +32,23 @@ public class ParserUtil {
     */
 
 
+    /**
+     * This method checks whether the next expression type is arithmetic_expression or boolean_literal
+     * @return the type of expression
+     */
+
+
+
+
     public LiteralType getNextExpressionType() {
+        if (isNextExpressionStringExpression()) return LiteralType.STRING;
+        return isNextExpressionArithmeticOrBoolean();
+    }
+
+
+
+
+    public LiteralType isNextExpressionArithmeticOrBoolean() {
 
         // must skip function calls
 
@@ -84,10 +101,21 @@ public class ParserUtil {
                 return LiteralType.BOOLEAN;
             }
 
+            if (token.type.getCategory().equals(TokenCategory.ADDOP)
+                    || token.type.getCategory().equals(TokenCategory.MULOP)
+                    || token.type.getCategory().equals(TokenCategory.POWOP)
+                    || token.type.equals(TokenType.NUM)
+            ) return LiteralType.ARITHMETIC_EXPRESSION;
+
 
         }
 
-        return LiteralType.ARITHMETIC_EXPRESSION;
+        if (tokens.get(0).type.equals(TokenType.FUNCTION)) {
+            return LiteralType.FUNCTION_CALL;
+        }
+        else {
+            return LiteralType.VAR_NAME;
+        }
 
 
 
@@ -98,7 +126,7 @@ public class ParserUtil {
      *
      * @return whether from the leading token to the next right paren, comma, or semi colon, the next expression is a string expression
      */
-    public boolean isStringAhead() {
+    public boolean isNextExpressionStringExpression() {
         for (int i = 0; i < tokens.size(); i++) {
             Token token = tokens.get(i);
 
@@ -109,6 +137,7 @@ public class ParserUtil {
             }
 
             if (token.type.getCategory().equals(TokenCategory.STRING_OP)) return true;
+            if (token.type.equals(TokenType.STRING)) return true;
             if (token.type.equals(TokenType.NUM) ||
                     token.type.getCategory().equals(TokenCategory.ADDOP) ||
                     token.type.getCategory().equals(TokenCategory.MULOP) ||

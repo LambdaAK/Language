@@ -213,60 +213,33 @@ public class Parser {
 
 
     public Expression parseExpression() {
-        System.out.println("parseExpression");
-
         Token next = tokens.peek();
 
         assert next != null;
 
-        /*
-        if (next.type.equals(TokenType.FUNCTION)) {
-            return parseFunctionCall();
-        }
-        */
 
-        if (next.type.equals(TokenType.STRING)) {
-            return parseStringExpression();
-        }
+        ParserUtil.LiteralType nextType = parserUtil.getNextExpressionType();
 
 
-        if (next.type.getCategory().equals(TokenCategory.BOOLOP) || next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
-            return parseBooleanLiteral();
-        }
+        if (nextType.equals(ParserUtil.LiteralType.STRING)) return parseStringExpression();
+        if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) return parseBooleanExpression();
+        if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) return parseArithmeticExpression();
+        if (nextType.equals(ParserUtil.LiteralType.FUNCTION_CALL)) return new TypelessExpression(TypelessExpression.TypeLessExpressionType.FUNCTION_CALL, parseFunctionCall());
+        if (nextType.equals(ParserUtil.LiteralType.VAR_NAME)) {
+            assert next instanceof Token.VariableNameToken;
 
-        // check for stringop
+            Token.VariableNameToken variableNameToken = (Token.VariableNameToken.VariableNameToken) next;
 
-        // i'm not sure if this is necessary
-        if (parserUtil.isStringAhead()) {
-            return parseStringExpression();
+            tokens.poll(); // remove the variable name token
+
+            return new TypelessExpression(TypelessExpression.TypeLessExpressionType.VARIABLE_NAME, variableNameToken.name);
+
         }
 
-
-        // check if there are relop, boolop, true/false ahead
-
-        ParserUtil.LiteralType type = parserUtil.getNextExpressionType();
-
-        System.out.println("TYPE: " + type);
-
-        if (type.equals(ParserUtil.LiteralType.BOOLEAN)) {
-            return parseBooleanExpression();
-        }
+        return null;
 
 
         /*
-
-        if the next one is variable
-            if the token after is a math operator parse arithmetic_expression
-            else parse var_name (typeless)
-
-        if the next one is function
-            if the token after the closing paren is a math operator parse arithmetic_expression
-            else parse function_call (typeless)
-
-
-        */
-
-
         if (next.type.equals(TokenType.VARIABLE_NAME)) {
             if (tokens.size() >= 2) {
                 Token token = tokens.get(1);
@@ -308,7 +281,7 @@ public class Parser {
 
 
         return parseArithmeticExpression();
-
+        */
 
     }
 
