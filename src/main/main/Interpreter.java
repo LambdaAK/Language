@@ -1,6 +1,7 @@
 package main.main;
 
 import main.ast.language.Expression;
+import main.ast.language.Program;
 import main.parse.Lexer;
 import main.parse.Parser;
 import main.parse.PostLexer;
@@ -37,10 +38,8 @@ public class Interpreter {
         System.out.println(lexer.tokens);
 
         Expression e = parser.parseExpression();
-        System.out.println("-----------");
 
         System.out.println(e);
-
     }
 
     public static String read(String dir) throws IOException {

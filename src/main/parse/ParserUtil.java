@@ -41,8 +41,13 @@ public class ParserUtil {
 
 
     public LiteralType getNextExpressionType() {
-        if (isNextExpressionStringExpression()) return LiteralType.STRING;
-        if (isNextExpressionBooleanExpression()) return LiteralType.BOOLEAN;
+        if (isNextExpressionStringExpression()) {
+            return LiteralType.STRING;
+        }
+        if (isNextExpressionBooleanExpression()) {
+            System.out.println("BOOOOOOOOOL");
+            return LiteralType.BOOLEAN;
+        }
         return isNextExpressionArithmeticOrTypeless();
     }
 
@@ -111,13 +116,13 @@ public class ParserUtil {
             return LiteralType.VAR_NAME;
         }
 
-
-
     }
 
     public boolean isNextExpressionBooleanExpression() {
+        System.out.println("Checking if boolean expression");
         for (int i = 0; i < tokens.size(); i++) {
             Token token = tokens.get(i);
+            System.out.println(token);
 
             // if it's a function we want to skip it
             if (token.type.equals(TokenType.FUNCTION)) {
@@ -130,6 +135,7 @@ public class ParserUtil {
                     || token.type.getCategory().equals(TokenCategory.BOOLOP)) {
                 return true;
             }
+            if (token.type.equals(TokenType.SEMI_COLON)) break;
 
         }
 

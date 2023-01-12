@@ -217,12 +217,14 @@ public class Parser {
 
         assert next != null;
 
-
         ParserUtil.LiteralType nextType = parserUtil.getNextExpressionType();
 
-
         if (nextType.equals(ParserUtil.LiteralType.STRING)) return parseStringExpression();
-        if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) return parseBooleanExpression();
+        if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
+            System.out.println("aaaaaaaaaaaaaa");
+
+            return parseBooleanLiteral();
+        }
         if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) return parseArithmeticExpression();
         if (nextType.equals(ParserUtil.LiteralType.FUNCTION_CALL)) return new TypelessExpression(TypelessExpression.TypeLessExpressionType.FUNCTION_CALL, parseFunctionCall());
         if (nextType.equals(ParserUtil.LiteralType.VAR_NAME)) {
@@ -237,52 +239,6 @@ public class Parser {
         }
 
         return null;
-
-
-        /*
-        if (next.type.equals(TokenType.VARIABLE_NAME)) {
-            if (tokens.size() >= 2) {
-                Token token = tokens.get(1);
-
-                if (token.type.equals(TokenType.RIGHT_PAREN) || token.type.equals(TokenType.COMMA) || token.type.equals(TokenType.SEMI_COLON)) {
-                    // variable name
-                    tokens.poll(); // remove the variable name
-
-                    Token.VariableNameToken varName = (Token.VariableNameToken) next;
-
-                    return new TypelessExpression(TypelessExpression.TypeLessExpressionType.VARIABLE_NAME, varName.name);
-                }
-
-            }
-        }
-
-        if (next.type.equals(TokenType.FUNCTION)) {
-            // we need to find the closing paren for the function call
-            int balance = 0;
-            int closingParenIndex = -1;
-            for (int i = 0; i < tokens.size(); i++) {
-                Token token = tokens.get(i);
-                if (token.type.equals(TokenType.LEFT_PAREN)) balance++;
-                else if (token.type.equals(TokenType.RIGHT_PAREN)) {
-                    balance--;
-                    if (balance == 0) {
-                        closingParenIndex = i;
-                    }
-                }
-            }
-
-            // check the token after the closing paren
-            Token afterClosingParen = tokens.get(closingParenIndex + 1);
-            if (afterClosingParen.type.equals(TokenType.RIGHT_PAREN) || afterClosingParen.type.equals(TokenType.COMMA) || afterClosingParen.type.equals(TokenType.SEMI_COLON)) {
-                // function call
-                return new TypelessExpression(TypelessExpression.TypeLessExpressionType.FUNCTION_CALL, parseFunctionCall());
-            }
-        }
-
-
-        return parseArithmeticExpression();
-        */
-
     }
 
 
@@ -736,6 +692,8 @@ public class Parser {
 
 
     public BooleanFactor parseBooleanFactor()  {
+        System.out.println("PARSE BOOLEAN FACTOR");
+        System.out.println(tokens);
         /*
 
         boolean_factor ::= atomic_boolean
