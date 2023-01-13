@@ -218,11 +218,18 @@ public class Parser {
 
         ParserUtil.LiteralType nextType = parserUtil.getNextExpressionType();
 
-        if (nextType.equals(ParserUtil.LiteralType.STRING)) return parseStringExpression();
+        if (nextType.equals(ParserUtil.LiteralType.STRING)) {
+            System.out.println("STIRNG__");
+            return parseStringExpression();
+        }
         if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
+            System.out.println("BOOLEAN__");
             return parseBooleanLiteral();
         }
-        if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) return parseArithmeticExpression();
+        if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) {
+            System.out.println("ARITHMETIC__");
+            return parseArithmeticExpression();
+        }
 
         if (next.type.equals(TokenType.LEFT_PAREN)) {
             tokens.poll(); // remove the left_paren
@@ -244,7 +251,6 @@ public class Parser {
 
             return new TypelessExpression(TypelessExpression.TypeLessExpressionType.VARIABLE_NAME, variableNameToken.name);
         }
-
 
 
         return null;
@@ -665,7 +671,6 @@ public class Parser {
         Token next = tokens.peek();
 
 
-
         if (next != null && (next.type.equals(TokenType.OR))) {
             // remove the or
             tokens.poll();
@@ -674,8 +679,6 @@ public class Parser {
         }
 
         return new BooleanExpression(BooleanExpression.BooleanExpressionType.SINGLE, first);
-
-
     }
 
     public BooleanTerm parseBooleanTerm() {
@@ -685,6 +688,7 @@ public class Parser {
         Token next = tokens.peek();
 
         if (next != null && next.type.equals(TokenType.AND)) {
+            System.out.println("AND TOKEN");
             // remove the and
             tokens.poll();
             BooleanTerm second = parseBooleanTerm(); // mainn.parse the next term
@@ -697,6 +701,9 @@ public class Parser {
 
 
     public BooleanFactor parseBooleanFactor()  {
+
+        System.out.println("parseBooleanFactor");
+        System.out.println(tokens);
         /*
 
         boolean_factor ::= atomic_boolean
@@ -844,6 +851,7 @@ public class Parser {
             }
 
             else if (token.type.getCategory().equals(TokenCategory.RELOP)) {
+                System.out.println("should parse a relation boolean factor");
                 weShouldParseARelationBooleanFactor = true;
                 break;
             }
@@ -883,16 +891,7 @@ public class Parser {
 
             assert tokenAfterVariable != null;
 
-            if (tokenAfterVariable.type.equals(TokenType.SEMI_COLON)
-            || tokenAfterVariable.type.equals(TokenType.RIGHT_PAREN)
-                    || tokenAfterVariable.type.equals(TokenType.COMMA)
-
-            ) typeToParse = BooleanFactor.BooleanFactorType.VAR_NAME;
-
-            if (typeToParse.equals(BooleanFactor.BooleanFactorType.RELATION)) { // relation
-                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
-            }
-            else { // var_name
+            if (!tokenAfterVariable.type.getCategory().equals(TokenCategory.RELOP)) {
                 assert next instanceof Token.VariableNameToken;
                 Token.VariableNameToken variableNameToken = (Token.VariableNameToken) next;
 
@@ -900,9 +899,17 @@ public class Parser {
 
                 return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, variableNameToken.name);
             }
+
+            else {
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+            }
+
+
+
         }
 
         else if (next.type.equals(TokenType.FUNCTION)) {
+            System.out.println("FUNC");
             BooleanFactor.BooleanFactorType typeToParse = BooleanFactor.BooleanFactorType.RELATION;
 
             // find the closing paren of the function call
@@ -915,11 +922,10 @@ public class Parser {
 
             assert tokenAfterVariable != null;
 
-            if (tokenAfterVariable.type.equals(TokenType.SEMI_COLON)
-                    || tokenAfterVariable.type.equals(TokenType.RIGHT_PAREN)
-                    || tokenAfterVariable.type.equals(TokenType.COMMA)
-
-            ) typeToParse = BooleanFactor.BooleanFactorType.VAR_NAME;
+            if (!tokenAfterVariable.type.getCategory().equals(TokenCategory.RELOP)) {
+                System.out.println("not relop");
+                typeToParse = BooleanFactor.BooleanFactorType.FUNCTION_CALL;
+            }
 
             if (typeToParse.equals(BooleanFactor.BooleanFactorType.RELATION)) { // relation
                 return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
@@ -929,6 +935,8 @@ public class Parser {
 
                 Token.FunctionToken functionToken = (Token.FunctionToken) next;
 
+                System.out.println("PARSING FUNCTION");
+
                 return new BooleanFactor(BooleanFactor.BooleanFactorType.FUNCTION_CALL, parseFunctionCall());
             }
 
@@ -936,6 +944,7 @@ public class Parser {
 
 
         System.out.println("RETURNING NULL");
+        System.out.println(tokens);
         return null;
     }
 

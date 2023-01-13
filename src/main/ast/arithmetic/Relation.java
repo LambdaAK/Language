@@ -5,9 +5,9 @@ import main.parse.TokenType;
 
 public class Relation extends Node {
 
-    ArithmeticExpression first;
-    ArithmeticExpression second;
-    TokenType relop;
+    public ArithmeticExpression first;
+    public ArithmeticExpression second;
+    public TokenType relop;
 
 
     public Relation(TokenType relop, ArithmeticExpression first, ArithmeticExpression second) {

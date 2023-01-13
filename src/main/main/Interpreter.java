@@ -1,7 +1,10 @@
 package main.main;
 
+import jdk.nashorn.api.tree.FunctionExpressionTree;
 import main.ast.booleanAlgebra.BooleanFactor;
 import main.ast.booleanAlgebra.BooleanLiteral;
+import main.ast.function.FunctionArgs;
+import main.ast.function.FunctionCall;
 import main.ast.language.Expression;
 import main.ast.language.Program;
 import main.parse.Lexer;
