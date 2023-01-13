@@ -39,6 +39,33 @@ public class ParserUtil {
 
 
 
+    public int getIndexNextTerminatingToken() {
+        int balance = 0;
+
+        for (int i = 0; i < tokens.size(); i++) {
+            Token token = tokens.get(i);
+
+            if (token.type.equals(TokenType.LEFT_PAREN)) {
+                balance++;
+            }
+            else if (token.type.equals(TokenType.RIGHT_PAREN)) {
+                balance--;
+                if (balance == -1) return i;
+            }
+            else if (token.type.equals(TokenType.SEMI_COLON)) {
+                return i;
+            }
+            else if (token.type.equals(TokenType.COMMA)) {
+                return i;
+            }
+        }
+
+        return tokens.size() - 1;
+    }
+
+
+
+
 
     public LiteralType getNextExpressionType() {
         if (isNextExpressionStringExpression()) {
@@ -118,7 +145,12 @@ public class ParserUtil {
     }
 
     public boolean isNextExpressionBooleanExpression() {
-        for (int i = 0; i < tokens.size(); i++) {
+
+        // find the terminating token
+
+
+
+        for (int i = 0; i < getIndexNextTerminatingToken(); i++) {
             Token token = tokens.get(i);
             System.out.println(token);
 
@@ -146,7 +178,7 @@ public class ParserUtil {
      * @return whether from the leading token to the next right paren, comma, or semi colon, the next expression is a string expression
      */
     public boolean isNextExpressionStringExpression() {
-        for (int i = 0; i < tokens.size(); i++) {
+        for (int i = 0; i < getIndexNextTerminatingToken(); i++) {
             Token token = tokens.get(i);
 
             // if it's a function we want to skip it

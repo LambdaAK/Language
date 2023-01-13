@@ -1,1 +1,1 @@
-1-1) or true;
+func (1-1) or true;
