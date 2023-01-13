@@ -80,8 +80,7 @@ public class Parser {
 
     public WhileBlock parseWhileBlock() {
 
-        System.out.println("parseWhileBlock");
-        System.out.println(tokens);
+
 
         tokens.poll(); // remove the while
 
@@ -221,8 +220,6 @@ public class Parser {
 
         if (nextType.equals(ParserUtil.LiteralType.STRING)) return parseStringExpression();
         if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
-            System.out.println("aaaaaaaaaaaaaa");
-
             return parseBooleanLiteral();
         }
         if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) return parseArithmeticExpression();
@@ -508,8 +505,7 @@ public class Parser {
     }
 
     public Assignment parseAssignment() {
-        System.out.println("parseAssignment");
-        System.out.println(tokens);
+
         Token _next = tokens.poll(); // the variable name
 
         assert _next instanceof Token.VariableNameToken;
@@ -529,8 +525,7 @@ public class Parser {
     }
 
     public Statement parseStatement() {
-        System.out.println("parsing statement");
-        System.out.println(tokens);
+
         // implement function call + variable declaration
 
         Token next = tokens.peek();
@@ -540,10 +535,9 @@ public class Parser {
         // next is either a vartype or a function
 
         if (next.type.equals(TokenType.FUNCTION)) {
-            System.out.println("hi");
+
             FunctionCall functionCall = parseFunctionCall();
-            System.out.println("AFTER FUNCTION CALL");
-            System.out.println(tokens);
+
             // ;
             tokens.poll(); // remove the ;
             //
@@ -627,8 +621,7 @@ public class Parser {
 
 
     public BooleanLiteral parseBooleanLiteral() {
-        System.out.println("parseBooleanLiteral");
-        System.out.println(tokens);
+
 
         BooleanExpression first = parseBooleanExpression();
 
@@ -692,8 +685,6 @@ public class Parser {
 
 
     public BooleanFactor parseBooleanFactor()  {
-        System.out.println("PARSE BOOLEAN FACTOR");
-        System.out.println(tokens);
         /*
 
         boolean_factor ::= atomic_boolean
@@ -704,8 +695,7 @@ public class Parser {
             | function_call
 
         */
-        System.out.println("mainn.parse boolean factor");
-        System.out.println(tokens);
+
 
         Token next = tokens.peek();
 
@@ -722,7 +712,7 @@ public class Parser {
             tokens.poll(); // remove the not
             return new BooleanFactor(BooleanFactor.BooleanFactorType.NOT, parseBooleanFactor());
         }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /*
 
         we now have to choose between the following
@@ -735,154 +725,208 @@ public class Parser {
         */
 
 
+        /*
+
+        Case 1: the next token is a left_paren:
+
+        we have left_paren [tokens] right_paren
+            where right_paren closes left_paren
+
+        we will not consider tokens between the left_paren and right_paren of function calls
+
+        if tokens contains any boolop, relop, atomic_boolean, tokens becomes a boolean_literal
+        if tokens does not contain any boolean, relop, atomic_boolean, this means the parenthesis are enclosing an arithmetic_expression
+            however, since we are parsing a boolean_factor here, we know that after the arithmetic_expression, there is a relop
+            therefore, tokens becomes a relation
+
+        */
+
+
         if (next.type.equals(TokenType.LEFT_PAREN)) {
+            BooleanFactor.BooleanFactorType typeToParse = BooleanFactor.BooleanFactorType.RELATION;
+            // get the closing paren index
+            int closingParenIndex = parserUtil.findClosingParen(0);
 
-            /*
-                There are two cases here
+            for (int i = 1; i < closingParenIndex; i++) {
+                Token token = tokens.get(i);
 
-                The left paren is surrounding a boolean_literal
-                The left paren is surrounding and arithmetic_expression
+                // always skip function calls
+                if (token.type.equals(TokenType.FUNCTION)) {
+                    i = parserUtil.findClosingParen(i);
+                }
 
-            */
-
-            BooleanFactor.BooleanFactorType type = parserUtil.getNextBooleanFactorType();
-
-            System.out.println("TYPE");
-            System.out.println(type);
-
-            if (type.equals(BooleanFactor.BooleanFactorType.RELATION)) {
-                // enclosing an arithmetic_expression
-                // so we have arithmetic_expression relop arithmetic_expression
-
-                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
-
+                else if (token.type.getCategory().equals(TokenCategory.BOOLOP)
+                    || token.type.getCategory().equals(TokenCategory.BOOL_LITERAL) ||
+                        token.type.getCategory().equals(TokenCategory.RELOP)
+                ) typeToParse = BooleanFactor.BooleanFactorType.PAREN;
             }
 
-            else if (type.equals(BooleanFactor.BooleanFactorType.PAREN)) {
-                // enclosing a boolean_literal
-                // so we have ( boolean_literal )
-
-                tokens.poll(); // remove (
-
+            if (typeToParse.equals(BooleanFactor.BooleanFactorType.PAREN)) {
+                tokens.poll(); // remove the left_paren
                 BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
-
-                tokens.poll(); // remove )
+                tokens.poll(); // remove the right_paren
 
                 return factor;
-
             }
+
+            // we now need to check if there is a relop after the closing paren for token
+
+            Token tokenAfterClosingParen = tokens.get(closingParenIndex + 1);
+            if (tokenAfterClosingParen.type.getCategory().equals(TokenCategory.RELOP)) {
+                // we are parsing a relation
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+            }
+
+            // otherwise we are parsing a paren boolean_factor
 
             else {
-                System.out.println("paren boolean factor parsing error");
-                System.exit(1);
+                tokens.poll(); // remove the left_paren
+                BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
+                tokens.poll(); // remove the right_paren
+
+                return factor;
             }
-
-
 
         }
 
+
         /*
-            We now have to choose between the following
+        Case 2: the next token is not a left_paren:
+
+        we are now choosing between the following productions:
 
             | relation
             | var_name
             | function_call
 
 
+            case 1: token is a var_name
+
+            if the token after token is a terminal token (semi_colon, right_paren, comma) parse a variable
+            else parse a relation
+
+            case 2: token is a function_call
+
+            if the token after the closing right_paren of token is a terminal token, parse a function_call
+            else parse a relation
 
         */
 
 
-        BooleanFactor.BooleanFactorType factorType = parserUtil.getNextBooleanFactorType();
-        System.out.println("factor type");
-        System.out.println(factorType);
 
-        /*
-        if (factorType.equals(BooleanFactor.BooleanFactorType.RELATION)) {
-            // arithmetic_expression relop arithmetic_expression
+        // check for a relop
 
-            return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+        // get the next terminal token index
+        int nextTerminalTokenIndex = -1;
 
-        }
-        */
-
-
-        /*
-
-        ignore the following
-
-        addop
-        mulop
-        number
-        functioncall
-        varname
-
-        if the first token that isn't these is a relop mainn.parse a relation boolean factor
-
-
-
-        */
-
+        int balance = 0;
 
         for (int i = 0; i < tokens.size(); i++) {
             Token token = tokens.get(i);
 
-            // tokens that make up an algebraic_expression
-            if (token.type.getCategory().equals(TokenCategory.ADDOP)
-                    || token.type.getCategory().equals(TokenCategory.MULOP)
-                    || token.type.equals(TokenType.NUM)
-                    || token.type.equals(TokenType.FUNCTION)
-                    || token.type.equals(TokenType.VARIABLE_NAME)
-                    || token.type.equals(TokenType.POWER)
-                    || token.type.equals(TokenType.LEFT_PAREN)
-                    || token.type.equals(TokenType.RIGHT_PAREN)
-            ) continue;
+            if (token.type.equals(TokenType.SEMI_COLON) || token.type.equals(TokenType.COMMA)) {
+                nextTerminalTokenIndex = i;
+                break;
+            }
 
-            if (token.type.getCategory().equals(TokenCategory.RELOP)) {
-                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+            else if (token.type.equals(TokenType.LEFT_PAREN)) {
+                balance++;
+            }
+            else if (token.type.equals(TokenType.RIGHT_PAREN)) {
+                balance--;
+                if (balance == -1) {
+                    nextTerminalTokenIndex = i;
+                    break;
+                }
             }
         }
 
+        // check if there is a relop (exclude tokens between function call parens
+
+        boolean weShouldParseARelationBooleanFactor = false;
+
+        for (int i = 0; i < nextTerminalTokenIndex; i++) {
+            Token token = tokens.get(i);;
+
+            if (token.type.equals(TokenType.FUNCTION)) {
+                i = parserUtil.findClosingParen(i);
+            }
+
+            else if (token.type.getCategory().equals(TokenCategory.RELOP)) {
+                weShouldParseARelationBooleanFactor = true;
+                break;
+            }
+        }
+
+        if (weShouldParseARelationBooleanFactor) {
+            return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+        }
 
 
 
-
-        /*
-            We now have to choose between the following
-
-            | var_name
-            | function_call
-
-
-            just check the type of the next token
-
-        */
 
 
         if (next.type.equals(TokenType.VARIABLE_NAME)) {
+            BooleanFactor.BooleanFactorType typeToParse = BooleanFactor.BooleanFactorType.RELATION;
 
-            assert next instanceof Token.VariableNameToken;
+            Token tokenAfterVariable = tokens.get(1);
 
-            Token.VariableNameToken varName = (Token.VariableNameToken) next;
+            assert tokenAfterVariable != null;
 
-            tokens.poll(); // remove the variable name token
+            if (tokenAfterVariable.type.equals(TokenType.SEMI_COLON)
+            || tokenAfterVariable.type.equals(TokenType.RIGHT_PAREN)
+                    || tokenAfterVariable.type.equals(TokenType.COMMA)
 
-            return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, varName.name);
+            ) typeToParse = BooleanFactor.BooleanFactorType.VAR_NAME;
+
+            if (typeToParse.equals(BooleanFactor.BooleanFactorType.RELATION)) { // relation
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+            }
+            else { // var_name
+                assert next instanceof Token.VariableNameToken;
+                Token.VariableNameToken variableNameToken = (Token.VariableNameToken) next;
+
+                tokens.poll(); // remove the variable name token
+
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.VAR_NAME, variableNameToken.name);
+            }
         }
 
         else if (next.type.equals(TokenType.FUNCTION)) {
+            BooleanFactor.BooleanFactorType typeToParse = BooleanFactor.BooleanFactorType.RELATION;
 
-            return new BooleanFactor(BooleanFactor.BooleanFactorType.FUNCTION_CALL, parseFunctionCall());
+            // find the closing paren of the function call
+
+            int closingParenIndex = parserUtil.findClosingParen(0);
+
+            // then check the token after the closing paren
+
+            Token tokenAfterVariable = tokens.get(closingParenIndex + 1);
+
+            assert tokenAfterVariable != null;
+
+            if (tokenAfterVariable.type.equals(TokenType.SEMI_COLON)
+                    || tokenAfterVariable.type.equals(TokenType.RIGHT_PAREN)
+                    || tokenAfterVariable.type.equals(TokenType.COMMA)
+
+            ) typeToParse = BooleanFactor.BooleanFactorType.VAR_NAME;
+
+            if (typeToParse.equals(BooleanFactor.BooleanFactorType.RELATION)) { // relation
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
+            }
+            else { // function_call
+                assert next instanceof Token.FunctionToken;
+
+                Token.FunctionToken functionToken = (Token.FunctionToken) next;
+
+                return new BooleanFactor(BooleanFactor.BooleanFactorType.FUNCTION_CALL, parseFunctionCall());
+            }
+
         }
 
 
-        System.out.println("unsuccessfull boolean_factor mainn.parse");
-        System.out.println(tokens);
-        System.exit(1);
+        System.out.println("RETURNING NULL");
         return null;
-
-
-
     }
 
 }

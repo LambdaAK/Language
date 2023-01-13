@@ -1,5 +1,7 @@
 package main.main;
 
+import main.ast.booleanAlgebra.BooleanFactor;
+import main.ast.booleanAlgebra.BooleanLiteral;
 import main.ast.language.Expression;
 import main.ast.language.Program;
 import main.parse.Lexer;
@@ -9,6 +11,7 @@ import main.parse.PostLexer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 
 public class Interpreter {
 
@@ -37,9 +40,10 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        Expression e = parser.parseExpression();
+        Expression p = parser.parseBooleanFactor();
 
-        System.out.println(e);
+        System.out.println("-----------");
+        System.out.println(p);
     }
 
     public static String read(String dir) throws IOException {

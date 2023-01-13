@@ -45,7 +45,6 @@ public class ParserUtil {
             return LiteralType.STRING;
         }
         if (isNextExpressionBooleanExpression()) {
-            System.out.println("BOOOOOOOOOL");
             return LiteralType.BOOLEAN;
         }
         return isNextExpressionArithmeticOrTypeless();
@@ -119,7 +118,6 @@ public class ParserUtil {
     }
 
     public boolean isNextExpressionBooleanExpression() {
-        System.out.println("Checking if boolean expression");
         for (int i = 0; i < tokens.size(); i++) {
             Token token = tokens.get(i);
             System.out.println(token);
@@ -211,7 +209,6 @@ public class ParserUtil {
 
 
         int parenBalance = 0;
-
         int rightParenIndex = 0;
 
         for (int i = 0; i < tokens.size(); i++) {
