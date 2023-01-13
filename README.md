@@ -168,6 +168,7 @@ relation ::= arithmetic_expression relop arithmetic_expression
 
 typeless_expression ::= var_name
     | function_call
+    | '(' typeless_expression ')'
 
 typed_expression::= arithmetic_expression
     | boolean_literal

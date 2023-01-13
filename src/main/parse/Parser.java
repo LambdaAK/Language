@@ -223,6 +223,17 @@ public class Parser {
             return parseBooleanLiteral();
         }
         if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) return parseArithmeticExpression();
+
+        if (next.type.equals(TokenType.LEFT_PAREN)) {
+            tokens.poll(); // remove the left_paren
+
+            TypelessExpression typelessExpression = new TypelessExpression(TypelessExpression.TypeLessExpressionType.PAREN, parseExpression());
+
+            tokens.poll(); // remove the right_paren
+
+            return typelessExpression;
+        }
+
         if (nextType.equals(ParserUtil.LiteralType.FUNCTION_CALL)) return new TypelessExpression(TypelessExpression.TypeLessExpressionType.FUNCTION_CALL, parseFunctionCall());
         if (nextType.equals(ParserUtil.LiteralType.VAR_NAME)) {
             assert next instanceof Token.VariableNameToken;
@@ -232,8 +243,9 @@ public class Parser {
             tokens.poll(); // remove the variable name token
 
             return new TypelessExpression(TypelessExpression.TypeLessExpressionType.VARIABLE_NAME, variableNameToken.name);
-
         }
+
+
 
         return null;
     }
@@ -735,9 +747,9 @@ public class Parser {
         we will not consider tokens between the left_paren and right_paren of function calls
 
         if tokens contains any boolop, relop, atomic_boolean, tokens becomes a boolean_literal
-        if tokens does not contain any boolean, relop, atomic_boolean, this means the parenthesis are enclosing an arithmetic_expression
-            however, since we are parsing a boolean_factor here, we know that after the arithmetic_expression, there is a relop
-            therefore, tokens becomes a relation
+        if tokens does not contain any boolean, relop, atomic_boolean we check the following
+            if after right_paren there is a relop, we parse a relation boolean_factor
+            otherwise, parse a paren boolean_factor
 
         */
 
@@ -790,29 +802,8 @@ public class Parser {
         }
 
 
-        /*
-        Case 2: the next token is not a left_paren:
 
-        we are now choosing between the following productions:
-
-            | relation
-            | var_name
-            | function_call
-
-
-            case 1: token is a var_name
-
-            if the token after token is a terminal token (semi_colon, right_paren, comma) parse a variable
-            else parse a relation
-
-            case 2: token is a function_call
-
-            if the token after the closing right_paren of token is a terminal token, parse a function_call
-            else parse a relation
-
-        */
-
-
+        // we still might be parsing a relation, so check for a relop and parse a relation if a relop is found
 
         // check for a relop
 
@@ -862,9 +853,28 @@ public class Parser {
             return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
         }
 
+        /*
+
+        Case 2: the next token is not a left_paren:
+
+        we are now choosing between the following productions:
+
+            | relation
+            | var_name
+            | function_call
 
 
+            case 1: token is a var_name
 
+            if the token after token is a terminal token (semi_colon, right_paren, comma) parse a variable
+            else parse a relation
+
+            case 2: token is a function_call
+
+            if the token after the closing right_paren of token is a terminal token, parse a function_call
+            else parse a relation
+
+        */
 
         if (next.type.equals(TokenType.VARIABLE_NAME)) {
             BooleanFactor.BooleanFactorType typeToParse = BooleanFactor.BooleanFactorType.RELATION;
