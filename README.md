@@ -52,16 +52,16 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
     | function_call
 
 
->addop ::= +
-    | -
+>addop ::= '+'
+    | '-'
 
 
->mulop ::= *
-    | /
-    | %
+>mulop ::= '*'
+    | '/'
+    | '%'
 
 
->power ::= ^
+>power ::= '^'
 
 
 
