@@ -117,10 +117,6 @@ public class ParserUtil {
         for (int i = 0; i < expressionTerminatorIndex; i++) {
             Token token = tokens.get(i);
 
-            System.out.println("a");
-            System.out.println(token);
-
-
             if (token.type.equals(TokenType.FUNCTION)) {
                 i = findClosingParen(i); // start after the closing paren for the function with i++
                 continue;
@@ -152,7 +148,6 @@ public class ParserUtil {
 
         for (int i = 0; i < getIndexNextTerminatingToken(); i++) {
             Token token = tokens.get(i);
-            System.out.println(token);
 
             // if it's a function we want to skip it
             if (token.type.equals(TokenType.FUNCTION)) {
@@ -217,7 +212,7 @@ public class ParserUtil {
         int balance = 0;
         for (int i = openParenIndex; i < tokens.size(); i++) {
             Token token = tokens.get(i);
-            System.out.println(token);
+
 
             if (token.type.equals(TokenType.LEFT_PAREN)) {
                 balance++;

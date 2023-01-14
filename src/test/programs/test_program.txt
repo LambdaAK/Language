@@ -1,5 +1,1 @@
-int number <-- 100;
-
-println(number);
-
-println(2 * number);
+int num <-- 1 * 1;

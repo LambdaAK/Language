@@ -219,15 +219,12 @@ public class Parser {
         ParserUtil.LiteralType nextType = parserUtil.getNextExpressionType();
 
         if (nextType.equals(ParserUtil.LiteralType.STRING)) {
-            System.out.println("STIRNG__");
             return parseStringExpression();
         }
         if (nextType.equals(ParserUtil.LiteralType.BOOLEAN)) {
-            System.out.println("BOOLEAN__");
             return parseBooleanLiteral();
         }
         if (nextType.equals(ParserUtil.LiteralType.ARITHMETIC_EXPRESSION)) {
-            System.out.println("ARITHMETIC__");
             return parseArithmeticExpression();
         }
 
@@ -296,7 +293,7 @@ public class Parser {
 
         else {
             // this is the end of the expression
-            return term;
+            return new ArithmeticExpression(ArithmeticExpression.ArithmeticExpressionType.SINGLE_EXPRESSION, term);
         }
 
 
@@ -342,7 +339,7 @@ public class Parser {
         else {
             // this is the end of the Term
 
-            return factor;
+            return new ArithmeticTerm(ArithmeticTerm.TermType.SINGLE_TERM, factor);
         }
 
 
@@ -682,7 +679,6 @@ public class Parser {
         Token next = tokens.peek();
 
         if (next != null && next.type.equals(TokenType.AND)) {
-            System.out.println("AND TOKEN");
             // remove the and
             tokens.poll();
             BooleanTerm second = parseBooleanTerm(); // mainn.parse the next term
@@ -696,8 +692,6 @@ public class Parser {
 
     public BooleanFactor parseBooleanFactor()  {
 
-        System.out.println("parseBooleanFactor");
-        System.out.println(tokens);
         /*
 
         boolean_factor ::= atomic_boolean
@@ -844,7 +838,6 @@ public class Parser {
             }
 
             else if (token.type.getCategory().equals(TokenCategory.RELOP)) {
-                System.out.println("should parse a relation boolean factor");
                 weShouldParseARelationBooleanFactor = true;
                 break;
             }
@@ -902,7 +895,6 @@ public class Parser {
         }
 
         else if (next.type.equals(TokenType.FUNCTION)) {
-            System.out.println("FUNC");
             BooleanFactor.BooleanFactorType typeToParse = BooleanFactor.BooleanFactorType.RELATION;
 
             // find the closing paren of the function call
@@ -916,7 +908,6 @@ public class Parser {
             assert tokenAfterVariable != null;
 
             if (!tokenAfterVariable.type.getCategory().equals(TokenCategory.RELOP)) {
-                System.out.println("not relop");
                 typeToParse = BooleanFactor.BooleanFactorType.FUNCTION_CALL;
             }
 
@@ -928,16 +919,14 @@ public class Parser {
 
                 Token.FunctionToken functionToken = (Token.FunctionToken) next;
 
-                System.out.println("PARSING FUNCTION");
 
                 return new BooleanFactor(BooleanFactor.BooleanFactorType.FUNCTION_CALL, parseFunctionCall());
             }
 
         }
 
-
-        System.out.println("RETURNING NULL");
-        System.out.println(tokens);
+        System.err.println("boolean factor parse failed");
+        System.exit(1);
         return null;
     }
 

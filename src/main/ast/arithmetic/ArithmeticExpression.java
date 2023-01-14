@@ -71,6 +71,7 @@ public class ArithmeticExpression extends Node implements Expression {
 
     @Override
     public String toString() {
+        System.out.println("arithmetic expression toString()");
         StringBuilder builder = new StringBuilder();
 
         String s = "";
