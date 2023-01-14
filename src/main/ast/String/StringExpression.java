@@ -2,6 +2,7 @@ package main.ast.String;
 
 import main.ast.Node;
 import main.ast.language.Expression;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 
 import java.util.ArrayList;
@@ -48,12 +49,17 @@ public class StringExpression extends Node implements Expression {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
+        builder.append(Color.addColor(Color.PURPLE));
+
+
         if (type.equals(StringType.SINGLE)) {
             builder.append(nodes.get(0));
         }
         else {
             builder.append(nodes.get(0)).append(" & ").append(nodes.get(1));
         }
+
+        builder.append(Color.removeColor());
 
         return builder.toString();
 

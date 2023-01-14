@@ -2,6 +2,7 @@ package main.ast.arithmetic;
 
 import main.ast.Node;
 import main.ast.language.Expression;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.main.Printer;
 
@@ -71,18 +72,28 @@ public class ArithmeticExpression extends Node implements Expression {
 
     @Override
     public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        String s = "";
+
+        builder.append(Color.addColor(Color.GREEN));
+
         if (expressionType.equals(ArithmeticExpressionType.PLUS_EXPRESSION)) {
-            return expressions.get(0).toString() + " + " + expressions.get(1).toString();
+            s = expressions.get(0).toString() + " + " + expressions.get(1).toString();
         }
 
         if (expressionType.equals(ArithmeticExpressionType.MINUS_EXPRESSION)) {
-            return expressions.get(0).toString() + " - " + expressions.get(1).toString();
+            s = expressions.get(0).toString() + " - " + expressions.get(1).toString();
         }
 
         if (expressionType.equals(ArithmeticExpressionType.SINGLE_EXPRESSION)) {
-            return expressions.get(0).toString();
+            s = expressions.get(0).toString();
         }
 
-        return "";
+        builder.append(s);
+
+        builder.append(Color.removeColor());
+
+        return builder.toString();
     }
 }

@@ -53,6 +53,7 @@ public class Interpreter {
         Printer printer = new Printer();
 
         p.print(printer);
+        System.out.println(Color.WHITE);
         System.out.println("-----------");
         System.out.println(printer.toString());
 

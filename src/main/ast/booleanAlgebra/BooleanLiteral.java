@@ -2,6 +2,7 @@ package main.ast.booleanAlgebra;
 
 import main.ast.Node;
 import main.ast.language.Expression;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 
 import java.util.ArrayList;
@@ -55,8 +56,9 @@ public class BooleanLiteral extends Node implements Expression {
     @Override
     public String toString() {
 
-
         StringBuilder builder = new StringBuilder();
+
+        builder.append(Color.addColor(Color.CYAN));
 
         if (type.equals(BooleanLiteralType.SINGLE)) {
             builder.append(literals.get(0).toString());
@@ -71,6 +73,8 @@ public class BooleanLiteral extends Node implements Expression {
             builder.append(" <--> ");
             builder.append(literals.get(1).toString());
         }
+
+        builder.append(Color.removeColor());
 
         return builder.toString();
     }

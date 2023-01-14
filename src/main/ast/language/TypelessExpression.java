@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.ast.function.FunctionCall;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 
 public class TypelessExpression extends Node implements Expression {
@@ -62,6 +63,8 @@ public class TypelessExpression extends Node implements Expression {
 
         StringBuilder builder = new StringBuilder();
 
+        builder.append(Color.addColor(Color.BLACK));
+
         builder.append("<typeless_expression ");
 
         if (type.equals(TypeLessExpressionType.VARIABLE_NAME)) {
@@ -76,6 +79,8 @@ public class TypelessExpression extends Node implements Expression {
         }
 
         builder.append(">");
+
+        builder.append(Color.removeColor());
 
         return builder.toString();
     }
