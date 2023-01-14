@@ -11,6 +11,8 @@ public class Memory {
     public Memory() {
         varMap = new HashMap<>();
         funcMap = new HashMap<>();
+
+        initializeFunctions();
     }
 
     public void addVar(Variable.VariableType type, String name, Object value) {
@@ -33,10 +35,31 @@ public class Memory {
         return varMap.get(name).value;
     }
 
+    public Function getFunction(String name) {
+        return funcMap.get(name);
+    }
+
 
     @Override
     public String toString() {
         return varMap.toString();
     }
+
+
+
+    private void initializeFunctions() {
+        java.util.function.Function<Function.FunctionInput, Object> println = (input) -> {
+
+            Object contents = input.functionArgs.args.get(0).eval(input.runTime);
+
+            System.out.println(contents);
+
+            return null;
+        };
+
+        funcMap.put("println", new Function(println));
+    }
+
+
 
 }
