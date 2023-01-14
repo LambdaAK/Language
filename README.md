@@ -1,6 +1,6 @@
 # <center> RGBScript
 
-RGBScript is a C-style, prodecural programming language that supports **basic types**, **variables**, **functions**, and **control structures**.
+RGBScript is a C-style, procedural programming language that supports **basic types**, **variables**, **functions**, and **control structures**.
 <br><br>This language gets its name from the fact that it outputs programs and program results in a colorful, fun way.
 
 <br>
