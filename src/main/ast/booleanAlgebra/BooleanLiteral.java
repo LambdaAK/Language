@@ -58,7 +58,10 @@ public class BooleanLiteral extends Node implements Expression {
 
         StringBuilder builder = new StringBuilder();
 
+
         builder.append(Color.addColor(Color.CYAN));
+
+        builder.append("boolean_literal: ");
 
         if (type.equals(BooleanLiteralType.SINGLE)) {
             builder.append(literals.get(0).toString());

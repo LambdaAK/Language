@@ -1,1 +1,6 @@
-int num <-- 1 * 1;
+int num <-- 5;
+
+while (num < 10) {
+    println(num);
+    num += 1;
+}

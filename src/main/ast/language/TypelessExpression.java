@@ -63,9 +63,9 @@ public class TypelessExpression extends Node implements Expression {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append(Color.addColor(Color.BLACK));
+        builder.append(Color.addColor(Color.RED_BOLD));
 
-        builder.append("<typeless_expression ");
+        builder.append("typeless_expression: ");
 
         if (type.equals(TypeLessExpressionType.VARIABLE_NAME)) {
             builder.append("var_name: ").append(name);
@@ -77,8 +77,6 @@ public class TypelessExpression extends Node implements Expression {
             // paren
             builder.append("( ").append(typelessExpression).append(" )");
         }
-
-        builder.append(">");
 
         builder.append(Color.removeColor());
 

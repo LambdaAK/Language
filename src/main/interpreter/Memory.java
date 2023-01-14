@@ -55,13 +55,13 @@ public class Memory {
             Object contents = input.functionArgs.args.get(0).eval(input.runTime);
 
             if (contents instanceof Integer) {
-                System.out.println(Color.CYAN);
+                System.out.print(Color.CYAN);
             }
             else if (contents instanceof String) {
-                System.out.println(Color.PURPLE);
+                System.out.print(Color.PURPLE);
             }
             else {
-                System.out.println(Color.GREEN);
+                System.out.print(Color.GREEN);
             }
 
 

@@ -73,20 +73,20 @@ public class ArithmeticExpression extends Node implements Expression {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        String s = "";
+        String s = "arithmetic_expression: ";
 
         builder.append(Color.addColor(Color.GREEN));
 
         if (expressionType.equals(ArithmeticExpressionType.PLUS_EXPRESSION)) {
-            s = expressions.get(0).toString() + " + " + expressions.get(1).toString();
+            s += expressions.get(0).toString() + " + " + expressions.get(1).toString();
         }
 
         if (expressionType.equals(ArithmeticExpressionType.MINUS_EXPRESSION)) {
-            s = expressions.get(0).toString() + " - " + expressions.get(1).toString();
+            s += expressions.get(0).toString() + " - " + expressions.get(1).toString();
         }
 
         if (expressionType.equals(ArithmeticExpressionType.SINGLE_EXPRESSION)) {
-            s = expressions.get(0).toString();
+            s += expressions.get(0).toString();
         }
 
         builder.append(s);
