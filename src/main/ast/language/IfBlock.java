@@ -44,10 +44,10 @@ public class IfBlock extends Node {
 
     @Override
     public void print(Printer printer) {
-        printer.addRaw(Color.addColor(Color.BLUE_BOLD));
+        printer.addWithNoIndentation(Color.addColor(Color.BLUE_BOLD));
         printer.addRaw("if (");
 
-        printer.addRaw(Color.removeColor());
+        printer.addWithNoIndentation(Color.removeColor());
 
 
         printer.addWithNoIndentation(condition);
@@ -67,10 +67,10 @@ public class IfBlock extends Node {
         }
         printer.removeIndentation();
 
-        printer.addRaw(Color.addColor(Color.BLUE_BOLD));
+        printer.addWithNoIndentation(Color.addColor(Color.BLUE_BOLD));
 
         printer.add("}");
 
-        printer.addRaw(Color.removeColor());
+        printer.addWithNoIndentation(Color.removeColor());
     }
 }

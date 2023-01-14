@@ -47,7 +47,7 @@ public class WhileBlock extends Node {
     @Override
     public void print(Printer printer) {
 
-        printer.addRaw(Color.addColor(Color.YELLOW_BOLD)).addRaw("while (").addRaw(Color.removeColor()).addWithNoIndentation(condition).addRaw(Color.addColor(Color.YELLOW_BOLD)).addWithNoIndentation(") {\n").addRaw(Color.removeColor());
+        printer.addWithNoIndentation(Color.addColor(Color.YELLOW_BOLD)).addRaw("while (").addWithNoIndentation(Color.removeColor()).addWithNoIndentation(condition).addWithNoIndentation(Color.addColor(Color.YELLOW_BOLD)).addWithNoIndentation(") {\n").addWithNoIndentation(Color.removeColor());
 
         printer.addIndentation();
         for (BlockOrStatement block: blocks) {
@@ -55,11 +55,11 @@ public class WhileBlock extends Node {
         }
         printer.removeIndentation();
 
-        printer.addRaw(Color.addColor(Color.YELLOW_BOLD));
+        printer.addWithNoIndentation(Color.addColor(Color.YELLOW_BOLD));
 
         printer.add("}");
 
-        printer.addRaw(Color.removeColor());
+        printer.addWithNoIndentation(Color.removeColor());
     }
 
 }

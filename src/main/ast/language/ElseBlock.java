@@ -41,13 +41,13 @@ public class ElseBlock extends Node {
     @Override
     public void print(Printer printer) {
 
-        printer.addRaw(Color.addColor(Color.PURPLE_BOLD));
+        printer.addWithNoIndentation(Color.addColor(Color.PURPLE_BOLD));
 
         printer.addRaw("else");
 
-        printer.addRaw(" {\n");
+        printer.addWithNoIndentation(" {\n");
 
-        printer.addRaw(Color.removeColor());
+        printer.addWithNoIndentation(Color.removeColor());
 
         printer.addIndentation();
         for (BlockOrStatement block: blocks) {
@@ -55,11 +55,11 @@ public class ElseBlock extends Node {
         }
         printer.removeIndentation();
 
-        printer.addRaw(Color.addColor(Color.PURPLE_BOLD));
+        printer.addWithNoIndentation(Color.addColor(Color.PURPLE_BOLD));
 
         printer.add("}");
 
-        printer.addRaw(Color.removeColor());
+        printer.addWithNoIndentation(Color.removeColor());
 
 
     }
