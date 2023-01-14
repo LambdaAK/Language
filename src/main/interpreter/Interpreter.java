@@ -14,17 +14,15 @@ public class Interpreter {
 
     public static void main(String[] args) {
 
+        boolean printTree = false;
 
-
-        if (args.length == 0) {
-            System.err.println("You must provide a source code directory");
-            System.exit(1);
-        }
+        InterpreterOptions options = getOptions(args);
 
         String input = "";
 
+
         try {
-            input = read(args[0]);
+            input = read(options.dir);
         }
 
         catch (IOException e) {
@@ -42,17 +40,27 @@ public class Interpreter {
 
         postLexer.postLex();
 
-        System.out.println(lexer.tokens);
-
         Program p = parser.parseProgram();
 
-        Printer printer = new Printer();
 
-        p.print(printer);
-        System.out.println(Color.WHITE);
-        System.out.println("-----------");
-        System.out.println(printer.toString());
 
+        if (options.printAST) {
+            Printer printer = new Printer();
+            p.print(printer);
+            System.out.print(Color.GREEN_BOLD);
+            System.out.println("[Printing Abstract Syntax Tree]\n-------------------------------\n");
+            System.out.print(Color.WHITE);
+
+            System.out.println(printer.toString());
+        }
+        System.out.print(Color.RED_BOLD);
+
+        String header = "[Evaluating Program: \"" + options.dir + "\"";
+        header += "\n" + "-".repeat(header.length());
+
+        System.out.println(header);
+        System.out.print(Color.WHITE);
+        p.execute(new RunTime());
     }
 
     public static String read(String dir) throws IOException {
@@ -73,6 +81,29 @@ public class Interpreter {
 
         return builder.toString();
     }
+
+    private static InterpreterOptions getOptions(String[] args) {
+        if (args.length == 0) {
+            System.err.println("You must provide a source code directory");
+            System.exit(1);
+        }
+
+        boolean printAST = args.length > 1 && args[1].equals("--print");
+
+        return new InterpreterOptions(args[0], printAST);
+    }
+
+
+    private static class InterpreterOptions {
+        public final String dir;
+        public final boolean printAST;
+
+        private InterpreterOptions(String dir, boolean printAST) {
+            this.dir = dir;
+            this.printAST = printAST;
+        }
+    }
+
 
 
 

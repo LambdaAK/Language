@@ -1,13 +1,5 @@
-if (1 > 0) {
-    println("yes");
-}
+int number <-- 100;
 
-else if (true) {
-    println("true");
-}
+println(number);
 
-else {
-    while (true) {
-        println("this is the else block");
-    }
-}
+println(2 * number);
