@@ -73,7 +73,7 @@ public class ArithmeticExpression extends Node implements Expression {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        String s = "arithmetic_expression: ";
+        String s = "arithmetic_expression<";
 
         builder.append(Color.addColor(Color.GREEN));
 
@@ -89,7 +89,7 @@ public class ArithmeticExpression extends Node implements Expression {
             s += expressions.get(0).toString();
         }
 
-        builder.append(s);
+        builder.append(s).append(">");
 
         builder.append(Color.removeColor());
 

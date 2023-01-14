@@ -1,19 +1,14 @@
-# <center> AKScript
+# <center> RGBScript
 
-AKScript is a prodecural programming language that supports **basic types**, **variables**, **functions**, and **control structures**.
+RGBScript is a C-style, prodecural programming language that supports **basic types**, **variables**, **functions**, and **control structures**.
+<br><br>This language gets its name from the fact that it outputs programs and program results in a colorful, fun way.
 
-Types:
--  Integer
-- Boolean
-- String
+<br>
 
-
-
-
-
-
-
-
+>**Types:**
+<br>Arithmetic (Integer)
+<br>Boolean
+<br>String
 
 
 # <center> <p style="color:#FF6F61">EBNF Language Grammar

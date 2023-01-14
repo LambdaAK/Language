@@ -4,3 +4,7 @@ while (num < 10) {
     println(num);
     num += 1;
 }
+
+string s <-- "this is a string";
+
+println(s);

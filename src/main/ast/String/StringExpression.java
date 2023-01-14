@@ -52,7 +52,7 @@ public class StringExpression extends Node implements Expression {
         builder.append(Color.addColor(Color.PURPLE));
 
 
-        builder.append("string_expression: ");
+        builder.append("string_expression<");
 
 
         if (type.equals(StringType.SINGLE)) {
@@ -61,6 +61,8 @@ public class StringExpression extends Node implements Expression {
         else {
             builder.append(nodes.get(0)).append(" & ").append(nodes.get(1));
         }
+
+        builder.append(">");
 
         builder.append(Color.removeColor());
 

@@ -14,12 +14,9 @@ public class Interpreter {
 
     public static void main(String[] args) {
 
-        boolean printTree = false;
-
         InterpreterOptions options = getOptions(args);
 
         String input = "";
-
 
         try {
             input = read(options.dir);
@@ -41,7 +38,6 @@ public class Interpreter {
         postLexer.postLex();
 
         Program p = parser.parseProgram();
-
 
 
         if (options.printAST) {
@@ -103,9 +99,6 @@ public class Interpreter {
             this.printAST = printAST;
         }
     }
-
-
-
 
 
 }
