@@ -2,6 +2,7 @@ package main.ast.booleanAlgebra;
 
 import main.ast.Node;
 import main.ast.language.Expression;
+import main.interpreter.RunTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,10 @@ public class BooleanLiteral extends Node implements Expression {
     public BooleanLiteral() {
 
     }
+    public Object eval(RunTime runTime) {
 
+        return true;
+    }
 
     @Override
     public String toString() {

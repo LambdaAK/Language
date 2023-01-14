@@ -1,11 +1,6 @@
-package main.main;
+package main.interpreter;
 
-import jdk.nashorn.api.tree.FunctionExpressionTree;
-import main.ast.booleanAlgebra.BooleanFactor;
-import main.ast.booleanAlgebra.BooleanLiteral;
-import main.ast.function.FunctionArgs;
-import main.ast.function.FunctionCall;
-import main.ast.language.Expression;
+import main.ast.arithmetic.ArithmeticExpression;
 import main.ast.language.Program;
 import main.parse.Lexer;
 import main.parse.Parser;
@@ -21,6 +16,11 @@ public class Interpreter {
     public static void main(String[] args) {
 
         String input = "";
+
+        if (args.length == 0) {
+            System.err.println("You must provide a source code directory");
+            System.exit(1);
+        }
 
         try {
             input = read(args[0]);
@@ -43,10 +43,11 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        Expression p = parser.parseBooleanExpression();
+        ArithmeticExpression e = parser.parseArithmeticExpression();
 
-        System.out.println("-----------");
-        System.out.println(p);
+        System.out.println(e.eval(new RunTime()));
+
+
     }
 
     public static String read(String dir) throws IOException {

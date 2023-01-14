@@ -1,6 +1,7 @@
 package main.ast.String;
 
 import main.ast.function.FunctionCall;
+import main.interpreter.RunTime;
 
 public class StringFactor extends StringExpression {
 
@@ -31,6 +32,10 @@ public class StringFactor extends StringExpression {
         this.functionCall = functionCall;
     }
 
+    public Object eval(RunTime runTime) {
+
+        return "";
+    }
 
     @Override
     public String toString() {

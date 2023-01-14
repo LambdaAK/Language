@@ -2,6 +2,7 @@ package main.ast.String;
 
 import main.ast.Node;
 import main.ast.language.Expression;
+import main.interpreter.RunTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,11 @@ public class StringExpression extends Node implements Expression {
 
         this.nodes.addAll(Arrays.asList(nodes));
 
+    }
+
+    public Object eval(RunTime runTime) {
+
+        return "";
     }
 
     @Override

@@ -451,12 +451,8 @@ public class Parser {
 
     public FunctionArg parseFunctionArg() {
         // we need to figure out whether we are parsing an expression or boolean expression
-
         return new FunctionArg(parseExpression());
-
-
     }
-
 
     public FunctionCall parseFunctionCall() {
         Token first = tokens.poll();
@@ -490,8 +486,6 @@ public class Parser {
             return new FunctionCall(functionToken.name, args);
 
         }
-
-
 
     }
 
@@ -805,7 +799,6 @@ public class Parser {
 
                 return factor;
             }
-
         }
 
 

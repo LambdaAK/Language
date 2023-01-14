@@ -1,17 +1,14 @@
 package test;
 
 import main.ast.language.Program;
-import main.main.Interpreter;
+import main.interpreter.Interpreter;
 import main.parse.Lexer;
 import main.parse.Parser;
 import main.parse.PostLexer;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 
 public class ProgramTests {

@@ -1,5 +1,7 @@
 package main.ast.booleanAlgebra;
 
+import main.interpreter.RunTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,6 +33,13 @@ public class BooleanTerm extends BooleanExpression {
     public BooleanTerm() {
 
     }
+
+
+    public Object eval(RunTime runTime) {
+
+        return true;
+    }
+
 
     @Override
     public String toString() {

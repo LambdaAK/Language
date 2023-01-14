@@ -1,5 +1,7 @@
 package main.ast.booleanAlgebra;
 
+import main.interpreter.RunTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,6 +33,13 @@ public class BooleanExpression extends BooleanLiteral {
     public BooleanExpression() {
 
     }
+
+
+    public Object eval(RunTime runTime) {
+
+        return true;
+    }
+
 
     @Override
     public String toString() {

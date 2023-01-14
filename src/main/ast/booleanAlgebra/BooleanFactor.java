@@ -2,6 +2,7 @@ package main.ast.booleanAlgebra;
 
 import main.ast.arithmetic.Relation;
 import main.ast.function.FunctionCall;
+import main.interpreter.RunTime;
 
 public class BooleanFactor extends BooleanTerm {
 
@@ -74,7 +75,10 @@ public class BooleanFactor extends BooleanTerm {
         this.relation = relation;
     }
 
+    public Object eval(RunTime runTime) {
 
+        return true;
+    }
     @Override
     public String toString() {
 

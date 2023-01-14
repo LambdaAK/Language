@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.ast.function.FunctionCall;
+import main.interpreter.RunTime;
 
 public class TypelessExpression extends Node implements Expression {
     public static enum TypeLessExpressionType {
@@ -35,6 +36,11 @@ public class TypelessExpression extends Node implements Expression {
         assert type.equals(TypeLessExpressionType.FUNCTION_CALL);
         this.type = type;
         this.functionCall = functionCall;
+    }
+
+    public Object eval(RunTime runTime) {
+
+        return true;
     }
 
     @Override

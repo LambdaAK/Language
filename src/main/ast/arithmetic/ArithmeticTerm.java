@@ -1,5 +1,7 @@
 package main.ast.arithmetic;
 
+import main.interpreter.RunTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -29,6 +31,34 @@ public class ArithmeticTerm extends ArithmeticExpression {
     public ArithmeticTerm() {
         terms = null;
         termType = null;
+    }
+
+
+    public Object eval(RunTime runTime) {
+        if (!termType.equals(TermType.SINGLE_TERM)) {
+            ArithmeticTerm firstTerm = terms.get(0);
+            ArithmeticTerm secondTerm = terms.get(1);
+
+            Object firstObject = firstTerm.eval(runTime);
+            Object secondObject = secondTerm.eval(runTime);
+
+            assert firstObject instanceof Integer;
+            assert secondObject instanceof Integer;
+
+            Integer first = (Integer) firstObject;
+            Integer second = (Integer) secondObject;
+
+            if (termType.equals(TermType.TIMES_TERM)) return first * second;
+            if (termType.equals(TermType.DIV_TERM)) return first / second;
+            return first % second;
+        }
+
+        else {
+            ArithmeticTerm firstTerm = terms.get(0);
+            Object firstObject = firstTerm.eval(runTime);
+            assert firstObject instanceof Integer;
+            return (Integer) firstObject;
+        }
     }
 
 
