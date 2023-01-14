@@ -49,7 +49,7 @@ power ::= ^
 ---
 
 ### <center> <p style="color:#CCCCFF">Booleans
-#### <center> <p style="color:#CCCCFF">Working with truth-valued expressions, including boolean literals an numeric comparisons
+#### <center> <p style="color:#CCCCFF">Working with truth-valued expressions, including boolean literals and numeric comparisons
 
 
 impl ::= '-->'
