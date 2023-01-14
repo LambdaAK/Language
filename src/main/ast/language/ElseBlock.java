@@ -1,6 +1,7 @@
 package main.ast.language;
 
 import main.ast.Node;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.main.Printer;
 
@@ -40,15 +41,27 @@ public class ElseBlock extends Node {
     @Override
     public void print(Printer printer) {
 
-        printer.add("else {");
+        printer.addRaw(Color.addColor(Color.PURPLE_BOLD));
 
+        printer.addRaw("else");
+
+        printer.addRaw(" {\n");
+
+        printer.addRaw(Color.removeColor());
 
         printer.addIndentation();
         for (BlockOrStatement block: blocks) {
             block.print(printer);
         }
         printer.removeIndentation();
+
+        printer.addRaw(Color.addColor(Color.PURPLE_BOLD));
+
         printer.add("}");
+
+        printer.addRaw(Color.removeColor());
+
+
     }
 
 

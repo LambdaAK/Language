@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.main.Printer;
 
@@ -46,7 +47,7 @@ public class WhileBlock extends Node {
     @Override
     public void print(Printer printer) {
 
-        printer.addRaw("while (").addWithNoIndentation(condition).addWithNoIndentation(") {\n");
+        printer.addRaw(Color.addColor(Color.YELLOW_BOLD)).addRaw("while (").addRaw(Color.removeColor()).addWithNoIndentation(condition).addRaw(Color.addColor(Color.YELLOW_BOLD)).addWithNoIndentation(") {\n").addRaw(Color.removeColor());
 
         printer.addIndentation();
         for (BlockOrStatement block: blocks) {
@@ -54,7 +55,11 @@ public class WhileBlock extends Node {
         }
         printer.removeIndentation();
 
+        printer.addRaw(Color.addColor(Color.YELLOW_BOLD));
+
         printer.add("}");
+
+        printer.addRaw(Color.removeColor());
     }
 
 }

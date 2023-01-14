@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.main.Printer;
 
@@ -43,9 +44,21 @@ public class IfBlock extends Node {
 
     @Override
     public void print(Printer printer) {
+        printer.addRaw(Color.addColor(Color.BLUE_BOLD));
+        printer.addRaw("if (");
 
-        printer.addRaw("if (").addWithNoIndentation(condition).addWithNoIndentation(") {\n");
+        printer.addRaw(Color.removeColor());
 
+
+        printer.addWithNoIndentation(condition);
+
+
+        printer.addWithNoIndentation(Color.addColor(Color.BLUE_BOLD));
+        printer.addWithNoIndentation(")");
+
+        printer.addWithNoIndentation(" {\n");
+
+        printer.addWithNoIndentation(Color.removeColor());
 
         printer.addIndentation();
         for (BlockOrStatement block: blocks) {
@@ -54,6 +67,10 @@ public class IfBlock extends Node {
         }
         printer.removeIndentation();
 
+        printer.addRaw(Color.addColor(Color.BLUE_BOLD));
+
         printer.add("}");
+
+        printer.addRaw(Color.removeColor());
     }
 }
