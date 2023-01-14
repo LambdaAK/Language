@@ -3,6 +3,7 @@ package main.ast.language;
 import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
 import main.interpreter.RunTime;
+import main.main.Printer;
 
 public class ConditionalBlock extends Node implements BlockOrStatement {
 
@@ -54,6 +55,14 @@ public class ConditionalBlock extends Node implements BlockOrStatement {
         }
         else {
             elseBlock.execute(runTime);
+        }
+    }
+
+    @Override
+    public void print(Printer printer) {
+        ifBlock.print(printer);
+        if (type.equals(ConditionalBlockType.IF_ELSE)) {
+            elseBlock.print(printer);
         }
     }
 

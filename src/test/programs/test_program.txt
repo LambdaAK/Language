@@ -1,3 +1,14 @@
-println("a");
-println(1 + 1);
-println(true);
+if (true) {
+    if (true) {
+        if (true) {
+            println();
+        }
+        else {
+            println();
+        }
+        while (not false) {
+            println();
+        }
+
+    }
+}

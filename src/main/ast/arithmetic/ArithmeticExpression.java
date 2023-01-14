@@ -3,12 +3,12 @@ package main.ast.arithmetic;
 import main.ast.Node;
 import main.ast.language.Expression;
 import main.interpreter.RunTime;
+import main.main.Printer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArithmeticExpression extends Node implements Expression {
-
 
 
 
@@ -85,8 +85,4 @@ public class ArithmeticExpression extends Node implements Expression {
 
         return "";
     }
-
-
-
-
 }

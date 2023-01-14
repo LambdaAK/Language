@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.interpreter.RunTime;
+import main.main.Printer;
 
 public class Statement extends Node implements BlockOrStatement {
 
@@ -20,6 +21,11 @@ public class Statement extends Node implements BlockOrStatement {
     @Override
     public String toString() {
         return instructions.toString() + ';';
+    }
+
+    @Override
+    public void print(Printer printer) {
+        printer.add(this);
     }
 
 }

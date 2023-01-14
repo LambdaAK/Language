@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.interpreter.RunTime;
+import main.main.Printer;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,20 @@ public class ElseBlock extends Node {
         for (BlockOrStatement b: blocks) {
             b.execute(runTime);
         }
+    }
+
+    @Override
+    public void print(Printer printer) {
+
+        printer.add("else {");
+
+
+        printer.addIndentation();
+        for (BlockOrStatement block: blocks) {
+            block.print(printer);
+        }
+        printer.removeIndentation();
+        printer.add("}");
     }
 
 

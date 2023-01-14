@@ -4,6 +4,7 @@ import main.ast.arithmetic.ArithmeticExpression;
 import main.ast.language.Expression;
 import main.ast.language.Program;
 import main.ast.language.Statement;
+import main.main.Printer;
 import main.parse.Lexer;
 import main.parse.Parser;
 import main.parse.PostLexer;
@@ -49,11 +50,12 @@ public class Interpreter {
 
         Program p = parser.parseProgram();
 
+        Printer printer = new Printer();
+
+        p.print(printer);
         System.out.println("-----------");
+        System.out.println(printer.toString());
 
-        RunTime runTime = new RunTime();
-
-        p.execute(runTime);
     }
 
     public static String read(String dir) throws IOException {

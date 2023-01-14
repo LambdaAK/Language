@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.interpreter.RunTime;
+import main.main.Printer;
 
 public class Block extends Node implements BlockOrStatement {
 
@@ -65,7 +66,17 @@ public class Block extends Node implements BlockOrStatement {
         }
     }
 
-
-
+    @Override
+    public void print(Printer printer) {
+        if (type.equals(BlockType.STATEMENT)) {
+            statement.print(printer);
+        }
+        else if (type.equals(BlockType.WHILE_BLOCK)) {
+            whileBlock.print(printer);
+        }
+        else {
+            conditionalBlock.print(printer);
+        }
+    }
 
 }
