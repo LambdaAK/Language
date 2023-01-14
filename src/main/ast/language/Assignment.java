@@ -1,6 +1,7 @@
 package main.ast.language;
 
 import main.ast.Node;
+import main.interpreter.RunTime;
 import main.parse.TokenType;
 
 public class Assignment extends Node implements StatementCandidate {
@@ -15,6 +16,56 @@ public class Assignment extends Node implements StatementCandidate {
         this.varName = varName;
         this.expression = expression;
         this.operator = operator;
+    }
+
+    @Override
+    public Object eval(RunTime runTime) {
+
+        /*
+
+        <--
+        +=
+        -=
+        *=
+        /=
+        %=
+
+        */
+
+        if (operator.equals(TokenType.ASSIGNMENT_OPERATOR)) {
+            runTime.memory.setVar(varName, expression.eval(runTime));
+            return null;
+        }
+
+
+        // it's an Integer
+
+        Integer a = (Integer) runTime.memory.getVar(varName);
+        Integer b = (Integer) expression.eval(runTime);
+
+        switch (operator) {
+            case PLUS_EQUALS:
+                runTime.memory.setVar(varName, a + b);
+                break;
+            case MINUS_EQUALS:
+                runTime.memory.setVar(varName, a - b);
+                break;
+            case TIMES_EQUALS:
+                runTime.memory.setVar(varName, a * b);
+                break;
+            case DIV_EQUALS:
+                runTime.memory.setVar(varName, a / b);
+                break;
+            case MOD_EQUALS:
+                runTime.memory.setVar(varName, a % b);
+                break;
+            default:
+                System.err.println("Assignment failure");
+                System.exit(1);
+        }
+
+        return null;
+
     }
 
 

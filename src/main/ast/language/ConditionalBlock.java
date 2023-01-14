@@ -1,8 +1,10 @@
 package main.ast.language;
 
 import main.ast.Node;
+import main.ast.booleanAlgebra.BooleanLiteral;
+import main.interpreter.RunTime;
 
-public class ConditionalBlock extends Node {
+public class ConditionalBlock extends Node implements BlockOrStatement {
 
     public static enum ConditionalBlockType {
         IF,
@@ -41,6 +43,18 @@ public class ConditionalBlock extends Node {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public void execute(RunTime runTime) {
+        BooleanLiteral condition = ifBlock.condition;
+
+        if (condition.eval(runTime).equals(true)) {
+            ifBlock.execute(runTime);
+        }
+        else {
+            elseBlock.execute(runTime);
+        }
     }
 
 

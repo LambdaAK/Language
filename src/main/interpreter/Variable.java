@@ -5,7 +5,8 @@ public class Variable {
     public static enum VariableType {
         INT,
         BOOLEAN,
-        STRING
+        STRING,
+        UNTYPED
     }
 
     public final VariableType type;
@@ -15,7 +16,7 @@ public class Variable {
     Variable (VariableType type, String name, Object value) {
         if (type.equals(VariableType.INT)) assert value instanceof Integer;
         else if (type.equals(VariableType.BOOLEAN)) assert value instanceof Boolean;
-        else assert value instanceof String;
+        else if (type.equals(VariableType.STRING)) assert value instanceof String;
 
         assert name.length() > 0;
 
@@ -30,6 +31,16 @@ public class Variable {
         else assert value instanceof String;
 
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(type).append(": ").append(value);
+
+        return builder.toString();
+
     }
 
 

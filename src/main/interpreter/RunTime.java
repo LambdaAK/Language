@@ -9,4 +9,9 @@ public class RunTime {
     }
 
 
+    @Override
+    public String toString() {
+        return memory.toString();
+    }
+
 }

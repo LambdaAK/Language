@@ -1,6 +1,7 @@
 package main.ast.language;
 
 import main.ast.Node;
+import main.interpreter.RunTime;
 
 public class Block extends Node implements BlockOrStatement {
 
@@ -13,7 +14,6 @@ public class Block extends Node implements BlockOrStatement {
     Statement statement;
     ConditionalBlock conditionalBlock;
     WhileBlock whileBlock;
-
 
     BlockType type;
 
@@ -31,6 +31,24 @@ public class Block extends Node implements BlockOrStatement {
             conditionalBlock = (ConditionalBlock) node;
         }
         this.type = type;
+    }
+
+
+    @Override
+    public void execute(RunTime runTime) {
+        if (type.equals(BlockType.CONDITIONAL_BLOCK)) {
+            conditionalBlock.execute(runTime);
+        }
+
+        else if (type.equals(BlockType.WHILE_BLOCK)) {
+            whileBlock.execute(runTime);
+        }
+
+        else {
+            // shouldn't get to this point
+            System.err.println("Block execution failure in class Block");
+            System.exit(1);
+        }
     }
 
 

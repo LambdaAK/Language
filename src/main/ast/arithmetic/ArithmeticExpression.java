@@ -12,7 +12,7 @@ public class ArithmeticExpression extends Node implements Expression {
 
 
 
-    public static enum ExpressionType {
+    public static enum ArithmeticExpressionType {
         PLUS_EXPRESSION,
         MINUS_EXPRESSION,
         SINGLE_EXPRESSION
@@ -20,9 +20,9 @@ public class ArithmeticExpression extends Node implements Expression {
 
 
     public ArrayList<ArithmeticExpression> expressions;
-    public ExpressionType expressionType;
+    public ArithmeticExpressionType expressionType;
 
-    public ArithmeticExpression(ExpressionType expressionType, ArithmeticExpression... expressions) {
+    public ArithmeticExpression(ArithmeticExpressionType expressionType, ArithmeticExpression... expressions) {
         this.expressionType = expressionType;
 
         this.expressions = new ArrayList<ArithmeticExpression>();
@@ -39,7 +39,7 @@ public class ArithmeticExpression extends Node implements Expression {
 
     @Override
     public Object eval(RunTime runTime) {
-        if (expressionType.equals(ExpressionType.PLUS_EXPRESSION) || expressionType.equals(ExpressionType.MINUS_EXPRESSION)) {
+        if (expressionType.equals(ArithmeticExpressionType.PLUS_EXPRESSION) || expressionType.equals(ArithmeticExpressionType.MINUS_EXPRESSION)) {
             ArithmeticExpression firstExpression = (ArithmeticExpression) expressions.get(0);
             ArithmeticExpression secondExpression = (ArithmeticExpression) expressions.get(1);
 
@@ -52,7 +52,7 @@ public class ArithmeticExpression extends Node implements Expression {
             Integer first = (Integer) firstObject;
             Integer second = (Integer) secondObject;
 
-            if (expressionType.equals(ExpressionType.PLUS_EXPRESSION)) return first + second;
+            if (expressionType.equals(ArithmeticExpressionType.PLUS_EXPRESSION)) return first + second;
             else return first - second;
 
         }
@@ -71,15 +71,15 @@ public class ArithmeticExpression extends Node implements Expression {
 
     @Override
     public String toString() {
-        if (expressionType.equals(ExpressionType.PLUS_EXPRESSION)) {
+        if (expressionType.equals(ArithmeticExpressionType.PLUS_EXPRESSION)) {
             return expressions.get(0).toString() + " + " + expressions.get(1).toString();
         }
 
-        if (expressionType.equals(ExpressionType.MINUS_EXPRESSION)) {
+        if (expressionType.equals(ArithmeticExpressionType.MINUS_EXPRESSION)) {
             return expressions.get(0).toString() + " - " + expressions.get(1).toString();
         }
 
-        if (expressionType.equals(ExpressionType.SINGLE_EXPRESSION)) {
+        if (expressionType.equals(ArithmeticExpressionType.SINGLE_EXPRESSION)) {
             return expressions.get(0).toString();
         }
 

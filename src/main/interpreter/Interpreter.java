@@ -3,6 +3,7 @@ package main.interpreter;
 import main.ast.arithmetic.ArithmeticExpression;
 import main.ast.language.Expression;
 import main.ast.language.Program;
+import main.ast.language.Statement;
 import main.parse.Lexer;
 import main.parse.Parser;
 import main.parse.PostLexer;
@@ -46,11 +47,15 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        Expression e = parser.parseStringExpression();
+        Program p = parser.parseProgram();
 
         System.out.println("-----------");
 
-        System.out.println(e.eval(new RunTime()));
+        RunTime runTime = new RunTime();
+
+        p.execute(runTime);
+
+        System.out.println(runTime);
 
 
     }

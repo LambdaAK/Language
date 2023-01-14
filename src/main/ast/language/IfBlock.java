@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
+import main.interpreter.RunTime;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,13 @@ public class IfBlock extends Node {
 
 
         return builder.toString();
+    }
+
+
+    public void execute(RunTime runTime) {
+        for (BlockOrStatement b: blocks) {
+            b.execute(runTime);
+        }
     }
 
 

@@ -25,7 +25,7 @@ public class Memory {
         varMap.put(name, var);
     }
 
-    public void changeVar(String name, Object newValue) {
+    public void setVar(String name, Object newValue) {
         varMap.get(name).setValue(newValue);
     }
 
@@ -33,5 +33,10 @@ public class Memory {
         return varMap.get(name).value;
     }
 
+
+    @Override
+    public String toString() {
+        return varMap.toString();
+    }
 
 }

@@ -280,14 +280,14 @@ public class Parser {
             tokens.poll();
 
 
-            ArithmeticExpression.ExpressionType type = null;
+            ArithmeticExpression.ArithmeticExpressionType type = null;
 
 
             if (next.type.equals(TokenType.PLUS)) {
-                type = ArithmeticExpression.ExpressionType.PLUS_EXPRESSION;
+                type = ArithmeticExpression.ArithmeticExpressionType.PLUS_EXPRESSION;
             }
             else if (next.type.equals(TokenType.MINUS)) {
-                type = ArithmeticExpression.ExpressionType.MINUS_EXPRESSION;
+                type = ArithmeticExpression.ArithmeticExpressionType.MINUS_EXPRESSION;
             }
 
 

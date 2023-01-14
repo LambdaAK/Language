@@ -1,6 +1,11 @@
 package main.ast.language;
 
 import main.ast.Node;
+import main.ast.String.StringExpression;
+import main.ast.arithmetic.ArithmeticExpression;
+import main.ast.booleanAlgebra.BooleanLiteral;
+import main.interpreter.RunTime;
+import main.interpreter.Variable;
 import main.parse.TokenType;
 
 public class VariableDeclaration extends Node implements StatementCandidate {
@@ -16,6 +21,36 @@ public class VariableDeclaration extends Node implements StatementCandidate {
         this.name = name;
         this.assignable = assignable;
     }
+
+    @Override
+    public Object eval(RunTime runTime) {
+
+        // figure out what kind of variable it is
+
+        Variable.VariableType varType = null;
+
+        if (type.equals(TokenType.INT_TYPE)) {
+            varType = Variable.VariableType.INT;
+        }
+        else if (type.equals(TokenType.BOOLEAN_TYPE)) {
+            varType = Variable.VariableType.BOOLEAN;
+        }
+        else if (type.equals(TokenType.STRING_TYPE)) {
+            varType = Variable.VariableType.STRING;
+        }
+        else { // we shouldn't get to this point
+            System.err.println("untyped variable in eval for class VariableDeclaration");
+            System.exit(1);
+            varType = Variable.VariableType.UNTYPED;
+        }
+
+
+        runTime.memory.addVar(varType, name, assignable.eval(runTime));
+
+
+        return null;
+    }
+
 
     @Override
     public String toString() {
