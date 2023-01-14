@@ -54,10 +54,6 @@ public class Interpreter {
         RunTime runTime = new RunTime();
 
         p.execute(runTime);
-
-        System.out.println(runTime);
-
-
     }
 
     public static String read(String dir) throws IOException {

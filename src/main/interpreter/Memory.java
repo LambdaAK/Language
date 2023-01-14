@@ -2,6 +2,8 @@ package main.interpreter;
 
 import java.util.HashMap;
 
+
+
 public class Memory {
 
     private final HashMap<String, Variable> varMap;
@@ -52,7 +54,19 @@ public class Memory {
 
             Object contents = input.functionArgs.args.get(0).eval(input.runTime);
 
+            if (contents instanceof Integer) {
+                System.out.println(Color.CYAN);
+            }
+            else if (contents instanceof String) {
+                System.out.println(Color.PURPLE);
+            }
+            else {
+                System.out.println(Color.GREEN);
+            }
+
+
             System.out.println(contents);
+
 
             return null;
         };
