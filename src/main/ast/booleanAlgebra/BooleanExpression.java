@@ -36,8 +36,13 @@ public class BooleanExpression extends BooleanLiteral {
 
 
     public Object eval(RunTime runTime) {
+        Boolean first = (Boolean) expressions.get(0).eval(runTime);
+        if (type.equals(BooleanExpressionType.SINGLE)) return first;
 
-        return true;
+        Boolean second = (Boolean) expressions.get(1).eval(runTime);
+
+        return first || second;
+
     }
 
 

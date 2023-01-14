@@ -1,6 +1,7 @@
 package main.interpreter;
 
 import main.ast.arithmetic.ArithmeticExpression;
+import main.ast.language.Expression;
 import main.ast.language.Program;
 import main.parse.Lexer;
 import main.parse.Parser;
@@ -15,12 +16,14 @@ public class Interpreter {
 
     public static void main(String[] args) {
 
-        String input = "";
+
 
         if (args.length == 0) {
             System.err.println("You must provide a source code directory");
             System.exit(1);
         }
+
+        String input = "";
 
         try {
             input = read(args[0]);
@@ -43,7 +46,9 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        ArithmeticExpression e = parser.parseArithmeticExpression();
+        Expression e = parser.parseBooleanExpression();
+
+        System.out.println("-----------");
 
         System.out.println(e.eval(new RunTime()));
 

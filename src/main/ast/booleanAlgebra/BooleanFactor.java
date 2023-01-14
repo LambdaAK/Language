@@ -17,7 +17,7 @@ public class BooleanFactor extends BooleanTerm {
 
 
 
-    public BooleanLiteral expression; // not -> factor, paren -> expression
+    public BooleanLiteral expression; // not -> factor, paren -> literal
 
 
     public boolean value; // single -> value
@@ -77,8 +77,28 @@ public class BooleanFactor extends BooleanTerm {
 
     public Object eval(RunTime runTime) {
 
-        return true;
+        if (type.equals(BooleanFactorType.SINGLE)) return value;
+        if (type.equals(BooleanFactorType.NOT)) {
+            Boolean b = (Boolean) expression.eval(runTime);
+
+            return !b;
+        }
+        if (type.equals(BooleanFactorType.PAREN)) {
+            return expression.eval(runTime);
+        }
+        if (type.equals(BooleanFactorType.RELATION)) {
+            return relation.eval(runTime);
+        }
+        if (type.equals(BooleanFactorType.VAR_NAME)) {
+            return runTime.memory.getVar(name);
+        }
+        else {
+            // function
+            return functionCall.eval(runTime);
+        }
+
     }
+
     @Override
     public String toString() {
 

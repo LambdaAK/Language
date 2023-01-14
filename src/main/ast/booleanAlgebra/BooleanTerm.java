@@ -36,8 +36,14 @@ public class BooleanTerm extends BooleanExpression {
 
 
     public Object eval(RunTime runTime) {
+        Boolean first = (Boolean) terms.get(0).eval(runTime);
 
-        return true;
+        if (type.equals(BooleanTermType.SINGLE)) return first;
+
+        Boolean second = (Boolean) terms.get(1).eval(runTime);
+
+        return first && second;
+
     }
 
 

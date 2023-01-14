@@ -36,7 +36,20 @@ public class BooleanLiteral extends Node implements Expression {
     }
     public Object eval(RunTime runTime) {
 
-        return true;
+        if (type.equals(BooleanLiteralType.SINGLE)) {
+            return literals.get(0).eval(runTime);
+        }
+        else {
+            Boolean first = (Boolean) literals.get(0).eval(runTime);
+            Boolean second = (Boolean) literals.get(1).eval(runTime);
+
+            if (type.equals(BooleanLiteralType.IMPLIES)) {
+                return !first || second;
+            }
+            else { // biimplication
+                return first == second;
+            }
+        }
     }
 
     @Override
