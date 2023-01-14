@@ -33,8 +33,17 @@ public class StringFactor extends StringExpression {
     }
 
     public Object eval(RunTime runTime) {
+        if (type.equals(StringFactorType.SINGLE)) {
+            return string;
+        }
+        if (type.equals(StringFactorType.VARNAME)) {
+            return runTime.memory.getVar(string);
+        }
+        else {
+            // function
+            return functionCall.eval(runTime);
+        }
 
-        return "";
     }
 
     @Override

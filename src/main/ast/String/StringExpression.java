@@ -34,7 +34,14 @@ public class StringExpression extends Node implements Expression {
 
     public Object eval(RunTime runTime) {
 
-        return "";
+        if (type.equals(StringType.SINGLE)) return nodes.get(0).eval(runTime);
+        else {
+            String first = (String) nodes.get(0).eval(runTime);
+            String second = (String) nodes.get(1).eval(runTime);
+
+            return first + second;
+        }
+
     }
 
     @Override

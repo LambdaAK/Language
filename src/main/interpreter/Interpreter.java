@@ -46,7 +46,7 @@ public class Interpreter {
 
         System.out.println(lexer.tokens);
 
-        Expression e = parser.parseBooleanExpression();
+        Expression e = parser.parseStringExpression();
 
         System.out.println("-----------");
 
