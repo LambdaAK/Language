@@ -40,7 +40,21 @@ public class TypelessExpression extends Node implements Expression {
 
     public Object eval(RunTime runTime) {
 
-        return true;
+        if (type.equals(TypeLessExpressionType.FUNCTION_CALL)) {
+            return functionCall.eval(runTime);
+        }
+        if (type.equals(TypeLessExpressionType.VARIABLE_NAME)) {
+            return runTime.memory.getVar(name);
+        }
+        if (type.equals(TypeLessExpressionType.PAREN)) {
+            return typelessExpression.eval(runTime);
+        }
+        else {
+            // shouldn't get to this point
+            System.err.println("error in eval for TypelessExpression");
+            System.exit(1);
+            return null;
+        }
     }
 
     @Override
