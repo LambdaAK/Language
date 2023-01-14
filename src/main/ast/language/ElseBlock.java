@@ -3,7 +3,7 @@ package main.ast.language;
 import main.ast.Node;
 import main.interpreter.Color;
 import main.interpreter.RunTime;
-import main.main.Printer;
+import main.interpreter.Printer;
 
 import java.util.ArrayList;
 

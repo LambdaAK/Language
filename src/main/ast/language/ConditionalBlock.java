@@ -3,7 +3,7 @@ package main.ast.language;
 import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
 import main.interpreter.RunTime;
-import main.main.Printer;
+import main.interpreter.Printer;
 
 public class ConditionalBlock extends Node implements BlockOrStatement {
 

@@ -4,7 +4,6 @@ import main.ast.Node;
 import main.ast.language.Expression;
 import main.interpreter.Color;
 import main.interpreter.RunTime;
-import main.main.Printer;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,10 +1,6 @@
 package main.interpreter;
 
-import main.ast.arithmetic.ArithmeticExpression;
-import main.ast.language.Expression;
 import main.ast.language.Program;
-import main.ast.language.Statement;
-import main.main.Printer;
 import main.parse.Lexer;
 import main.parse.Parser;
 import main.parse.PostLexer;

@@ -1,7 +1,7 @@
 package main.ast.language;
 
 import main.interpreter.RunTime;
-import main.main.Printer;
+import main.interpreter.Printer;
 
 public interface BlockOrStatement {
 

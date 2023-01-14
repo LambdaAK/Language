@@ -2,7 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.interpreter.RunTime;
-import main.main.Printer;
+import main.interpreter.Printer;
 
 public class Statement extends Node implements BlockOrStatement {
 

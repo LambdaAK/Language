@@ -4,7 +4,7 @@ import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
 import main.interpreter.Color;
 import main.interpreter.RunTime;
-import main.main.Printer;
+import main.interpreter.Printer;
 
 import java.util.ArrayList;
 

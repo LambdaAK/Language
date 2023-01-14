@@ -1,6 +1,6 @@
 package main.ast;
 
-import main.main.Printer;
+import main.interpreter.Printer;
 
 public abstract class Node {
 

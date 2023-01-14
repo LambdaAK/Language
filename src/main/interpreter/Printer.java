@@ -1,4 +1,4 @@
-package main.main;
+package main.interpreter;
 
 public class Printer {
 
