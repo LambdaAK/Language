@@ -11,7 +11,7 @@ RGBScript is a C-style, procedural programming language that supports **basic ty
 <br>String
 
 
-# <center> <p style="color:#FF6F61">EBNF Language Grammar
+# <center> <p style="color:#FF6F61">EBNF Language Grammar 
 
 
 ## <center> <p style="color:#7fffd4">Terminal Definitions

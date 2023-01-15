@@ -49,10 +49,10 @@ public class StringExpression extends Node implements Expression {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(Color.addColor(Color.PURPLE));
+        builder.append(Color.addColor(Color.GREEN));
 
 
-        builder.append("string_expression<");
+        builder.append("string<");
 
 
         if (type.equals(StringType.SINGLE)) {

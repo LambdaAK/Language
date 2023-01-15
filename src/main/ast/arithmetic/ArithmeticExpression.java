@@ -73,9 +73,9 @@ public class ArithmeticExpression extends Node implements Expression {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        String s = "arithmetic_expression<";
+        String s = "arith<";
 
-        builder.append(Color.addColor(Color.GREEN));
+        builder.append(Color.addColor(Color.PURPLE));
 
         if (expressionType.equals(ArithmeticExpressionType.PLUS_EXPRESSION)) {
             s += expressions.get(0).toString() + " + " + expressions.get(1).toString();

@@ -65,13 +65,13 @@ public class TypelessExpression extends Node implements Expression {
 
         builder.append(Color.addColor(Color.RED_BOLD));
 
-        builder.append("typeless_expression<");
+        builder.append("typeless<");
 
         if (type.equals(TypeLessExpressionType.VARIABLE_NAME)) {
-            builder.append("var_name<").append(name).append(">");
+            builder.append("var<").append(name).append(">");
         }
         else if (type.equals(TypeLessExpressionType.FUNCTION_CALL)) {
-            builder.append("function_call<").append(functionCall).append(">");
+            builder.append("fun_call<").append(functionCall).append(">");
         }
         else {
             // paren
