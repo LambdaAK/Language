@@ -51,7 +51,7 @@ public class Interpreter {
         }
         System.out.print(Color.RED_BOLD);
 
-        String header = "[Evaluating Program: \"" + options.dir + "\"";
+        String header = "[Evaluating Program: \"" + options.dir + "\"]";
         header += "\n" + "-".repeat(header.length());
 
         System.out.println(header);
