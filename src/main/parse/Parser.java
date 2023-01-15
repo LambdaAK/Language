@@ -546,7 +546,18 @@ public class Parser {
 
         // next is either a vartype or a function
 
-        if (next.type.equals(TokenType.FUNCTION)) {
+        if (next.type.equals(TokenType.TERMINATE)) {
+            // we have terminate ;
+
+            tokens.poll(); // remove the terminate
+            parserUtil.assertPoll(TokenType.SEMI_COLON); // remove the ;
+
+            return new Statement(new Terminate());
+
+        }
+
+
+        else if (next.type.equals(TokenType.FUNCTION)) {
 
             FunctionCall functionCall = parseFunctionCall();
 

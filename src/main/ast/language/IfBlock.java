@@ -5,6 +5,7 @@ import main.ast.booleanAlgebra.BooleanLiteral;
 import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.interpreter.Printer;
+import main.interpreter.SignalCode;
 
 import java.util.ArrayList;
 
@@ -36,11 +37,34 @@ public class IfBlock extends Node {
     }
 
 
-    public void execute(RunTime runTime) {
+    public SignalCode execute(RunTime runTime) {
         for (BlockOrStatement b: blocks) {
-            b.execute(runTime);
+            if (b.execute(runTime).equals(SignalCode.TERMINATE)) {
+                return SignalCode.TERMINATE;
+            }
+
+        }
+        return SignalCode.NONE;
+    }
+
+    /*
+
+    while (true) {
+        if (true) {
+            terminate;
+
+        }
+
+        else if () {
+
+        }
+
+        else {
+
         }
     }
+
+    */
 
     @Override
     public void print(Printer printer) {

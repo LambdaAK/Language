@@ -6,6 +6,7 @@ import java.util.Map;
 
 public enum TokenType {
 
+    TERMINATE(TokenCategory.OTHER, "terminate", TokenLexType.STANDARD),
     PLUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(+)", TokenLexType.STANDARD),
     MINUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(-)", TokenLexType.STANDARD),
     TIMES_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(*)", TokenLexType.STANDARD),

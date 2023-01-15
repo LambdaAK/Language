@@ -1,15 +1,26 @@
-if (true) {
+int number <-- 1;
+int counter <-- 0;
+
+while (true) {
+    while (true) {
+        if (number < 10) {
+            number <--(+) 1;
+        }
+        else {
+            terminate;
+        }
+    }
+
+    println(number);
+
+    println(counter);
+
+    counter <--(+) 1;
+
+    if (counter > 4) {
+        terminate;
+    }
 
 }
 
-else if (true) {
-
-}
-
-else if (true) {
-
-}
-
-else {
-
-}
+println("done!");

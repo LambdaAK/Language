@@ -3,6 +3,7 @@ package main.ast.language;
 import main.ast.Node;
 import main.interpreter.RunTime;
 import main.interpreter.Printer;
+import main.interpreter.SignalCode;
 
 public class Block extends Node implements BlockOrStatement {
 
@@ -36,9 +37,11 @@ public class Block extends Node implements BlockOrStatement {
 
 
     @Override
-    public void execute(RunTime runTime) {
+    public SignalCode execute(RunTime runTime) {
         if (type.equals(BlockType.CONDITIONAL_BLOCK)) {
-            conditionalBlock.execute(runTime);
+            if (conditionalBlock.execute(runTime).equals(SignalCode.TERMINATE)) {
+                return SignalCode.TERMINATE;
+            }
         }
 
         else if (type.equals(BlockType.WHILE_BLOCK)) {
@@ -50,6 +53,8 @@ public class Block extends Node implements BlockOrStatement {
             System.err.println("Block execution failure in class Block");
             System.exit(1);
         }
+
+        return SignalCode.NONE;
     }
 
 

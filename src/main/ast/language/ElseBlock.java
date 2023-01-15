@@ -4,6 +4,7 @@ import main.ast.Node;
 import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.interpreter.Printer;
+import main.interpreter.SignalCode;
 
 import java.util.ArrayList;
 
@@ -32,10 +33,14 @@ public class ElseBlock extends Node {
         return builder.toString();
     }
 
-    public void execute(RunTime runTime) {
+    public SignalCode execute(RunTime runTime) {
         for (BlockOrStatement b: blocks) {
-            b.execute(runTime);
+            if (b.execute(runTime).equals(SignalCode.TERMINATE)) {
+                return SignalCode.TERMINATE;
+            }
+
         }
+        return SignalCode.NONE;
     }
 
     @Override

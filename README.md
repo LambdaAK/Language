@@ -196,6 +196,7 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
 >statement ::= function_call ';'
     | var_decl ';'
     | assignment ';'
+>   | 'terminate' ';'
 
 
 >if_block :== if '(' boolean_literal ')' (statement | block)

@@ -4,6 +4,7 @@ import main.ast.Node;
 import main.ast.booleanAlgebra.BooleanLiteral;
 import main.interpreter.RunTime;
 import main.interpreter.Printer;
+import main.interpreter.SignalCode;
 
 public class ConditionalBlock extends Node implements BlockOrStatement {
 
@@ -47,15 +48,20 @@ public class ConditionalBlock extends Node implements BlockOrStatement {
     }
 
     @Override
-    public void execute(RunTime runTime) {
+    public SignalCode execute(RunTime runTime) {
         BooleanLiteral condition = ifBlock.condition;
 
         if (condition.eval(runTime).equals(true)) {
-            ifBlock.execute(runTime);
+            if (ifBlock.execute(runTime).equals(SignalCode.TERMINATE)) {
+                return SignalCode.TERMINATE;
+            }
         }
-        else {
-            elseBlock.execute(runTime);
+        else if (type.equals(ConditionalBlockType.IF_ELSE)) {
+            if (elseBlock.execute(runTime).equals(SignalCode.TERMINATE)) {
+                return SignalCode.TERMINATE;
+            }
         }
+        return SignalCode.NONE;
     }
 
     @Override

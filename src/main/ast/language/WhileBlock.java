@@ -5,6 +5,7 @@ import main.ast.booleanAlgebra.BooleanLiteral;
 import main.interpreter.Color;
 import main.interpreter.RunTime;
 import main.interpreter.Printer;
+import main.interpreter.SignalCode;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,9 @@ public class WhileBlock extends Node {
     public void execute(RunTime runTime) {
         while (condition.eval(runTime).equals(true)) {
             for (BlockOrStatement b: blocks) {
-                b.execute(runTime);
+                if (b.execute(runTime).equals(SignalCode.TERMINATE)) {
+                    return;
+                }
             }
         }
     }

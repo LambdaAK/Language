@@ -1,8 +1,6 @@
 package main.interpreter;
 
 import main.ast.language.Program;
-import main.errors.Error;
-import main.errors.UnexpectedTokenError;
 import main.parse.*;
 
 import java.io.BufferedReader;
