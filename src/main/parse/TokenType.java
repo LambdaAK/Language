@@ -6,12 +6,12 @@ import java.util.Map;
 
 public enum TokenType {
 
-    PLUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "+=", TokenLexType.STANDARD),
-    MINUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "-=", TokenLexType.STANDARD),
-    TIMES_EQUALS(TokenCategory.AUG_ASSIGN_OP, "*=", TokenLexType.STANDARD),
-    DIV_EQUALS(TokenCategory.AUG_ASSIGN_OP, "/=", TokenLexType.STANDARD),
-    MOD_EQUALS(TokenCategory.AUG_ASSIGN_OP, "%=", TokenLexType.STANDARD),
-    CONCAT_EQUALS(TokenCategory.AUG_ASSIGN_OP, "&=", TokenLexType.STANDARD),
+    PLUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(+)", TokenLexType.STANDARD),
+    MINUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(-)", TokenLexType.STANDARD),
+    TIMES_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(*)", TokenLexType.STANDARD),
+    DIV_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(/)", TokenLexType.STANDARD),
+    MOD_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(%)", TokenLexType.STANDARD),
+    CONCAT_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(%)", TokenLexType.STANDARD),
 
     PLUS(TokenCategory.ADDOP, "+", TokenLexType.STANDARD),
     NUM(TokenCategory.OTHER, "<number>", TokenLexType.CUSTOM),
@@ -61,10 +61,6 @@ public enum TokenType {
     STRING(TokenCategory.OTHER, "<string>", TokenLexType.CUSTOM),
     QUOTE(TokenCategory.OTHER, "\"", TokenLexType.CUSTOM),
     STRING_CONCAT(TokenCategory.STRING_OP, "&", TokenLexType.STANDARD);
-
-
-
-
 
 
 
