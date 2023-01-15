@@ -1,6 +1,8 @@
 package main.parse;
 
 import main.ast.booleanAlgebra.BooleanFactor;
+import main.errors.Error;
+import main.errors.UnexpectedTokenError;
 
 import java.util.LinkedList;
 
@@ -275,6 +277,19 @@ public class ParserUtil {
 
 
     }
+
+    void assertToken(Token token, TokenType type) {
+        if (!token.type.equals(type)) {
+            Error.throwError(new UnexpectedTokenError(token));
+        }
+    }
+
+    void assertPoll(Token token, TokenType type) {
+        assertToken(token, type);
+        tokens.poll();
+    }
+
+
 
 
 

@@ -1,3 +1,8 @@
-string s <-- "hello there ";
-s <--(&) "Alex";
-println(s);
+int i <-- 1;
+
+println("These are the powers of 2:");
+
+while (i < 10) {
+    println(2 ^ i);
+    i <--(+) 1;
+}

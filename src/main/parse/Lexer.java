@@ -8,6 +8,8 @@ public class Lexer {
 
     private Token prevToken;
 
+    private int line = 1;
+
 
     private final String numbers = "1234567890";
     private final String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"; // valid names
@@ -42,7 +44,10 @@ public class Lexer {
     private void lexOneToken() {
         // get rid of whitespace and newlines
 
+
+
         while (input.length() != 0 && (input.charAt(0) == ' ' || input.charAt(0) == '\n')) {
+            if (input.charAt(0) == '\n') line++;
             input = input.substring(1);
         }
 
@@ -57,7 +62,7 @@ public class Lexer {
 
             if (input.indexOf(tokenRepresentation) == 0) {
                 // match, so lex the token and add it to the token queue
-                add(new Token(tokenType));
+                add(new Token(tokenType, line));
                 input = input.substring(tokenRepresentation.length());
                 return; // finish parsing the token
             }
@@ -105,7 +110,7 @@ public class Lexer {
 
         String name = builder.toString();
 
-        tokens.add(new Token.StringToken(name));
+        tokens.add(new Token.StringToken(name, line));
 
     }
 
@@ -130,7 +135,7 @@ public class Lexer {
 
         String name = builder.toString();
 
-        tokens.add(new Token.NameToken(name));
+        tokens.add(new Token.NameToken(name, line));
 
 
     }
@@ -156,7 +161,7 @@ public class Lexer {
 
             }
 
-            add(new Token.NumToken(num));
+            add(new Token.NumToken(num, line));
 
 
     }
@@ -173,7 +178,7 @@ public class Lexer {
             name = name.substring(0, name.length() - 1); // remove the last character
         }
 
-        add(new Token.VariableNameToken(name));
+        add(new Token.VariableNameToken(name, line));
 
     }
 
@@ -197,7 +202,7 @@ public class Lexer {
             functionName = functionName.substring(0, functionName.length() - 1); // remove the last character
         }
 
-        add(new Token.FunctionToken(functionName));
+        add(new Token.FunctionToken(functionName, line));
 
         input = input.substring(indexOfLeftParen); // remove characters up to and not including the left paren
     }

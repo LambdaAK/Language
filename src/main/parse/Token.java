@@ -4,9 +4,12 @@ public class Token {
 
     TokenType type;
 
+    public final int line;
 
-    public Token(TokenType type) {
+
+    public Token(TokenType type, int line) {
         this.type = type;
+        this.line = line;
     }
 
 
@@ -22,8 +25,8 @@ public class Token {
 
         int value;
 
-        public NumToken(int value) {
-            super(TokenType.NUM);
+        public NumToken(int value, int line) {
+            super(TokenType.NUM, line);
             this.value = value;
         }
 
@@ -38,22 +41,22 @@ public class Token {
     static class NameToken extends Token {
         String name;
 
-        public NameToken(String name) {
-            super(TokenType.NAME);
+        public NameToken(String name, int line) {
+            super(TokenType.NAME, line);
             this.name = name;
         }
 
 
-        public NameToken(TokenType type) {
-            super(type);
+        public NameToken(TokenType type, int line) {
+            super(type, line);
         }
 
         public FunctionToken asFunctionToken() {
-            return new FunctionToken(name);
+            return new FunctionToken(name, line);
         }
 
         public VariableNameToken asVariableNameToken() {
-            return new VariableNameToken(name);
+            return new VariableNameToken(name, line);
         }
 
 
@@ -64,8 +67,8 @@ public class Token {
     static class StringToken extends Token {
         String string;
 
-        public StringToken(String string) {
-            super(TokenType.STRING);
+        public StringToken(String string, int line) {
+            super(TokenType.STRING, line);
             this.string = string;
         }
 
@@ -79,8 +82,8 @@ public class Token {
     static class FunctionToken extends NameToken {
         String name;
 
-        public FunctionToken (String name) {
-            super(TokenType.FUNCTION);
+        public FunctionToken (String name, int line) {
+            super(TokenType.FUNCTION, line);
             this.name = name;
         }
     }
@@ -89,8 +92,8 @@ public class Token {
     static class VariableNameToken extends NameToken {
         String name;
 
-        public VariableNameToken(String name) {
-            super(TokenType.VARIABLE_NAME);
+        public VariableNameToken(String name, int line) {
+            super(TokenType.VARIABLE_NAME, line);
             this.name = name;
         }
     }

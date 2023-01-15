@@ -58,7 +58,7 @@ public class Memory {
                 System.out.print(Color.CYAN);
             }
             else if (contents instanceof String) {
-                System.out.print(Color.PURPLE);
+                System.out.print(Color.RED);
             }
             else {
                 System.out.print(Color.GREEN);

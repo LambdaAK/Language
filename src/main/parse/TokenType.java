@@ -103,8 +103,6 @@ public enum TokenType {
     }
 
 
-
-
     @Override
     public String toString() {
         return representation;

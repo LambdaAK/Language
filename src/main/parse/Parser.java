@@ -79,9 +79,6 @@ public class Parser {
 
 
     public WhileBlock parseWhileBlock() {
-
-
-
         tokens.poll(); // remove the while
 
         tokens.poll(); // remove the (

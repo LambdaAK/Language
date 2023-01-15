@@ -1,9 +1,9 @@
 package main.interpreter;
 
 import main.ast.language.Program;
-import main.parse.Lexer;
-import main.parse.Parser;
-import main.parse.PostLexer;
+import main.errors.Error;
+import main.errors.UnexpectedTokenError;
+import main.parse.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,6 +13,14 @@ import java.io.IOException;
 public class Interpreter {
 
     public static void main(String[] args) {
+
+
+        Token testToken = new Token(TokenType.ASSIGNMENT_OPERATOR, 1);
+
+        Error.throwError(new UnexpectedTokenError(testToken));
+
+
+
 
         InterpreterOptions options = getOptions(args);
 
@@ -36,8 +44,6 @@ public class Interpreter {
         Parser parser = new Parser(lexer.tokens);
 
         postLexer.postLex();
-
-        System.out.println(lexer.tokens);
 
         Program p = parser.parseProgram();
 
