@@ -37,6 +37,8 @@ public class Interpreter {
 
         postLexer.postLex();
 
+        System.out.println(lexer.tokens);
+
         Program p = parser.parseProgram();
 
 

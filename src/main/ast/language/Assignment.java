@@ -38,6 +38,19 @@ public class Assignment extends Node implements StatementCandidate {
         }
 
 
+
+        // check for string <--(&)
+
+        if (operator.equals(TokenType.CONCAT_EQUALS)) {
+            String a = (String) runTime.memory.getVar(varName);
+            String b = (String) expression.eval(runTime);
+
+            runTime.memory.setVar(varName, a + b);
+            return null;
+        }
+
+
+
         // it's an Integer
 
         Integer a = (Integer) runTime.memory.getVar(varName);
