@@ -38,9 +38,7 @@ public class VariableDeclaration extends Node implements StatementCandidate {
         else if (type.equals(TokenType.STRING_TYPE)) {
             varType = Variable.VariableType.STRING;
         }
-        else { // we shouldn't get to this point
-            System.err.println("untyped variable in eval for class VariableDeclaration");
-            System.exit(1);
+        else {
             varType = Variable.VariableType.UNTYPED;
         }
 
@@ -55,7 +53,7 @@ public class VariableDeclaration extends Node implements StatementCandidate {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-
+        builder.append(TokenType.VAR.toString() + " ");
         builder.append(type);
         builder.append(" ");
         builder.append(name);

@@ -6,6 +6,8 @@ import java.util.Map;
 
 public enum TokenType {
 
+
+    VAR(TokenCategory.OTHER, "var", TokenLexType.STANDARD),
     TERMINATE(TokenCategory.OTHER, "terminate", TokenLexType.STANDARD),
     PLUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(+)", TokenLexType.STANDARD),
     MINUS_EQUALS(TokenCategory.AUG_ASSIGN_OP, "<--(-)", TokenLexType.STANDARD),
@@ -40,7 +42,7 @@ public enum TokenType {
     INT_TYPE(TokenCategory.TYPE, "int", TokenLexType.STANDARD),
     BOOLEAN_TYPE(TokenCategory.TYPE, "boolean", TokenLexType.STANDARD),
     STRING_TYPE(TokenCategory.TYPE, "string", TokenLexType.STANDARD),
-
+    ANY_TYPE(TokenCategory.TYPE, "any", TokenLexType.STANDARD),
 
     LESS_THAN_OR_EQUAL_TO(TokenCategory.RELOP, "<=", TokenLexType.STANDARD),
     GREATER_THAN_OR_EQUAL_TO(TokenCategory.RELOP, ">=", TokenLexType.STANDARD),

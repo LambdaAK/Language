@@ -1,5 +1,12 @@
-int number <-- 1;
-int counter <-- 0;
+var int number <-- 1;
+var int counter <-- 0;
+
+var any s <-- 1;
+s <--(+) 4;
+
+s <-- "a";
+
+println(s);
 
 while (true) {
     while (true) {
