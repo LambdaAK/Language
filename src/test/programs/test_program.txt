@@ -1,5 +1,3 @@
-println("hi");
-print();
-println();
-print("a");
-println("b");
+var string s <-- "a";
+
+println(length(s));

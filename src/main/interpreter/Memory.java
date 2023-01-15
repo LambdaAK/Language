@@ -96,9 +96,20 @@ public class Memory {
 
         };
 
+        java.util.function.Function<Function.FunctionInput, Object> length = (input) -> {
+            // the first argument should be a string
+
+            String string = (String) input.functionArgs.args.get(0).eval(input.runTime);
+
+            return string.length();
+
+
+        };
+
         funcMap.put("print", new Function(print));
         funcMap.put("println", new Function(println));
         funcMap.put("sleep", new Function(sleep));
+        funcMap.put("length", new Function(length));
     }
 
 
