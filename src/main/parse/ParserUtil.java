@@ -278,17 +278,34 @@ public class ParserUtil {
 
     }
 
-    void assertToken(Token token, TokenType type) {
-        if (!token.type.equals(type)) {
+    Token assertToken(TokenType type) {
+        Token token = tokens.peek();
+        if (token == null || !token.type.equals(type)) {
+            Error.throwError(new UnexpectedTokenError(token));
+        }
+        return token;
+    }
+
+    Token assertPoll(TokenType type) {
+        assertToken(type);
+        return tokens.poll();
+    }
+
+    Token assertCategoryPoll(TokenCategory category) {
+        Token token = tokens.peek();
+        if (token == null || !token.type.getCategory().equals(category)) {
+            Error.throwError(new UnexpectedTokenError(token));
+        }
+        tokens.poll();
+        return token;
+    }
+
+    void assertNotNull() {
+        Token token = tokens.peek();
+        if (token == null) {
             Error.throwError(new UnexpectedTokenError(token));
         }
     }
-
-    void assertPoll(Token token, TokenType type) {
-        assertToken(token, type);
-        tokens.poll();
-    }
-
 
 
 

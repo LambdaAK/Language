@@ -14,14 +14,6 @@ public class Interpreter {
 
     public static void main(String[] args) {
 
-
-        Token testToken = new Token(TokenType.ASSIGNMENT_OPERATOR, 1);
-
-        Error.throwError(new UnexpectedTokenError(testToken));
-
-
-
-
         InterpreterOptions options = getOptions(args);
 
         String input = "";

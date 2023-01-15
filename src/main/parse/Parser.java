@@ -14,6 +14,8 @@ import main.ast.function.FunctionArg;
 import main.ast.function.FunctionArgs;
 import main.ast.function.FunctionCall;
 import main.ast.language.*;
+import main.errors.Error;
+import main.errors.UnexpectedTokenError;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -81,11 +83,11 @@ public class Parser {
     public WhileBlock parseWhileBlock() {
         tokens.poll(); // remove the while
 
-        tokens.poll(); // remove the (
+        parserUtil.assertPoll(TokenType.LEFT_PAREN); // remove the (
 
         BooleanLiteral condition = parseBooleanLiteral();
 
-        tokens.poll(); // remove the )
+        parserUtil.assertPoll(TokenType.RIGHT_PAREN); // remove the )
 
         ArrayList<BlockOrStatement> blocks = new ArrayList<BlockOrStatement>();
 
@@ -97,6 +99,8 @@ public class Parser {
         if (next.type.equals(TokenType.LEFT_BRACE)) {
 
             tokens.poll(); // remove the {
+
+            next = tokens.peek();
 
             while (!next.type.equals(TokenType.RIGHT_BRACE)) {
                 blocks.add(parseBlockOrStatement());
@@ -138,11 +142,11 @@ public class Parser {
     public IfBlock parseIfBlock() {
         tokens.poll(); // remove the if
 
-        tokens.poll(); // remove the (
+        parserUtil.assertPoll(TokenType.LEFT_PAREN); // remove the (
 
         BooleanLiteral condition = parseBooleanLiteral();
 
-        tokens.poll(); // remove the )
+        parserUtil.assertPoll(TokenType.RIGHT_PAREN); // remove the )
 
         ArrayList<BlockOrStatement> blocks = new ArrayList<BlockOrStatement>();
 
@@ -154,6 +158,8 @@ public class Parser {
         if (next.type.equals(TokenType.LEFT_BRACE)) {
 
             tokens.poll(); // remove the {
+
+            next = tokens.peek();
 
             while (!next.type.equals(TokenType.RIGHT_BRACE)) {
                 blocks.add(parseBlockOrStatement());
@@ -187,6 +193,9 @@ public class Parser {
         if (next.type.equals(TokenType.LEFT_BRACE)) {
 
             tokens.poll(); // remove the {
+
+            next = tokens.peek();
+
 
             while (!next.type.equals(TokenType.RIGHT_BRACE)) {
                 blocks.add(parseBlockOrStatement());
@@ -253,8 +262,8 @@ public class Parser {
 
     public Relation parseRelation() {
         ArithmeticExpression first = parseArithmeticExpression();
-        Token relopToken = tokens.poll();
-        assert relopToken != null;
+        Token relopToken = parserUtil.assertCategoryPoll(TokenCategory.RELOP);
+
         ArithmeticExpression second = parseArithmeticExpression();
 
         return new Relation(relopToken.type, first, second);
@@ -457,7 +466,7 @@ public class Parser {
 
          // ( functionArgs )
 
-        tokens.poll(); // remove the left paren
+        parserUtil.assertPoll(TokenType.LEFT_PAREN); // remove the left paren
 
         // functionArgs )
 
@@ -475,7 +484,7 @@ public class Parser {
             // there are function args
 
             FunctionArgs args = parseFunctionArgs();
-            tokens.poll(); // remove the right paren
+            parserUtil.assertPoll(TokenType.RIGHT_PAREN); // remove the right paren
 
             return new FunctionCall(functionToken.name, args);
 
@@ -485,11 +494,11 @@ public class Parser {
 
     public VariableDeclaration parseVariableDeclaration() {
 
-        Token varTypeToken = tokens.poll();
-        Token varNameToken = tokens.poll();
+        Token varTypeToken = parserUtil.assertCategoryPoll(TokenCategory.TYPE);
+        Token varNameToken = parserUtil.assertPoll(TokenType.VARIABLE_NAME);
         // assignment assignable
-        tokens.poll(); // remove the assignment operator
-        // then, mainn.parse the assignable
+        parserUtil.assertPoll(TokenType.ASSIGNMENT_OPERATOR); // remove the assignment operator
+        // then, parse the assignable
 
         Expression assignable = null;
 
@@ -498,9 +507,6 @@ public class Parser {
 
 
         Token.VariableNameToken varName = (Token.VariableNameToken) varNameToken;
-
-
-        assert varTypeToken != null;
 
         assignable = parseExpression();
 
@@ -512,16 +518,18 @@ public class Parser {
 
     public Assignment parseAssignment() {
 
-        Token _next = tokens.poll(); // the variable name
+        Token _next = parserUtil.assertPoll(TokenType.VARIABLE_NAME); // the variable name
 
         assert _next instanceof Token.VariableNameToken;
 
         Token.VariableNameToken next = (Token.VariableNameToken) _next;
 
+        Token operator = tokens.peek();
 
-        Token operator = tokens.poll();
-
-        assert operator != null;
+        if (operator == null || !operator.type.equals(TokenType.ASSIGNMENT_OPERATOR)) {
+            parserUtil.assertCategoryPoll(TokenCategory.AUG_ASSIGN_OP);
+        }
+        else tokens.poll();
 
         Expression expression = parseExpression();
 
@@ -531,8 +539,6 @@ public class Parser {
     }
 
     public Statement parseStatement() {
-
-        // implement function call + variable declaration
 
         Token next = tokens.peek();
 
@@ -545,7 +551,7 @@ public class Parser {
             FunctionCall functionCall = parseFunctionCall();
 
             // ;
-            tokens.poll(); // remove the ;
+            parserUtil.assertPoll(TokenType.SEMI_COLON); // remove the ;
             //
             return new Statement(functionCall);
         }
@@ -555,7 +561,7 @@ public class Parser {
         else if (next.type.getCategory().equals(TokenCategory.TYPE)) {
             VariableDeclaration variableDeclaration = parseVariableDeclaration();
 
-            tokens.poll(); // remove the ;
+            parserUtil.assertPoll(TokenType.SEMI_COLON); // remove the ;
 
             return new Statement(variableDeclaration);
         }
@@ -563,7 +569,7 @@ public class Parser {
         else {
             Assignment assignment = parseAssignment();
 
-            tokens.poll(); // remove the ;
+            parserUtil.assertPoll(TokenType.SEMI_COLON); // remove the ;
 
             return new Statement(assignment);
         }
@@ -576,13 +582,10 @@ public class Parser {
     public StringExpression parseStringExpression() {
         StringFactor first = parseStringFactor();
 
-        // check if there's a plus
-
-
         Token next = tokens.peek();
 
-        if (next != null &&next.type.equals(TokenType.STRING_CONCAT)) {
-            tokens.poll(); // remove the plus
+        if (next != null && next.type.equals(TokenType.STRING_CONCAT)) {
+            tokens.poll(); // remove the concat
             StringExpression second = parseStringExpression();
             return new StringExpression(StringExpression.StringType.CONCAT, first, second);
         }
@@ -703,7 +706,7 @@ public class Parser {
 
         Token next = tokens.peek();
 
-        assert next != null;
+        parserUtil.assertNotNull();
 
         // atomic_boolean
         if (next.type.getCategory().equals(TokenCategory.BOOL_LITERAL)) {
@@ -768,7 +771,7 @@ public class Parser {
             if (typeToParse.equals(BooleanFactor.BooleanFactorType.PAREN)) {
                 tokens.poll(); // remove the left_paren
                 BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
-                tokens.poll(); // remove the right_paren
+                parserUtil.assertPoll(TokenType.RIGHT_PAREN); // remove the right_paren
 
                 return factor;
             }
@@ -786,7 +789,7 @@ public class Parser {
             else {
                 tokens.poll(); // remove the left_paren
                 BooleanFactor factor = new BooleanFactor(BooleanFactor.BooleanFactorType.PAREN, parseBooleanLiteral());
-                tokens.poll(); // remove the right_paren
+                parserUtil.assertPoll(TokenType.RIGHT_PAREN); // remove the right_paren
 
                 return factor;
             }
@@ -887,8 +890,6 @@ public class Parser {
                 return new BooleanFactor(BooleanFactor.BooleanFactorType.RELATION, parseRelation());
             }
 
-
-
         }
 
         else if (next.type.equals(TokenType.FUNCTION)) {
@@ -916,14 +917,12 @@ public class Parser {
 
                 Token.FunctionToken functionToken = (Token.FunctionToken) next;
 
-
                 return new BooleanFactor(BooleanFactor.BooleanFactorType.FUNCTION_CALL, parseFunctionCall());
             }
 
         }
 
-        System.err.println("boolean factor parse failed");
-        System.exit(1);
+        Error.throwError(new UnexpectedTokenError(tokens.peek()));
         return null;
     }
 

@@ -15,18 +15,25 @@ public class UnexpectedTokenError extends Error {
     @Override
     void displayMessage() {
         StringBuilder builder = new StringBuilder();
-
         builder.append(Color.addColor(Color.RED));
 
-        builder.append("Unexpected Token Error\n");
+        if (token == null) {
+            builder.append("Missing Token Error\n");
+            builder.append("another token was expected at the end of the file");
+        }
 
-        builder.append("unexpected token ")
-                .append(Color.addColor(Color.CYAN))
-                .append(token)
-                .append(Color.removeColor())
-                .append(" on line ")
-                .append(token.line)
-                .append(Color.removeColor());
+        else {
+            builder.append("Unexpected Token Error\n");
+
+            builder.append("unexpected token ")
+                    .append(Color.addColor(Color.CYAN))
+                    .append(token)
+                    .append(Color.removeColor())
+                    .append(" on line ")
+                    .append(token.line);
+        }
+
+        builder.append(Color.removeColor());
 
         System.out.println(builder);
     }
