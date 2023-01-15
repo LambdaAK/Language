@@ -1,5 +1,6 @@
 package main.ast.language;
 
+import main.interpreter.Color;
 import main.interpreter.RunTime;
 
 public class Terminate implements StatementCandidate {
@@ -11,6 +12,6 @@ public class Terminate implements StatementCandidate {
 
     @Override
     public String toString() {
-        return "terminate";
+        return Color.addColor(Color.YELLOW_BOLD) + "terminate" + Color.removeColor();
     }
 }
