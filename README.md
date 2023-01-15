@@ -139,7 +139,7 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
 >var_name ::= STRING
 
 
->var_decl ::= var_type var_name '<--' expression;
+>var_decl ::= 'var' var_type var_name '<--' expression;
 
 
 >augmented_assignment_operator ::= '<--(+)'

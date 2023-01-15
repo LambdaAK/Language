@@ -494,6 +494,8 @@ public class Parser {
 
     public VariableDeclaration parseVariableDeclaration() {
 
+        tokens.poll(); // remove the 'var' token
+
         Token varTypeToken = parserUtil.assertCategoryPoll(TokenCategory.TYPE);
         Token varNameToken = parserUtil.assertPoll(TokenType.VARIABLE_NAME);
         // assignment assignable
@@ -569,7 +571,7 @@ public class Parser {
 
         // we are dealing with a variable. check whether it is a declaration or assignment
 
-        else if (next.type.getCategory().equals(TokenCategory.TYPE)) {
+        else if (next.type.equals(TokenType.VAR)) {
             VariableDeclaration variableDeclaration = parseVariableDeclaration();
 
             parserUtil.assertPoll(TokenType.SEMI_COLON); // remove the ;

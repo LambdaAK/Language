@@ -18,6 +18,8 @@ while (true) {
         }
     }
 
+    sleep(counter * 1000);
+
     println(number);
 
     println(counter);

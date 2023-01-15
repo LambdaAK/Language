@@ -71,7 +71,24 @@ public class Memory {
             return null;
         };
 
+        java.util.function.Function<Function.FunctionInput, Object> sleep = (input) -> {
+
+
+            Integer ms = (Integer) input.functionArgs.args.get(0).eval(input.runTime);
+
+            try {
+                Thread.sleep(ms);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            return null;
+
+
+        };
+
         funcMap.put("println", new Function(println));
+        funcMap.put("sleep", new Function(sleep));
     }
 
 
