@@ -113,7 +113,6 @@ public class BooleanFactor extends BooleanTerm {
             builder.append(expression.toString());
         }
         else if (type.equals(BooleanFactorType.RELATION)) {
-            System.out.println("RELATION________");
             builder.append(relation);
         }
         else if (type.equals(BooleanFactorType.VAR_NAME)) {

@@ -1,10 +1,15 @@
-int num <-- 5;
+int num <-- 1;
 
 while (num < 10) {
+
     println(num);
+    if (num % 2 == 0) {
+        println("is even");
+    }
+    else {
+        println("is odd");
+    }
+
     num += 1;
+
 }
-
-string s <-- "this is a string";
-
-println(s);
