@@ -96,7 +96,7 @@ public class Memory {
 
         };
 
-        java.util.function.Function<Function.FunctionInput, Object> length = (input) -> {
+        java.util.function.Function<Function.FunctionInput, Object> str_len = (input) -> {
             // the first argument should be a string
 
             String string = (String) input.functionArgs.args.get(0).eval(input.runTime);
@@ -106,12 +106,21 @@ public class Memory {
 
         };
 
+        java.util.function.Function<Function.FunctionInput, Object> str_eq = (input) -> {
+            // get the two arguments
+
+            String first = (String) input.functionArgs.args.get(0).eval(input.runTime);
+            String second = (String) input.functionArgs.args.get(1).eval(input.runTime);
+
+
+            return first.equals(second);
+        };
+
         funcMap.put("print", new Function(print));
         funcMap.put("println", new Function(println));
         funcMap.put("sleep", new Function(sleep));
-        funcMap.put("length", new Function(length));
+        funcMap.put("str_len", new Function(str_len));
+        funcMap.put("str_eq", new Function(str_eq));
     }
-
-
 
 }
