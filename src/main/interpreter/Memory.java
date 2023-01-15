@@ -50,9 +50,12 @@ public class Memory {
 
 
     private void initializeFunctions() {
-        java.util.function.Function<Function.FunctionInput, Object> println = (input) -> {
+        java.util.function.Function<Function.FunctionInput, Object> print = (input) -> {
+
+            if (input.functionArgs == null) return null;
 
             Object contents = input.functionArgs.args.get(0).eval(input.runTime);
+
 
             if (contents instanceof Integer) {
                 System.out.print(Color.CYAN);
@@ -65,9 +68,15 @@ public class Memory {
             }
 
 
-            System.out.println(contents);
+            System.out.print(contents);
 
 
+            return null;
+        };
+
+        java.util.function.Function<Function.FunctionInput, Object> println = (input) -> {
+            print.apply(input);
+            System.out.println();
             return null;
         };
 
@@ -87,6 +96,7 @@ public class Memory {
 
         };
 
+        funcMap.put("print", new Function(print));
         funcMap.put("println", new Function(println));
         funcMap.put("sleep", new Function(sleep));
     }
