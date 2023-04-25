@@ -134,6 +134,9 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
 
 >var_type ::= 'boolean'
     | 'int'
+    | 'string'
+>   | 'typeless'
+    | 'any'
 
 
 >var_name ::= STRING
@@ -184,7 +187,7 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
     | function_call
     | '(' typeless_expression ')'
 
->typed_expression::= arithmetic_expression
+>typed_expression ::= arithmetic_expression
     | boolean_literal
     | string_expression
     | typeless_expression
@@ -199,24 +202,24 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
 >   | 'terminate' ';'
 
 
->if_block :== if '(' boolean_literal ')' (statement | block)
+>if_block ::= if '(' boolean_literal ')' (statement | block)
     | if '(' boolean_literal ')' '{' (statement | block)* '}'
 
 
->else_block :== else (statement | block)
+>else_block ::= else (statement | block)
     | else '{' (statement | block)* '}'
 
 
->conditiona_lblock :== if_block
+>conditiona_lblock ::= if_block
     | if_block else_block
 
 
->while_block :== 'while' '(' boolean_literal ')' (statement | block)
+>while_block ::= 'while' '(' boolean_literal ')' (statement | block)
     | 'while' '(' boolean_literal ')' '{' (statement | block)* '}'
 
 
->block :== conditional_block
+>block ::= conditional_block
     | while_block
 
 
->program :== (statement | block)*
+>program ::= (statement | block)*

@@ -1,14 +1,2 @@
-var string s <-- "a";
-
-while (true) {
-    if (str_len(s) < 10) {
-        s <--(&) "a";
-        println(s);
-        println(str_len(s));
-    }
-    else terminate;
-}
-
-println();
-
-println(str_eq("a", "ab"));
+var string x <-- 1;
+x <-- "a";

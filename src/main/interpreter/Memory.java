@@ -3,7 +3,6 @@ package main.interpreter;
 import java.util.HashMap;
 
 
-
 public class Memory {
 
     private final HashMap<String, Variable> varMap;
@@ -116,11 +115,15 @@ public class Memory {
             return first.equals(second);
         };
 
+
         funcMap.put("print", new Function(print));
         funcMap.put("println", new Function(println));
         funcMap.put("sleep", new Function(sleep));
         funcMap.put("str_len", new Function(str_len));
         funcMap.put("str_eq", new Function(str_eq));
+
+
     }
+
 
 }

@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class ProgramTests {
 
+
     private String[] expressions = new String[] {
             "f()",
             "f(g())",
@@ -26,43 +27,14 @@ public class ProgramTests {
 
     @Test
     public void test() throws IOException {
-        String parent = "./src/test/programs";
 
-        File programsFolder = new File("./src/test/programs");
-
-
-        String[] programs = programsFolder.list();
-
-        for (String programDir: programs) {
-            String read = Interpreter.read(parent + "/" + programDir);
-
-
-            Lexer lexer = new Lexer(read);
-            PostLexer postLexer = new PostLexer(lexer);
-            postLexer.postLex();
-            Parser parser = new Parser(lexer.tokens);
-
-            Program program = parser.parseProgram();
-
-
-            System.out.println("-------SOURCE CODE-------");
-            System.out.println(read);
-            System.out.println("-------AST toString-------");
-            System.out.println(program);
-
-
-
-
-        }
 
 
     }
 
 
 
-    public void parseExpressionTest() {
 
-    }
 
 
 
