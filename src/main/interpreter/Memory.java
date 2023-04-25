@@ -26,6 +26,8 @@ public class Memory {
         Variable var = new Variable(type, name, value);
 
         varMap.put(name, var);
+
+        var.setValue(value);
     }
 
     public void setVar(String name, Object newValue) {
@@ -35,6 +37,11 @@ public class Memory {
     public Object getVar(String name) {
         return varMap.get(name).value;
     }
+
+    public Object getVarObj (String name) {
+        return varMap.get(name);
+    }
+
 
     public Function getFunction(String name) {
         return funcMap.get(name);

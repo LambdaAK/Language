@@ -25,10 +25,25 @@ public class Variable {
         this.value = value;
     }
 
-    void setValue(Object value) {
-        if (type.equals(VariableType.INT)) assert value instanceof Integer;
-        else if (type.equals(VariableType.BOOLEAN)) assert value instanceof Boolean;
-        else assert value instanceof String;
+    public void setValue(Object value) {
+        if (type.equals(VariableType.INT)) {
+            if (! (value instanceof Integer)) {
+                System.out.println("type error: expected int");
+                System.exit(1);
+            }
+        }
+        else if (type.equals(VariableType.BOOLEAN)) {
+            if (! (value instanceof Boolean)) {
+                System.out.println("type error: expected boolean");
+                System.exit(1);
+            }
+        }
+        else if (type.equals(VariableType.STRING)) {
+            if (! (value instanceof String)) {
+                System.out.println("type error: expected string");
+                System.exit(1);
+            }
+        }
 
         this.value = value;
     }
@@ -42,6 +57,7 @@ public class Variable {
         return builder.toString();
 
     }
+
 
 
 }

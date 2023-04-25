@@ -1,2 +1,3 @@
-var string x <-- 1;
-x <-- "a";
+var int a <-- 1;
+a <-- "a";
+println (a );

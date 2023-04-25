@@ -2,6 +2,7 @@ package main.ast.language;
 
 import main.ast.Node;
 import main.interpreter.RunTime;
+import main.interpreter.Variable;
 import main.parse.TokenType;
 
 public class Assignment extends Node implements StatementCandidate {
@@ -21,25 +22,12 @@ public class Assignment extends Node implements StatementCandidate {
     @Override
     public Object eval(RunTime runTime) {
 
-        /*
-
-        <--
-        +=
-        -=
-        *=
-        /=
-        %=
-
-        */
-
         if (operator.equals(TokenType.ASSIGNMENT_OPERATOR)) {
             runTime.memory.setVar(varName, expression.eval(runTime));
+            Variable v = (Variable) runTime.memory.getVarObj(varName);
+            v.setValue(expression.eval(runTime));
             return null;
         }
-
-
-
-        // check for string <--(&)
 
         if (operator.equals(TokenType.CONCAT_EQUALS)) {
             String a = (String) runTime.memory.getVar(varName);
@@ -48,8 +36,6 @@ public class Assignment extends Node implements StatementCandidate {
             runTime.memory.setVar(varName, a + b);
             return null;
         }
-
-
 
         // it's an Integer
 
