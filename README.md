@@ -1,6 +1,6 @@
 # <center> RGBScript
 
-RGBScript is a C-style, procedural programming language that supports **basic types**, **variables**, **functions**, and **control structures**.
+RGBScript is a C-style, imperative programming language that supports **basic types**, **variables**, **functions**, and **control structures**.
 <br><br>This language gets its name from the fact that it outputs programs and program results in a colorful, fun way.
 
 <br>
@@ -59,23 +59,14 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
 >power ::= '^'
 
 
-
 ---
 
 ### <center> <p style="color:#CCCCFF">Booleans
 #### <center> <p style="color:#CCCCFF">Working with truth-valued expressions, including boolean literals and numeric comparisons
 
 
->impl ::= '-->'
-    | '<-->'
-
-
 >atomic_boolean ::= 'true'
     | 'false'
-
-
->boolean_literal ::= boolean_expression impl boolean_literal
-    | boolean_expression
 
 
 >boolean_expression ::= boolean_term 'or' boolean_expression
@@ -210,7 +201,7 @@ Anything surrounded by **single quotes** is also a terminal, ex: '(' ')' 'and' '
     | else '{' (statement | block)* '}'
 
 
->conditiona_lblock ::= if_block
+>conditional_block ::= if_block
     | if_block else_block
 
 

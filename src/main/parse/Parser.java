@@ -647,6 +647,7 @@ public class Parser {
 
         BooleanExpression first = parseBooleanExpression();
 
+        /*
         Token next = tokens.peek();
 
         if (next != null && (next.type.equals(TokenType.IMPLIES) || next.type.equals(TokenType.BIIMPLICATION))) {
@@ -663,7 +664,7 @@ public class Parser {
             return new BooleanLiteral(operator, first, second);
 
         }
-
+        */
         return new BooleanLiteral(BooleanLiteral.BooleanLiteralType.SINGLE, first);
 
     }
